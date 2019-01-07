@@ -1,0 +1,12 @@
+<view class="container">
+    <view class="header">
+        <view class="avatar">
+            <button 
+                open-type="getUserInfo" 
+                bindgetuserinfo="onGetUserInfo"
+                class="avatar"
+                style="background-image: url({{avatarUrl}})"></button>
+        </view>
+        <view class="nick-name">{{userInfo.nickName || '点击登录'}}</view>
+    </view>
+</view>

@@ -1,0 +1,42 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 400rpx;
+    background-color: #F2A905;
+    z-index: 2;
+}
+.avatar {
+    margin-left: 295rpx;
+    margin-top: 30rpx;
+    width: 160rpx;
+    height: 160rpx;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.avatar button {
+    padding: 0;
+    margin: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    background-size: cover;
+}
+.avatar:after {
+    border: none;
+}
+.nick-name {
+    width: 100%;
+    height: 44rpx;
+    line-height: 44rpx;
+    text-align: center;
+    color: #fff;
+    font-size: 32rpx;
+    font-weight: 700;
+    margin-top: 20rpx;
+}
