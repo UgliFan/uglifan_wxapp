@@ -8,5 +8,14 @@
                 style="background-image: url({{avatarUrl}})"></button>
         </view>
         <view class="nick-name">{{userInfo.nickName || '点击登录'}}</view>
+        <view class="summary">
+            <view class="sum-item" wx:for="{{sumArray}}" wx:key="{{item.key}}">
+                <view class="sum-num">{{sum[item.key]}}</view>
+                <view class="sum-title">{{item.title}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="fn-list" wx:for="{{fnGroup}}" wx:for-item="group" wx:for-index="gi" wx:key="gi">
+        <view class="fn-item" wx:for="{{group.list}}" wx:key="{{item.key}}" bindtap="tapHandler" data-item="{{item}}">{{item.label}}</view>
     </view>
 </view>

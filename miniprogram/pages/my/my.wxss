@@ -1,3 +1,10 @@
+page {
+    padding-top: 400rpx;
+    background: #f6f6f6;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
 .header {
     display: flex;
     flex-direction: column;
@@ -39,4 +46,52 @@
     font-size: 32rpx;
     font-weight: 700;
     margin-top: 20rpx;
+}
+.summary {
+    display: flex;
+    width: 100%;
+    height: 120rpx;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    flex-direction: row;
+    padding-top: 16rpx;
+    box-sizing: border-box;
+}
+.summary .sum-item {
+    flex: 1;
+    text-align: center;
+    color: #fff;
+}
+.sum-item .sum-num {
+    font-size: 32rpx;
+    height: 44rpx;
+    line-height: 44rpx;
+}
+.sum-item .sum-title {
+    font-size: 24rpx;
+    height: 34rpx;
+    line-height: 34rpx;
+}
+.fn-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40rpx;
+    width: 100%;
+    border-top: 1rpx solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+}
+.fn-list .fn-item {
+    flex: 1;
+    height: 120rpx;
+    line-height: 120rpx;
+    text-align: left;
+    padding-left: 40rpx;
+    border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    color: #007aff;
+}
+.fn-list .fn-item:last-child {
+    border-bottom: none;
 }
