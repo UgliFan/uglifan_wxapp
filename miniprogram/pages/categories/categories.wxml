@@ -1,2 +1,5 @@
-<!--miniprogram/pages/categories/categories.wxml-->
-<text>miniprogram/pages/categories/categories.wxml</text>
+<view>
+    <view class="category-list">
+        <view wx:for="{{categories}}">{{item.name}}</view>
+    </view>
+</view>
