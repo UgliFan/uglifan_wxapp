@@ -1,13 +1,10 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/userConsole/userConsole",
-    "pages/storageConsole/storageConsole",
-    "pages/databaseGuide/databaseGuide",
-    "pages/addFunction/addFunction",
-    "pages/deployFunctions/deployFunctions",
-    "pages/chooseLib/chooseLib",
-    "pages/my/my"
+    "pages/home/home",
+    "pages/charts/charts",
+    "pages/photo/photo",
+    "pages/my/my",
+    "pages/categories/categories"
   ],
   "window": {
     "backgroundColor": "#fff",
@@ -17,31 +14,36 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-      "color": "#929292",
-      "selectedColor": "#F2A905",
-      "borderStyle": "white",
-      "backgroundColor": "#fff",
-      "box-shadow": "0 0 6px 0",
-      "list": [{
-          "pagePath": "pages/index/index",
-          "iconPath": "images/home.png",
-          "selectedIconPath": "images/home_fill.png",
-          "text": "首页"
-      }, {
-          "pagePath": "pages/userConsole/userConsole",
-          "iconPath": "images/rank.png",
-          "selectedIconPath": "images/rank_fill.png",
-          "text": "图表"
-      }, {
-          "pagePath": "pages/storageConsole/storageConsole",
-          "iconPath": "images/pic.png",
-          "selectedIconPath": "images/pic_fill.png",
-          "text": "照片墙"
-      }, {
-          "pagePath": "pages/my/my",
-          "iconPath": "images/my.png",
-          "selectedIconPath": "images/my_fill.png",
-          "text": "我的"
-      }]
+    "color": "#929292",
+    "selectedColor": "#F2A905",
+    "borderStyle": "white",
+    "backgroundColor": "#fff",
+    "box-shadow": "0 0 6px 0",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home_fill.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/charts/charts",
+        "iconPath": "images/rank.png",
+        "selectedIconPath": "images/rank_fill.png",
+        "text": "图表"
+      },
+      {
+        "pagePath": "pages/photo/photo",
+        "iconPath": "images/pic.png",
+        "selectedIconPath": "images/pic_fill.png",
+        "text": "照片墙"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "iconPath": "images/my.png",
+        "selectedIconPath": "images/my_fill.png",
+        "text": "我的"
+      }
+    ]
   }
 }

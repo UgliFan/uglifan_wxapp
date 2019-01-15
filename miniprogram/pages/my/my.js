@@ -64,5 +64,10 @@ Page({
     tapHandler: function(e) {
         var data = e.currentTarget.dataset.item;
         console.log(data);
+        if (data.key === 'category') {
+            wx.navigateTo({
+                url: '/pages/categories/categories'
+            })
+        }
     }
 });
