@@ -1,10 +1,16 @@
 // miniprogram/pages/categories/categories.js
 Page({
-    /**
-     * 页面的初始数据
-     */
     data: {
-        categories: {}
+        categoryTypes: [{
+            value: 0,
+            label: '支出'
+        }, {
+            value: 1,
+            label: '收入'
+        }],
+        current: 0,
+        categories: {},
+
     },
     /**
      * 生命周期函数--监听页面加载
@@ -56,7 +62,9 @@ Page({
     onQuery() {
         const db = wx.cloud.database()
         // 查询所有类别
-        db.collection('categories').get({
+        db.collection('categories').where({
+            type: this.data.categoryTypes[this.data.current].value
+        }).get({
             success: res => {
                 this.setData({
                     categories: res.data
@@ -71,5 +79,16 @@ Page({
                 console.error('[数据库] [查询记录] 失败：', err)
             }
         })
+    },
+    tabSelect(e) {
+        let index = e.currentTarget.dataset.index;
+        this.setData({
+            current: index
+        });
+        this.onQuery();
+    },
+    beforeDel(e) {
+        let item = e.currentTarget.dataset.item;
+        console.log(item);
     }
 })
