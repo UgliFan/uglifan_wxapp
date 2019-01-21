@@ -89,6 +89,26 @@ Page({
     },
     beforeDel(e) {
         let item = e.currentTarget.dataset.item;
-        console.log(item);
+        let index = e.currentTarget.dataset.index;
+        item.showDel = true;
+        let list = this.data.categories.slice();
+        list.splice(index, 1, item);
+        console.log(list);
+        this.setData({
+            categories: list
+        });
+    },
+    clickRow(e) {
+        let item = e.currentTarget.dataset.item;
+        let index = e.currentTarget.dataset.index;
+        if (item.showDel) {
+            delete item.showDel;
+            let list = this.data.categories.slice();
+            list.splice(index, 1, item);
+            console.log(list);
+            this.setData({
+                categories: list
+            });
+        }
     }
 })
