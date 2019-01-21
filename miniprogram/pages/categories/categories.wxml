@@ -5,7 +5,7 @@
     <scroll-view class="category-list">
         <view class="category-item" wx:for="{{categories}}" wx:key="{{item._id}}">
             <view class="category-item-del" bindtap="beforeDel" data-item="{{item}}">-</view>
-            <view class="category-item-icon"></view>
+            <view class="category-item-icon {{item.icon}}"></view>
             <text>{{item.name}}</text>
             <view class="category-item-sort"></view>
         </view>

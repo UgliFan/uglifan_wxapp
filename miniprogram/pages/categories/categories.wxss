@@ -66,6 +66,8 @@ page {
 .category-item-icon {
     width: 50rpx;
     height: 50rpx;
+    line-height: 50rpx;
+    text-align: center;
     border-radius: 50%;
     background-color: #f7f7f7;
     margin-right: 40rpx;
