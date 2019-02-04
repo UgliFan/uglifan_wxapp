@@ -5,7 +5,8 @@
         "pages/photo/photo",
         "pages/my/my",
         "pages/categories/categories",
-        "pages/new/new"
+        "pages/new/new",
+        "pages/categories/add-category"
     ],
     "window": {
         "backgroundColor": "#fff",

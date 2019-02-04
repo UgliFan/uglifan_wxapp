@@ -8,7 +8,8 @@
             <view class="category-item-icon {{item.icon}}"></view>
             <text>{{item.name}}</text>
             <view class="category-item-sort ufi-sort"></view>
-            <view class="category-item-delete">删除</view>
+            <view class="category-item-delete" data-item="{{item}}" bindtap="doDelete">删除</view>
         </view>
     </scroll-view>
+    <view class="btn-add ufi-add" bindtap="addCategory">添加类别</view>
 </view>

@@ -223,7 +223,7 @@ const iconList = [
     {className:'ufi-add1', label: '加'},
     {className:'ufi-move', label: '减'},
     {className:'ufi-safe', label: '安全'},
-    {className:'ufi-map', label: '地图'},
+    {className:'ufi-map-setting', label: '地图'},
     {className:'ufi-activityfill', label: '活动'},
     {className:'ufi-crown', label: '皇冠'},
     {className:'ufi-sound', label: '声音'},
@@ -235,7 +235,7 @@ const iconList = [
     {className:'ufi-yundong', label: '运动'},
     {className:'ufi-emojifill', label: '微笑'},
     {className:'ufi-emojiflashfill', label: '大笑'},
-    {className:'ufi-flashbuyfill', label: '闪付'},
+    {className:'ufi-flashbuyfill-copy', label: '闪付'},
     {className:'ufi-text', label: '文本'},
     {className:'ufi-goodsfavor', label: '收藏'},
     {className:'ufi-musicfill', label: '音乐'},
@@ -349,7 +349,7 @@ const iconList = [
     {className:'ufi-down_light', label: ''},
     {className:'ufi-round_close_light', label: ''},
     {className:'ufi-round_close_fill_light', label: ''},
-    {className:'ufi-icon', label: ''},
+    {className:'ufi-test', label: ''},
     {className:'ufi-expressman', label: ''},
     {className:'ufi-punch_light', label: ''},
     {className:'ufi-evaluate_fill', label: ''},
@@ -419,3 +419,5 @@ const iconList = [
     {className:'ufi-xiaoheiqun', label: ''},
     {className:'ufi-auction', label: ''}
 ];
+
+module.exports = iconList;

@@ -1,0 +1,10 @@
+<view>
+    <view class="header">
+        <view class="icon-select {{iconSelect}}"></view>
+        <input placeholder="请输入类别名称（不超过4个汉字）" maxlength="10" type="text" bindinput="bindKeyInput"></input>
+    </view>
+    <scroll-view class="icon-list">
+        <view wx:for="{{iconList}}" wx:key="{{index}}" class="icon-item {{item.className}} {{item.className === iconSelect ? 'selected' : ''}}" bindtap="selectIcon" data-item="{{item}}"></view>
+    </scroll-view>
+    <view class="btn-submit ufi-edit {{inputValue ? '' : 'disabled'}}" bindtap="saveCategory">保存</view>
+</view>

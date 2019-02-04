@@ -16,7 +16,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        this.onQuery();
+
     },
     /**
      * 生命周期函数--监听页面初次渲染完成
@@ -28,7 +28,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+        this.onQuery();
     },
     /**
      * 生命周期函数--监听页面隐藏
@@ -93,7 +93,6 @@ Page({
         item.showDel = true;
         let list = this.data.categories.slice();
         list.splice(index, 1, item);
-        console.log(list);
         this.setData({
             categories: list
         });
@@ -105,10 +104,34 @@ Page({
             delete item.showDel;
             let list = this.data.categories.slice();
             list.splice(index, 1, item);
-            console.log(list);
             this.setData({
                 categories: list
             });
         }
+    },
+    doDelete(e) {
+        let that = this;
+        let item = e.currentTarget.dataset.item;
+        wx.showModal({
+            title: '系统提示',
+            content: `确认删除【${item.name}】吗？`,
+            success(sm) {
+                if (sm.confirm) {
+                    const db = wx.cloud.database();
+                    db.collection('categories').doc(item._id).remove({
+                        success(res) {
+                            console.log(res);
+                            that.onQuery();
+                        }
+                    })
+                }
+            }
+        });
+    },
+    addCategory() {
+        let type = this.data.categoryTypes[this.data.current].value;
+        wx.navigateTo({
+            url: `/pages/categories/add-category?type=${type}`
+        });
     }
 })

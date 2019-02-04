@@ -111,3 +111,15 @@ text {
     background-color: #f00;
     font-size: 30rpx;
 }
+.btn-add {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100rpx;
+    line-height: 100rpx;
+    background-color: #fff;
+    text-align: center;
+    font-size: 30rpx;
+    color: #222;
+}

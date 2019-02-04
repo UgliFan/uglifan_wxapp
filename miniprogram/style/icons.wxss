@@ -386,7 +386,7 @@
 .ufi-down_light:before {content: "\e80e";}
 .ufi-round_close_light:before {content: "\e80f";}
 .ufi-round_close_fill_light:before {content: "\e810";}
-.ufi-icon-test:before {content: "\e60e";}
+.ufi-test:before {content: "\e60e";}
 .ufi-expressman:before {content: "\e811";}
 .ufi-punch_light:before {content: "\e812";}
 .ufi-evaluate_fill:before {content: "\e813";}
@@ -444,12 +444,12 @@
 .ufi-oppose_fill_light:before {content: "\e846";}
 .ufi-oppose_light:before {content: "\e847";}
 .ufi-living:before {content: "\e848";}
-.ufi-xuexi-:before {content: "\e609";}
+.ufi-xuexi:before {content: "\e609";}
 .ufi-goods_hot_fill:before {content: "\e849";}
 .ufi-ticket_money_fill:before {content: "\e84a";}
 .ufi-shuiguo:before {content: "\e63c";}
 .ufi-shucai:before {content: "\e606";}
-.ufi-liwu-:before {content: "\e6ae";}
+.ufi-liwu:before {content: "\e6ae";}
 .ufi-arrow_left_fill:before {content: "\e84b";}
 .ufi-arrow_up_fill:before {content: "\e84c";}
 .ufi-kuaidi:before {content: "\e61f";}
