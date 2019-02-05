@@ -1,4 +1,0 @@
-<!--components/fnlist/fnlist.wxml-->
-<view class="fn-list">
-    <slot></slot>
-</view>

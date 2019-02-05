@@ -5,12 +5,12 @@
         "pages/photo/photo",
         "pages/my/my",
         "pages/categories/categories",
-        "pages/new/new",
         "pages/categories/add-category"
     ],
     "window": {
         "backgroundColor": "#fff",
         "backgroundTextStyle": "light",
+        "navigationStyle": "default",
         "navigationBarBackgroundColor": "#F2A905",
         "navigationBarTitleText": "UF记账本",
         "navigationBarTextStyle": "black"

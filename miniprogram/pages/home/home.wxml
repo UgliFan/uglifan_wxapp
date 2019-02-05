@@ -1,3 +1,17 @@
 <view class="container">
-    <view class="header"></view>
+    <view class="header">
+        <view class="date" bindtap="showPicker">
+            <view class="date-year">{{year}}</view>
+            <view class="date-month">{{month}}<view class="month-text">月</view><view class="icon-down ufi-usefullfill"></view></view>
+        </view>
+        <view class="count-block">
+            <text class="count-title">收入</text>
+            <text class="count-value">{{count.inCount}}</text>
+        </view>
+        <view class="count-block">
+            <text class="count-title">支出</text>
+            <text class="count-value">{{count.outCount}}</text>
+        </view>
+    </view>
+    <view class="btn-create ufi-add" bindtap="create"></view>
 </view>
