@@ -1,4 +1,3 @@
-// components/create/create.js
 Component({
     options: {
         addGlobalClass: true
