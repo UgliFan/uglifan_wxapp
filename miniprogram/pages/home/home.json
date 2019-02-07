@@ -1,3 +1,5 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+      "create-record": "/components/create/create"
+  }
 }

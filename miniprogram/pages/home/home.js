@@ -5,7 +5,8 @@ Page({
         count: {
             inCount: '0.00',
             outCount: '0.00'
-        }
+        },
+        shown: false
     },
     onLoad(option) {
         this.setData({
@@ -19,6 +20,13 @@ Page({
     },
     showPicker(e) {},
     create() {
-        console.log('show create dialog');
+        this.setData({
+            shown: true
+        });
+    },
+    closeCreate() {
+        this.setData({
+            shown: false
+        });
     }
 })

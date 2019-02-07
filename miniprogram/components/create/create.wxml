@@ -1,2 +1,10 @@
-<!--components/create/create.wxml-->
-<text>components/create/create.wxml</text>
+<view class="create-wrapper {{shown ? 'show' : ''}}">
+    <view class="create-body {{anime ? 'anime' : ''}}">
+        <view class="create-header">
+            <view class="btn-close ufi-close" bindtap="close"></view>
+            <view class="create-tab">
+                <view class="tab-item {{item.value === current ? 'cursor' : ''}}" wx:for="{{tabs}}" wx:key="{{index}}" bindtap="selectTab" data-item="{{item}}">{{item.label}}</view>
+            </view>
+        </view>
+    </view>
+</view>
