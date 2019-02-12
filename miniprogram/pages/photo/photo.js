@@ -217,5 +217,9 @@ Page({
     showLocation(e) {
         let location = e.currentTarget.dataset.loc;
         console.log(location);
+        wx.openLocation({
+            latitude: location.latitude,
+            longitude: location.longitude
+        })
     }
 })
