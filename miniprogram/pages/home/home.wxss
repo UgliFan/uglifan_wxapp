@@ -83,14 +83,14 @@ page {
     width: 80rpx;
     height: 80rpx;
     line-height: 80rpx;
-    position: relative;
+    position: fixed;
+    right: 20rpx;
+    bottom: 20rpx;
     border-radius: 50%;
     box-shadow: 0 0 10rpx 0 rgba(0,0,0,.2);
     background-color: #F2A905;
     color: #fff;
     font-size: 50rpx;
     text-align: center;
-    margin-left: 80rpx;
-    margin-top: 20rpx;
     font-weight: 700;
 }

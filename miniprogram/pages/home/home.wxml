@@ -13,8 +13,6 @@
             <text class="count-value">{{count.outCount}}</text>
         </view>
     </view>
-    <view class="create-area">
-        <view class="btn-create ufi-add" bindtap="create"></view>
-    </view>
+    <view class="btn-create ufi-add" bindtap="create"></view>
     <create-record show="{{shown}}" bindclose="closeCreate"></create-record>
 </view>

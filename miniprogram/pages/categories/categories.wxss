@@ -70,7 +70,7 @@ page {
     height: 50rpx;
     line-height: 50rpx;
     border-radius: 50%;
-    background-color: #f00;
+    background-color: #F56C6C;
     margin-right: 60rpx;
     color: #fff;
     font-size: 40rpx;
