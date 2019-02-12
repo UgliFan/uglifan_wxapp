@@ -13,6 +13,68 @@
     box-shadow: 0 0 10rpx 0 rgba(0,0,0,.2);
     border-radius: 10rpx;
     overflow: hidden;
+    min-height: 100rpx;
+}
+.photo-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60rpx;
+    padding-top: 40rpx;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0, transparent 100%);
+}
+.photo-tag {
+    position: absolute;
+    bottom: 40rpx;
+    left: 0;
+    right: 60rpx;
+    height: 30rpx;
+    padding: 0 20rpx;
+    box-sizing: border-box;
+}
+.photo-tag text {
+    float: left;
+    font-size: 20rpx;
+    color: #fff;
+    background-color: rgba(0,0,0,.6);
+    margin-right: 6rpx;
+    max-width: 100rpx;
+    height: 30rpx;
+    line-height: 30rpx;
+    padding: 0 6rpx;
+    border-radius: 8rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.photo-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 60rpx;
+    height: 40rpx;
+    line-height: 40rpx;
+    font-size: 22rpx;
+    font-weight: 700;
+    color: #fff;
+    padding: 0 20rpx;
+    box-sizing: border-box;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.photo-location {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 60rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    text-align: center;
+    color: #fff;
+    font-size: 40rpx;
+    font-weight: 700;
 }
 .photo-item .options {
     position: absolute;

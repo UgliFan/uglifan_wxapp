@@ -1,11 +1,25 @@
+const app = getApp();
+
 Page({
     data: {
+        location: null,
         list: [],
         listL: [],
         listR: []
     },
     onShow() {
+        let that = this;
         this.onQuery();
+        if (app.globalData.hasLocPerm) {
+            wx.getLocation({
+                type: 'gcj02',
+                success(res) {
+                    that.setData({
+                        location: res
+                    });
+                }
+            })
+        }
     },
     /**
      * 页面相关事件处理函数--监听用户下拉动作
@@ -80,7 +94,8 @@ Page({
                                     width: info.width,
                                     height: info.height,
                                     viewH: Math.round(info.height * 1000 / info.width),
-                                    type: info.type
+                                    type: info.type,
+                                    location: that.data.location
                                 };
                                 that.savePhoto(params);
                             },
@@ -198,5 +213,9 @@ Page({
                 that.closeOptions(e);
             }
         });
+    },
+    showLocation(e) {
+        let location = e.currentTarget.dataset.loc;
+        console.log(location);
     }
 })
