@@ -1,5 +1,6 @@
 Page({
     data: {
+        list: [],
         listL: [],
         listR: []
     },
@@ -35,6 +36,7 @@ Page({
                     }
                 });
                 this.setData({
+                    list: res.data,
                     listL: left.list,
                     listR: right.list
                 })
@@ -121,11 +123,17 @@ Page({
         });
     },
     previewImage(e) {
+        wx.showLoading({
+            title: '预览加载中'
+        })
         let current = e.currentTarget.dataset.item;
         let list = this.data.list.map(item => { return item.src; });
         wx.previewImage({
             urls: list,
-            current: current.src
+            current: current.src,
+            complete() {
+                wx.hideLoading()
+            }
         })
     },
     showRemove(e) {
