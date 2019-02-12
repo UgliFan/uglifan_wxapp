@@ -1,5 +1,6 @@
 .photo-page {
     width: 100%;
+    padding-bottom: 100rpx;
     display: flex;
     flex-direction: row;
 }
