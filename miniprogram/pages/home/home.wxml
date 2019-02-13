@@ -1,9 +1,11 @@
 <view class="container">
     <view class="header">
-        <view class="date" bindtap="showPicker">
-            <view class="date-year">{{year}}</view>
-            <view class="date-month">{{month}}<view class="month-text">月</view><view class="icon-down ufi-usefullfill"></view></view>
-        </view>
+        <picker class="date" mode="multiSelector" value="{{pickerSelect}}" range="{{pickerArray}}" bindchange="pickerChange">
+            <view>
+                <view class="date-year">{{year}}</view>
+                <view class="date-month">{{month}}<view class="month-text">月</view><view class="icon-down ufi-usefullfill"></view></view>
+            </view>
+        </picker>
         <view class="count-block">
             <text class="count-title">收入</text>
             <text class="count-value">{{count.inCount}}</text>
