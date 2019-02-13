@@ -18,7 +18,9 @@
         "navigationStyle": "default",
         "navigationBarBackgroundColor": "#F2A905",
         "navigationBarTitleText": "UF记账本",
-        "navigationBarTextStyle": "black"
+        "navigationBarTextStyle": "black",
+        "enablePullDownRefresh": true,
+        "onReachBottomDistance": 100
     },
     "tabBar": {
         "color": "#929292",

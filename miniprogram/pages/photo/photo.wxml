@@ -1,15 +1,16 @@
-<view class="photo-page">
+<view class="photo-page" bindtouchstart="closeOptions">
+    <view class="list-loading ufi-loading" wx:if="{{loading}}"></view>
     <view class="list-left">
         <view class="photo-item" wx:for="{{listL}}" wx:key="{{item._id}}" bindtap="previewImage" data-item="{{item}}">
             <image class="item-cover" mode="widthFix" src="{{item.src}}" catchlongpress="showRemove" data-item="{{item}}" data-index="{{index}}" data-pos="{{0}}"></image>
             <view class="photo-info">
-                <view wx:if="{{item.tag}}" class="photo-tag">
+                <view wx:if="{{item.tag && item.tag.length > 0}}" class="photo-tag">
                     <text wx:for="{{item.tag}}" wx:for-item="tag" wx:key="{{tag}}">{{tag}}</text>
                 </view>
                 <view class="photo-name">{{item.name}}</view>
                 <view wx:if="{{item.location}}" class="photo-location ufi-locationfill" catchtap="showLocation" data-loc="{{item.location}}"></view>
             </view>
-            <view class="options {{item.showDel ? 'shown' : ''}}" catchtap="closeOptions" data-item="{{item}}" data-index="{{index}}" data-pos="{{0}}">
+            <view class="options {{item.showDel ? 'shown' : ''}}" catchtap="closeOptions">
                 <view class="del ufi-delete" catchtap="doDelete" data-item="{{item}}" data-index="{{index}}" data-pos="{{0}}"></view>
             </view>
         </view>
@@ -18,16 +19,17 @@
         <view class="photo-item" wx:for="{{listR}}" wx:key="{{item._id}}" bindtap="previewImage" data-item="{{item}}">
             <image class="item-cover" mode="widthFix" src="{{item.src}}" catchlongpress="showRemove" data-item="{{item}}" data-index="{{index}}" data-pos="{{1}}"></image>
             <view class="photo-info">
-                <view wx:if="{{item.tag}}" class="photo-tag">
+                <view wx:if="{{item.tag && item.tag.length > 0}}" class="photo-tag">
                     <text wx:for="{{item.tag}}" wx:for-item="tag" wx:key="{{tag}}">{{tag}}</text>
                 </view>
                 <view class="photo-name">{{item.name}}</view>
                 <view wx:if="{{item.location}}" class="photo-location ufi-locationfill" catchtap="showLocation" data-loc="{{item.location}}"></view>
             </view>
-            <view class="options {{item.showDel ? 'shown' : ''}}" catchtap="closeOptions" data-item="{{item}}" data-index="{{index}}" data-pos="{{1}}">
+            <view class="options {{item.showDel ? 'shown' : ''}}" catchtap="closeOptions">
                 <view class="del ufi-delete" catchtap="doDelete" data-item="{{item}}" data-index="{{index}}" data-pos="{{1}}"></view>
             </view>
         </view>
     </view>
-    <view class="btn-add ufi-add" bindtap="doUpload"></view>
+    <view class="btn-add ufi-add" bindtap="selectImage"></view>
+    <info show="{{infoShown}}" bindclose="closeInfo" bindsubmit="doUpload"></info>
 </view>

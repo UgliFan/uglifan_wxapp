@@ -4,6 +4,22 @@
     display: flex;
     flex-direction: row;
 }
+.list-loading {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 100rpx;
+    height: 100rpx;
+    line-height: 100rpx;
+    text-align: center;
+    font-size: 40rpx;
+    transform: translateX(-50%) rotate(0deg);
+    animation: loading 1s infinite;
+}
+@keyframes loading {
+    0% {transform: translateX(-50%) rotate(0deg); }
+    100% {transform: translateX(-50%) rotate(360deg); }
+}
 .list-left, .list-right {
     flex: 1;
 }
@@ -68,7 +84,7 @@
 .photo-location {
     position: absolute;
     right: 0;
-    bottom: 0;
+    bottom: 10rpx;
     width: 60rpx;
     height: 60rpx;
     line-height: 60rpx;
@@ -93,21 +109,23 @@
     z-index: 2;
 }
 .options.shown .del {
+    opacity: 1;
     transform: translateY(0);
 }
 .options .del {
-    width: 60rpx;
-    height: 60rpx;
-    line-height: 60rpx;
+    width: 100rpx;
+    height: 100rpx;
+    line-height: 100rpx;
     border-radius: 50%;
-    position: absolute;
-    right: 10rpx;
-    top: 10rpx;
+    position: relative;
+    top: 50%;
+    margin: -50rpx auto 0;
     background-color: #F56C6C;
     color: #fff;
     text-align: center;
-    font-size: 40rpx;
+    font-size: 60rpx;
     transform: translateY(-100%);
+    opacity: 0;
     transition: all .3s ease;
 }
 .photo-item.add {

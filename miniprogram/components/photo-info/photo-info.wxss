@@ -1,0 +1,69 @@
+.photo-info-dialog {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.6);
+}
+.photo-info-dialog.show {
+    display: block;
+}
+.photo-info-dialog form {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 500rpx;
+    background-color: #fff;
+    border-radius: 20rpx 20rpx 0 0;
+    box-sizing: border-box;
+    padding: 40rpx;
+    box-shadow: 0 0 20rpx 0 rgba(0,0,0,.4);
+    transition: all .3s ease;
+    transform: translateY(100%);
+}
+.photo-info-dialog form.anime {
+    transform: translateY(0);
+}
+.section {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: flex-start;
+    height: 100rpx;
+    margin-bottom: 20rpx;
+}
+.sec-title {
+    flex: 1;
+    text-align: right;
+    padding-right: 30rpx;
+    font-weight: 500;
+    font-size: 40rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+}
+input {
+    flex: 2;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 40rpx;
+}
+switch {
+    flex: 2;
+}
+.btn-area {
+    text-align: center;
+}
+button {
+    display: inline-block;
+    vertical-align: top;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 40rpx;
+    width: 260rpx;
+    box-sizing: border-box;
+    margin: 0 20rpx;
+}

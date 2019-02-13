@@ -2,127 +2,169 @@ const app = getApp();
 
 Page({
     data: {
+        infoShown: false,
+        chooseInfo: null,
         location: null,
         list: [],
         listL: [],
-        listR: []
+        listR: [],
+        page: 0,
+        pageSize: 20,
+        hasNext: true,
+        delIndex: -1,
+        delPos: '',
+        loading: false
     },
-    onShow() {
-        let that = this;
+    onLoad() {
+        this.onQuery(true);
+    },
+    onPullDownRefresh() {
+        this.setData({
+            loading: true
+        });
+        this.onQuery(true, true);
+    },
+    onReachBottom() {
         this.onQuery();
+    },
+    onQuery(reset = false, isPullDown = false) {
+        if (reset && !isPullDown) {
+            wx.pageScrollTo({
+                scrollTop: 0
+            })
+        }
+        if (this.data.hasNext || reset) {
+            const db = wx.cloud.database()
+            // 查询所有类别
+            let skip = reset ? 0 : this.data.page * this.data.pageSize;
+            db.collection('photos').orderBy('time', 'desc').skip(skip).limit(this.data.pageSize).get({
+                success: res => {
+                    let left = { list: [], height: 0 };
+                    let right = { list: [], height: 0 };
+                    if (res.data) {
+                        let list = reset ? res.data : this.data.list.concat(res.data)
+                        list.forEach(item => {
+                            if (left.height > right.height) {
+                                right.height = right.height + item.viewH;
+                                right.list.push(item);
+                            } else {
+                                left.height = left.height + item.viewH;
+                                left.list.push(item);
+                            }
+                        });
+                        this.setData({
+                            list: list,
+                            listL: left.list,
+                            listR: right.list,
+                            page: reset ? 1 : (res.data.length < 20 ? this.data.page : this.data.page + 1),
+                            hasNext: res.data.length === 20
+                        })
+                    }
+                },
+                fail: err => {
+                    wx.showToast({
+                        icon: 'none',
+                        title: '查询记录失败'
+                    })
+                },
+                complete: () => {
+                    if (isPullDown) {
+                        this.setData({
+                            loading: false
+                        });
+                        wx.stopPullDownRefresh()
+                    }
+                }
+            })
+        }
+    },
+    selectImage() {
         if (app.globalData.hasLocPerm) {
             wx.getLocation({
                 type: 'gcj02',
-                success(res) {
-                    that.setData({
+                success: res => {
+                    this.setData({
                         location: res
                     });
                 }
             })
         }
-    },
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
-    },
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
-
-    },
-    onQuery() {
-        const db = wx.cloud.database()
-        // 查询所有类别
-        db.collection('photos').get({
-            success: res => {
-                let left = { list: [], height: 0 };
-                let right = { list: [], height: 0 };
-                res.data.forEach(item => {
-                    if (left.height > right.height) {
-                        right.height = right.height + item.viewH;
-                        right.list.push(item);
-                    } else {
-                        left.height = left.height + item.viewH;
-                        left.list.push(item);
-                    }
-                });
-                this.setData({
-                    list: res.data,
-                    listL: left.list,
-                    listR: right.list
-                })
-            },
-            fail: err => {
-                wx.showToast({
-                    icon: 'none',
-                    title: '查询记录失败'
-                })
-            }
-        })
-    },
-    doUpload() {
-        let that = this;
         wx.chooseImage({
             count: 1,
             sizeType: ['compressed'],
             sourceType: ['album', 'camera'],
-            success: function (res) {
-                console.log(res);
-                wx.showLoading({
-                    title: '上传中',
-                })
-                const filePath = res.tempFilePaths[0]
-                const cloudPath = Date.now() + filePath.match(/\.[^.]+?$/)[0]
-                wx.cloud.uploadFile({
-                    cloudPath,
-                    filePath,
-                    success: file => {
-                        wx.showLoading({
-                            title: '获取图片信息',
-                        })
-                        wx.getImageInfo({
-                            src: file.fileID,
-                            success(info) {
-                                let params = {
-                                    name: cloudPath,
-                                    src: file.fileID,
-                                    tag: '',
-                                    time: new Date(),
-                                    width: info.width,
-                                    height: info.height,
-                                    viewH: Math.round(info.height * 1000 / info.width),
-                                    type: info.type,
-                                    location: that.data.location
-                                };
-                                that.savePhoto(params);
-                            },
-                            fail() {
-                                wx.hideLoading()
-                            }
-                        })
-                    },
-                    fail: e => {
-                        wx.hideLoading()
-                        wx.showToast({
-                            icon: 'none',
-                            title: '上传失败',
-                        })
+            success: res => {
+                this.setData({
+                    infoShown: true,
+                    chooseInfo: {
+                        filePath: res.tempFilePaths[0],
+                        cloudPath: Date.now() + res.tempFilePaths[0].match(/\.[^.]+?$/)[0]
                     }
-                })
-            },
-            fail: e => {
-                console.error(e)
+                });
             }
         })
+    },
+    doUpload(e) {
+        let info = e.detail;
+        if (this.data.chooseInfo) {
+            wx.showLoading({
+                title: '正在上传...',
+            })
+            wx.cloud.uploadFile({
+                cloudPath: this.data.chooseInfo.cloudPath,
+                filePath: this.data.chooseInfo.filePath,
+                success: file => {
+                    wx.showLoading({
+                        title: '解析图片...',
+                    })
+                    wx.getImageInfo({
+                        src: file.fileID,
+                        success: image => {
+                            let params = {
+                                name: info.name,
+                                src: file.fileID,
+                                time: new Date(),
+                                width: image.width,
+                                height: image.height,
+                                viewH: Math.round(image.height * 1000 / image.width),
+                                type: image.type
+                            };
+                            if (info.tag) {
+                                params.tag = info.tag;
+                            }
+                            if (info.location) {
+                                params.location = this.data.location;
+                            }
+                            this.savePhoto(params);
+                        },
+                        fail() {
+                            wx.hideLoading()
+                        }
+                    })
+                },
+                fail() {
+                    wx.hideLoading()
+                    wx.showToast({
+                        icon: 'none',
+                        title: '上传失败',
+                    })
+                },
+                complete: () => {
+                    this.setData({
+                        chooseInfo: null
+                    });
+                }
+            })
+        } else {
+            wx.showToast({
+                title: '没有选择图片，无法上传',
+            })
+        }
     },
     savePhoto(params) {
         wx.showLoading({
             title: '信息存储中',
         })
-        let that = this;
         const db = wx.cloud.database()
         db.collection('photos').add({
             data: params
@@ -131,7 +173,8 @@ Page({
                 icon: 'none',
                 title: '上传成功'
             })
-            that.onQuery();
+            this.closeInfo();
+            this.onQuery(true);
             wx.hideLoading();
         }, () => {
             wx.hideLoading();
@@ -158,27 +201,27 @@ Page({
         item.showDel = true;
         let list = pos === 0 ? this.data.listL : this.data.listR;
         list.splice(index, 1, item);
-        this.setData(pos === 0 ? {
-            listL: list
-        } : {
-            listR: list
-        });
+        let params = pos === 0 ? { listL: list } : { listR: list };
+        params.delIndex = index;
+        params.delPos = pos === 0 ? 'listL' : 'listR';
+        this.setData(params);
     },
-    closeOptions(e) {
-        let item = e.currentTarget.dataset.item;
-        let index = e.currentTarget.dataset.index;
-        let pos = e.currentTarget.dataset.pos;
-        delete item.showDel;
-        let list = pos === 0 ? this.data.listL : this.data.listR;
-        list.splice(index, 1, item);
-        this.setData(pos === 0 ? {
-            listL: list
-        } : {
-            listR: list
-        });
+    closeOptions() {
+        if (this.data.delIndex > -1 && this.data.delPos) {
+            let index = this.data.delIndex;
+            let delPos = this.data.delPos;
+            let list = this.data[delPos];
+            let item = list[index];
+            delete item.showDel;
+            list.splice(index, 1, item);
+            let params = {};
+            params[delPos] = list;
+            params.delIndex = -1;
+            params.delPos = '';
+            this.setData(params);
+        }
     },
     doDelete(e) {
-        let that = this;
         let item = e.currentTarget.dataset.item;
         let index = e.currentTarget.dataset.index;
         wx.showLoading({
@@ -186,7 +229,7 @@ Page({
         })
         wx.cloud.deleteFile({
             fileList: [item.src],
-            success(res) {
+            success: res => {
                 let fileRes = res.fileList[0];
                 if (fileRes.status === 0) {
                     const db = wx.cloud.database()
@@ -194,13 +237,13 @@ Page({
                         title: '删除记录中',
                     })
                     db.collection('photos').doc(item._id).remove({
-                        success() {
+                        success: () => {
                             wx.hideLoading();
                             wx.showToast({
                                 icon: 'none',
                                 title: '删除成功'
                             })
-                            that.onQuery();
+                            this.onQuery(true);
                         }
                     });
                 } else {
@@ -209,8 +252,8 @@ Page({
                 }
             },
             fail: console.error,
-            complete() {
-                that.closeOptions(e);
+            complete: () => {
+                this.closeOptions();
             }
         });
     },
@@ -221,5 +264,11 @@ Page({
             latitude: location.latitude,
             longitude: location.longitude
         })
+    },
+    closeInfo() {
+        this.setData({
+            infoShown: false,
+            chooseInfo: null
+        });
     }
 })
