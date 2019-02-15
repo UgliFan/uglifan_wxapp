@@ -14,32 +14,8 @@ Page({
             type: Number(options.type)
         });
     },
-    onReady: function () {
-
-    },
-    onShow: function () {
-
-    },
-    onHide: function () {
-
-    },
-    onUnload: function () {
-
-    },
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
-    },
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
-
-    },
-    onShareAppMessage: function () {
-
+    onPullDownRefresh() {
+        wx.stopPullDownRefresh()
     },
     selectIcon(e) {
         let item = e.currentTarget.dataset.item;

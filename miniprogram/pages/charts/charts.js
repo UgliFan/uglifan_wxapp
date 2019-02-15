@@ -18,7 +18,7 @@ Page({
 
     },
     onPullDownRefresh() {
-
+        wx.stopPullDownRefresh()
     },
     onReachBottom() {
 

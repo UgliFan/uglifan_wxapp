@@ -52,6 +52,9 @@ Page({
             }
         })
     },
+    onPullDownRefresh() {
+        wx.stopPullDownRefresh()
+    },
     onGetUserInfo: function (e) {
         if (!this.isLogin && e.detail.userInfo) {
             this.setData({

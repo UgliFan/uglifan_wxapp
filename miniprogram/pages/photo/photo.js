@@ -4,6 +4,9 @@ Page({
     data: {
         infoShown: false,
         chooseInfo: null,
+        canvasSize: {
+            height: 0
+        },
         location: null,
         list: [],
         listL: [],
@@ -94,53 +97,100 @@ Page({
             sizeType: ['compressed'],
             sourceType: ['album', 'camera'],
             success: res => {
-                this.setData({
-                    infoShown: true,
-                    chooseInfo: {
-                        filePath: res.tempFilePaths[0],
-                        cloudPath: Date.now() + res.tempFilePaths[0].match(/\.[^.]+?$/)[0]
+                wx.showLoading({
+                    title: '解析中...',
+                })
+                let fileSize = res.tempFiles[0].size;
+                wx.getImageInfo({
+                    src: res.tempFilePaths[0],
+                    success: image => {
+                        let imgW = image.width
+                        let imgH = image.height
+                        let cs = Math.round(image.height * 750 / image.width)
+                        this.setData({
+                            canvasSize: cs
+                        })
+                        if (fileSize > 1048576) {
+                            wx.showLoading({
+                                title: '压缩中...',
+                            })
+                            const ctx = wx.createCanvasContext('myCanvas', this)
+                            let scale = Math.floor(1048576 / fileSize * 10) / 10
+                            ctx.drawImage(res.tempFilePaths[0], 0, 0, imgW, imgH, 0, 0, 750, cs)
+                            ctx.draw(false, () => {
+                                wx.canvasToTempFilePath({
+                                    canvasId: 'myCanvas',
+                                    fileType: 'jpg',
+                                    success: scaleRes => {
+                                        this.setData({
+                                            infoShown: true,
+                                            chooseInfo: {
+                                                filePath: scaleRes.tempFilePath,
+                                                width: imgW,
+                                                height: imgH,
+                                                viewH: Math.round(imgH * 1000 / imgW),
+                                                type: 'jpg'
+                                            }
+                                        })
+                                        wx.hideLoading()
+                                    },
+                                    fail() {
+                                        wx.showToast({
+                                            title: '压缩失败'
+                                        })
+                                        wx.hideLoading()
+                                    }
+                                })
+                            })
+                        } else {
+                            this.setData({
+                                infoShown: true,
+                                chooseInfo: {
+                                    filePath: res.tempFilePaths[0],
+                                    width: imgW,
+                                    height: imgH,
+                                    viewH: Math.round(imgH * 1000 / imgW),
+                                    type: image.type
+                                }
+                            })
+                            wx.hideLoading()
+                        }
+                    },
+                    fail() {
+                        wx.showToast({
+                            title: '解析失败'
+                        })
+                        wx.hideLoading()
                     }
-                });
+                })
             }
         })
     },
     doUpload(e) {
-        let info = e.detail;
         if (this.data.chooseInfo) {
             wx.showLoading({
                 title: '正在上传...',
             })
             wx.cloud.uploadFile({
-                cloudPath: this.data.chooseInfo.cloudPath,
+                cloudPath: e.detail.name,
                 filePath: this.data.chooseInfo.filePath,
                 success: file => {
-                    wx.showLoading({
-                        title: '解析图片...',
-                    })
-                    wx.getImageInfo({
+                    let params = {
+                        name: e.detail.name,
                         src: file.fileID,
-                        success: image => {
-                            let params = {
-                                name: info.name,
-                                src: file.fileID,
-                                time: new Date(),
-                                width: image.width,
-                                height: image.height,
-                                viewH: Math.round(image.height * 1000 / image.width),
-                                type: image.type
-                            };
-                            if (info.tag) {
-                                params.tag = info.tag;
-                            }
-                            if (info.location) {
-                                params.location = this.data.location;
-                            }
-                            this.savePhoto(params);
-                        },
-                        fail() {
-                            wx.hideLoading()
-                        }
-                    })
+                        time: new Date(),
+                        width: this.data.chooseInfo.width,
+                        height: this.data.chooseInfo.height,
+                        viewH: this.data.chooseInfo.viewH,
+                        type: this.data.chooseInfo.type
+                    };
+                    if (e.detail.tag) {
+                        params.tag = e.detail.tag;
+                    }
+                    if (e.detail.location) {
+                        params.location = this.data.location;
+                    }
+                    this.savePhoto(params);
                 },
                 fail() {
                     wx.hideLoading()
@@ -148,11 +198,6 @@ Page({
                         icon: 'none',
                         title: '上传失败',
                     })
-                },
-                complete: () => {
-                    this.setData({
-                        chooseInfo: null
-                    });
                 }
             })
         } else {
@@ -267,6 +312,7 @@ Page({
     },
     closeInfo() {
         this.setData({
+            canvasSize: 0,
             infoShown: false,
             chooseInfo: null
         });

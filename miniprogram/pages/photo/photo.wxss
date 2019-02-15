@@ -25,8 +25,8 @@
 }
 .photo-item {
     position: relative;
-    margin: 10rpx 2% 10rpx;
-    width: 96%;
+    margin: 10rpx;
+    width: 355rpx;
     box-shadow: 0 0 10rpx 0 rgba(0,0,0,.2);
     border-radius: 10rpx;
     overflow: hidden;
@@ -157,4 +157,9 @@
     font-size: 50rpx;
     text-align: center;
     font-weight: 700;
+}
+.draw-scale {
+    position: absolute;
+    top: 0;
+    left: 0;
 }

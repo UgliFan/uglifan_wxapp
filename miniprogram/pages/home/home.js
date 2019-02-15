@@ -27,6 +27,9 @@ Page({
             }
         })
     },
+    onPullDownRefresh() {
+        wx.stopPullDownRefresh()
+    },
     pickerChange(e) {
         let value = e.detail.value;
         this.setData({
