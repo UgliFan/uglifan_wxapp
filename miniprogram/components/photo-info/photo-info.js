@@ -26,6 +26,10 @@ Component({
                     }, 300);
                 }
             }
+        },
+        needScale: {
+            type: Boolean,
+            value: false
         }
     },
     data: {

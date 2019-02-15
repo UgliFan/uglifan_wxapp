@@ -1,4 +1,5 @@
 <view class="photo-info-dialog {{shown ? 'show' : ''}}">
+    <view class="scale-tip" wx:if="{{needScale}}">当前图片大于1M，将会压缩后进行上传~</view>
     <form class="{{anime ? 'anime' : ''}}" bindsubmit="submitForm">
         <view class="section">
             <view class="sec-title">标题</view>

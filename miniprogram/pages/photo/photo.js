@@ -12,7 +12,7 @@ Page({
         listL: [],
         listR: [],
         page: 0,
-        pageSize: 20,
+        pageSize: 15,
         hasNext: true,
         delIndex: -1,
         delPos: '',
@@ -25,10 +25,10 @@ Page({
         this.setData({
             loading: true
         });
-        this.onQuery(true, true);
+        this.onQuery(true, true)
     },
     onReachBottom() {
-        this.onQuery();
+        this.onQuery()
     },
     onQuery(reset = false, isPullDown = false) {
         if (reset && !isPullDown) {
@@ -59,8 +59,8 @@ Page({
                             list: list,
                             listL: left.list,
                             listR: right.list,
-                            page: reset ? 1 : (res.data.length < 20 ? this.data.page : this.data.page + 1),
-                            hasNext: res.data.length === 20
+                            page: reset ? 1 : (res.data.length < this.data.pageSize ? this.data.page : this.data.page + 1),
+                            hasNext: res.data.length === this.data.pageSize
                         })
                     }
                 },
@@ -81,7 +81,7 @@ Page({
             })
         }
     },
-    selectImage() {
+    selectImage(e) {
         if (app.globalData.hasLocPerm) {
             wx.getLocation({
                 type: 'gcj02',
@@ -94,7 +94,6 @@ Page({
         }
         wx.chooseImage({
             count: 1,
-            sizeType: ['compressed'],
             sourceType: ['album', 'camera'],
             success: res => {
                 wx.showLoading({
@@ -110,13 +109,12 @@ Page({
                         this.setData({
                             canvasSize: cs
                         })
-                        if (fileSize > 1048576) {
+                        if (fileSize > 1048576 && e.type === 'tap') {
                             wx.showLoading({
                                 title: '压缩中...',
                             })
                             const ctx = wx.createCanvasContext('myCanvas', this)
-                            let scale = Math.floor(1048576 / fileSize * 10) / 10
-                            ctx.drawImage(res.tempFilePaths[0], 0, 0, imgW, imgH, 0, 0, 750, cs)
+                            ctx.drawImage(res.tempFilePaths[0], 0, 0, 750, cs)
                             ctx.draw(false, () => {
                                 wx.canvasToTempFilePath({
                                     canvasId: 'myCanvas',
@@ -125,6 +123,7 @@ Page({
                                         this.setData({
                                             infoShown: true,
                                             chooseInfo: {
+                                                needScale: true,
                                                 filePath: scaleRes.tempFilePath,
                                                 width: imgW,
                                                 height: imgH,
@@ -146,6 +145,7 @@ Page({
                             this.setData({
                                 infoShown: true,
                                 chooseInfo: {
+                                    needScale: false,
                                     filePath: res.tempFilePaths[0],
                                     width: imgW,
                                     height: imgH,

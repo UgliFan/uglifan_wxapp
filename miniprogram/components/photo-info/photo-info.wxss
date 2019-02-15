@@ -10,6 +10,16 @@
 .photo-info-dialog.show {
     display: block;
 }
+.scale-tip {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 530rpx;
+    text-align: center;
+    font-size: 30rpx;
+    color: #fff;
+    font-weight: 700;
+}
 .photo-info-dialog form {
     position: absolute;
     left: 0;
@@ -20,7 +30,7 @@
     border-radius: 20rpx 20rpx 0 0;
     box-sizing: border-box;
     padding: 40rpx;
-    box-shadow: 0 0 20rpx 0 rgba(0,0,0,.4);
+    box-shadow: 0 0 40rpx 0 rgba(0,0,0,.4);
     transition: all .3s ease;
     transform: translateY(100%);
 }

@@ -3,6 +3,7 @@
     padding-bottom: 100rpx;
     display: flex;
     flex-direction: row;
+    overflow: hidden;
 }
 .list-loading {
     position: fixed;
@@ -21,16 +22,22 @@
     100% {transform: translateX(-50%) rotate(360deg); }
 }
 .list-left, .list-right {
+    padding-top: 20rpx;
     flex: 1;
+}
+.list-left {
+    padding-left: 10rpx;
+}
+.list-right {
+    padding-right: 10rpx;
 }
 .photo-item {
     position: relative;
-    margin: 10rpx;
-    width: 355rpx;
+    margin: 0 10rpx 20rpx 10rpx;
+    width: 345rpx;
     box-shadow: 0 0 10rpx 0 rgba(0,0,0,.2);
     border-radius: 10rpx;
     overflow: hidden;
-    min-height: 100rpx;
 }
 .photo-info {
     position: absolute;
@@ -40,6 +47,7 @@
     height: 60rpx;
     padding-top: 40rpx;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0, transparent 100%);
+    border-radius: 0 0 10rpx 10rpx;
 }
 .photo-tag {
     position: absolute;
@@ -157,9 +165,4 @@
     font-size: 50rpx;
     text-align: center;
     font-weight: 700;
-}
-.draw-scale {
-    position: absolute;
-    top: 0;
-    left: 0;
 }

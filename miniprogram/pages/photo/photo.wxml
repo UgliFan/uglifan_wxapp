@@ -1,4 +1,5 @@
 <view class="photo-page" bindtouchstart="closeOptions">
+    <canvas style="position:fixed;top:0;left:101%;right:0;width:750px;height:{{canvasSize}}px;" canvas-id="myCanvas"></canvas>
     <view class="list-loading ufi-loading" wx:if="{{loading}}"></view>
     <view class="list-left">
         <view class="photo-item" wx:for="{{listL}}" wx:key="{{item._id}}" bindtap="previewImage" data-item="{{item}}">
@@ -30,7 +31,6 @@
             </view>
         </view>
     </view>
-    <canvas style="position:fixed;top:100rpx;left:0;right:0;width:750rpx;height:{{canvasSize}}rpx;" canvas-id="myCanvas"></canvas>
-    <view class="btn-add ufi-add" bindtap="selectImage"></view>
-    <info show="{{infoShown}}" bindclose="closeInfo" bindsubmit="doUpload"></info>
+    <view class="btn-add ufi-add" bindtap="selectImage" catchlongpress="selectImage"></view>
+    <info show="{{infoShown}}" need-scale="{{chooseInfo.needScale}}" bindclose="closeInfo" bindsubmit="doUpload"></info>
 </view>
