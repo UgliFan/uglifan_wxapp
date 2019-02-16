@@ -74,6 +74,9 @@ page {
     color: #fff;
     z-index: 2;
 }
+.btn-submit.x {
+    height: 130rpx;
+}
 .btn-submit.disabled {
     background-color: rgb(255, 210, 64);
 }

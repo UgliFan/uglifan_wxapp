@@ -1,6 +1,7 @@
-// miniprogram/pages/categories/categories.js
+const app = getApp()
 Page({
     data: {
+        isX: false,
         categoryTypes: [{
             value: 0,
             label: '支出'
@@ -11,7 +12,12 @@ Page({
         current: 0,
         categories: {}
     },
-    onShow: function () {
+    onLoad() {
+        this.setData({
+            isX: app.globalData.sysInfo.isX
+        });
+    },
+    onShow() {
         this.onQuery();
     },
     onPullDownRefresh() {
@@ -27,14 +33,12 @@ Page({
                 this.setData({
                     categories: res.data
                 })
-                console.log('[数据库] [查询记录] 成功: ', res)
             },
             fail: err => {
                 wx.showToast({
                     icon: 'none',
                     title: '查询记录失败'
                 })
-                console.error('[数据库] [查询记录] 失败：', err)
             }
         })
     },

@@ -6,5 +6,5 @@
     <scroll-view class="icon-list">
         <view wx:for="{{iconList}}" wx:key="{{index}}" class="icon-item {{item.className}} {{item.className === iconSelect ? 'selected' : ''}}" bindtap="selectIcon" data-item="{{item}}"></view>
     </scroll-view>
-    <view class="btn-submit ufi-edit {{inputValue ? '' : 'disabled'}}" bindtap="saveCategory">保存</view>
+    <view class="btn-submit ufi-edit {{isX ? 'x' : ''}} {{inputValue ? '' : 'disabled'}}" bindtap="saveCategory">保存</view>
 </view>

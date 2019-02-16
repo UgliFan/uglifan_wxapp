@@ -1,17 +1,19 @@
-// miniprogram/pages/categories/add-category.js
-const iconList = require('../../icons.js');
+const app = getApp()
+const iconList = require('../../icons.js')
 Page({
     data: {
         iconSelect: '',
         inputValue: '',
         type: null,
+        isX: false,
         iconList: []
     },
     onLoad: function (options) {
         this.setData({
             iconSelect: iconList[0].className,
             iconList: iconList,
-            type: Number(options.type)
+            type: Number(options.type),
+            isX: app.globalData.sysInfo.isX
         });
     },
     onPullDownRefresh() {

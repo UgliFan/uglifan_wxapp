@@ -123,3 +123,6 @@ text {
     font-size: 30rpx;
     color: #222;
 }
+.btn-add.x {
+    height: 130rpx;
+}
