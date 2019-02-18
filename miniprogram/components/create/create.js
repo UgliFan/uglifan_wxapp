@@ -122,10 +122,11 @@ Component({
             if (value === 'date') {
 
             } else if (value === 'del') {
-                let input = this.data.input;
-                input.action = value;
                 this.setData({
-                    input: input
+                    input: {
+                        action: this.data.input.action,
+                        summary: this.data.input.summary.substr(0, this.data.input.summary.length - 1)
+                    }
                 });
             } else if (value === 'add') {
                 let input = this.data.input;
