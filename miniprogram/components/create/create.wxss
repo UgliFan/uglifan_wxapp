@@ -202,7 +202,7 @@
 .keyboard-btn.ufi-backdelete {
     font-size: 50rpx;
 }
-.keyboard-btn.submit {
+.keyboard-btn.submit, .keyboard-btn.equal {
     background-color: #F2A905;
     color: #fff;
 }

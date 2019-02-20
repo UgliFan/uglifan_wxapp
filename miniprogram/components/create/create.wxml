@@ -39,7 +39,7 @@
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="0">0</view>
                 <view class="keyboard-btn ufi-backdelete" bindtap="keyBoardPress" data-value="del"></view>
                 <view class="keyboard-btn right submit" wx:if="{{!input.showEqual}}" bindtap="keyBoardFinish">完成</view>
-                <view class="keyboard-btn right" bindtap="keyBoardPress" data-value="=" wx:if="{{input.showEqual}}">=</view>
+                <view class="keyboard-btn right equal" bindtap="keyBoardPress" data-value="=" wx:if="{{input.showEqual}}">=</view>
             </view>
         </view>
     </view>
