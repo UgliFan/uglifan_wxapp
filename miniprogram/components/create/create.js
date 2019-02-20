@@ -17,9 +17,14 @@ Component({
         current: 0,
         categories: [],
         select: {},
-        inputAction: '',
         input: {
-            summary: '0.00'
+            date: '',
+            remark: '',
+            action: '',
+            showEqual: false,
+            summary: '0',
+            dotted: false,
+            fu: false
         }
     },
     /**
@@ -105,8 +110,20 @@ Component({
         selectTab(e) {
             let item = e.currentTarget.dataset.item;
             this.setData({
-                current: item.value
+                current: item.value,
+                inputShow: false,
+                input: {
+                    date: '',
+                    remark: '',
+                    action: '',
+                    showEqual: false,
+                    summary: '0',
+                    dotted: false,
+                    fu: false
+                },
+                select: {}
             });
+            this.setViewHeight();
             this.getCategories();
         },
         selectCategory(e) {
@@ -117,43 +134,78 @@ Component({
             });
             this.setViewHeight();
         },
+        keyBoardDate(e) {},
         keyBoardPress(e) {
             let value = e.currentTarget.dataset.value;
-            if (value === 'date') {
-
-            } else if (value === 'del') {
-                this.setData({
-                    input: {
-                        action: this.data.input.action,
-                        summary: this.data.input.summary.substr(0, this.data.input.summary.length - 1)
-                    }
-                });
-            } else if (value === 'add') {
-                let input = this.data.input;
-                input.action = value;
-                this.setData({
-                    input: input
-                });
-            } else if (value === 'min') {
-                let input = this.data.input;
-                input.action = value;
-                this.setData({
-                    input: input
-                });
+            let input = this.data.input;
+            if (value === 'del') {
+                input.summary = input.summary.substr(0, input.summary.length - 1);
+                if ((input.fu && input.summary === '-') || !input.summary) {
+                    input.fu = false;
+                    input.summary = '0';
+                    input.action = '';
+                }
+                if (input.action) {
+                    if (input.summary.indexOf(input.action) < 0) input.action = '';
+                }
+                let b = input.action ? input.summary.split(input.action)[1] : input.summary;
+                input.dotted = b && b.indexOf('.') > -1;
             } else {
                 let summary = '';
-                if (this.data.input.summary === '0.00' || this.data.input.summary === '0') {
-                    summary = value;
-                } else {
-                    summary = this.data.input.summary + value;
-                }
-                this.setData({
-                    input: {
-                        action: '',
-                        summary: summary
+                if (value === '+' || value === '-' || value === '=') {
+                    if (input.action) {
+                        let temp = input.fu ? input.summary.substr(1, input.summary.length - 1) : input.summary;
+                        let summarys = temp.split(input.action);
+                        let a = Math.floor(Number(summarys[0]) * 100);
+                        if (input.fu) a = 0 - a;
+                        let b = Math.floor(Number(summarys[1]) * 100);
+                        let c = (input.action === '+' ? (a + b) : (a - b)) / 100;
+                        input.fu = c < 0;
+                        summary = c.toString();
+                    } else {
+                        summary = input.summary;
                     }
-                });
+                    if (value === '=') {
+                        input.action = '';
+                        input.summary = summary;
+                        input.dotted = summary.indexOf('.') > -1;
+                    } else {
+                        input.action = value;
+                        input.summary = summary + value;
+                        input.dotted = false;
+                    }
+                } else if (value === '.') {
+                    if (input.action) {
+                        let b = input.summary.split(input.action)[1];
+                        if (b && b.indexOf(value) > -1) return;
+                    } else if (input.summary.indexOf(value) > -1) {
+                        return;
+                    }
+                    input.summary = input.summary + value;
+                    input.dotted = true;
+                } else {
+                    if (input.summary === '0') {
+                        summary = value;
+                    } else if (input.dotted) {
+                        let b = input.action ? input.summary.split(input.action)[1] : input.summary;
+                        if (b && b.indexOf('.') === b.length - 3) {
+                            return;
+                        } else {
+                            summary = input.summary + value;
+                        }
+                    } else {
+                        summary = input.summary + value;
+                    }
+                    input.summary = summary;
+                }
             }
+            input.showEqual = input.action && input.summary.indexOf(input.action) < input.summary.length - 1;
+            this.setData({
+                input: input
+            });
+        },
+        keyBoardFinish() {
+            console.log(this.data.inputRemark);
         }
     }
 })

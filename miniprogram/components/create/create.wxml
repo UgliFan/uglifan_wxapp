@@ -18,7 +18,7 @@
             <view class="input-result">
                 <view class="remark-wrapper">
                     <view class="remark-icon ufi-edit"></view>
-                    <input placeholder="点击输入备注"></input>
+                    <input placeholder="点击输入备注" value="{{input.remark}}"></input>
                 </view>
                 <view class="summary">{{input.summary}}</view>
             </view>
@@ -26,19 +26,20 @@
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="7">7</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="8">8</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="9">9</view>
-                <view class="keyboard-btn right" bindtap="keyBoardPress" data-value="date"></view>
+                <view class="keyboard-btn right" bindtap="keyBoardDate">{{input.date}}</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="4">4</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="5">5</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="6">6</view>
-                <view class="keyboard-btn right" bindtap="keyBoardPress" data-value="add">+</view>
+                <view class="keyboard-btn right" bindtap="keyBoardPress" data-value="+">+</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="1">1</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="2">2</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="3">3</view>
-                <view class="keyboard-btn right" bindtap="keyBoardPress" data-value="min">-</view>
+                <view class="keyboard-btn right" bindtap="keyBoardPress" data-value="-">-</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value=".">.</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="0">0</view>
                 <view class="keyboard-btn ufi-backdelete" bindtap="keyBoardPress" data-value="del"></view>
-                <view class="keyboard-btn right submit">完成</view>
+                <view class="keyboard-btn right submit" wx:if="{{!input.showEqual}}" bindtap="keyBoardFinish">完成</view>
+                <view class="keyboard-btn right" bindtap="keyBoardPress" data-value="=" wx:if="{{input.showEqual}}">=</view>
             </view>
         </view>
     </view>
