@@ -3,11 +3,11 @@
     <form class="{{anime ? 'anime' : ''}}" bindsubmit="submitForm">
         <view class="section">
             <view class="sec-title">标题</view>
-            <input name="name" placeholder="给图片起个标题"></input>
+            <input name="name" placeholder="给图片起个标题" value="{{name}}"></input>
         </view>
         <view class="section">
             <view class="sec-title">标签</view>
-            <input name="tag" placeholder="英文逗号分隔，超过3个会被忽略"></input>
+            <input name="tag" placeholder="英文逗号分隔，超过3个会被忽略" value="{{tag}}"></input>
         </view>
         <view class="section">
             <view class="sec-title">记录位置</view>

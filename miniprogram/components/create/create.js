@@ -1,3 +1,5 @@
+const app = getApp();
+
 Component({
     options: {
         addGlobalClass: true
@@ -17,9 +19,11 @@ Component({
         current: 0,
         categories: [],
         select: {},
+        location: null,
+        inputRemark: '',
         input: {
             date: '',
-            remark: '',
+            dateShow: '',
             action: '',
             showEqual: false,
             summary: '0',
@@ -36,6 +40,16 @@ Component({
             value: false,
             observer(newValue) {
                 if (newValue) {
+                    if (app.globalData.hasLocPerm) {
+                        wx.getLocation({
+                            type: 'gcj02',
+                            success: res => {
+                                this.setData({
+                                    location: res
+                                });
+                            }
+                        })
+                    }
                     this.setData({
                         shown: newValue
                     });
@@ -55,7 +69,17 @@ Component({
                             shown: newValue,
                             select: {},
                             inputShow: false,
-                            listViewH: 'auto'
+                            listViewH: 'auto',
+                            inputRemark: '',
+                            input: {
+                                date: '',
+                                dateShow: '',
+                                action: '',
+                                showEqual: false,
+                                summary: '0',
+                                dotted: false,
+                                fu: false
+                            }
                         });
                         clearTimeout(timer);
                     }, 300);
@@ -112,9 +136,10 @@ Component({
             this.setData({
                 current: item.value,
                 inputShow: false,
+                inputRemark: '',
                 input: {
                     date: '',
-                    remark: '',
+                    dateShow: '',
                     action: '',
                     showEqual: false,
                     summary: '0',
@@ -128,13 +153,24 @@ Component({
         },
         selectCategory(e) {
             let item = e.currentTarget.dataset.item;
+            let input = this.data.input;
+            let date = new Date()
+            input.dateShow = date.toISOString().substr(0, 10).replace(/-/g, '/')
+            input.date = input.dateShow.replace(/\//g, '-')
             this.setData({
                 select: item,
-                inputShow: true
+                inputShow: true,
+                input: input
             });
             this.setViewHeight();
         },
-        keyBoardDate(e) {},
+        keyBoardDate(e) {
+            let dateShow = e.detail.value;
+            let input = this.data.input;
+            input.date = e.detail.value;
+            input.dateShow = input.date.replace(/-/g, '/');
+            this.setData({ input });
+        },
         keyBoardPress(e) {
             let value = e.currentTarget.dataset.value;
             let input = this.data.input;
@@ -204,8 +240,28 @@ Component({
                 input: input
             });
         },
-        keyBoardFinish() {
-            console.log(this.data.inputRemark);
+        keyBoardFinish(e) {
+            if (this.data.input.summary === '0') {
+                wx.showModal({
+                    title: '警告',
+                    content: '提交前请输入金额！',
+                    showCancel: false,
+                    confirmText: '知道了'
+                });
+            } else {
+                let form = e.detail.value;
+                let ym = this.data.input.date.substr(0, 7).replace('-', '_');
+                let collectionName = `tally_${ym}`;
+                let params = {
+                    type: this.data.current,
+                    select: this.data.select,
+                    date: new Date(`${this.data.input.date} 00:00:00`),
+                    summary: Number(this.data.input.summary) * 100,
+                    remark: form.remark
+                };
+                if (this.data.location) params.location = this.data.location;
+                console.log(collectionName, params);
+            }
         }
     }
 })

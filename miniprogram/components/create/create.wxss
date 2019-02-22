@@ -195,6 +195,16 @@
     font-size: 40rpx;
     color: #222;
 }
+.keyboard-btn.date {
+    font-size: 30rpx;
+    font-weight: 700;
+}
+.keyboard-btn.date .ufi-calendar {
+    font-size: 30rpx;
+    font-weight: 700;
+    color: #F2A905;
+    display: inline;
+}
 .keyboard-btn.right {
     width: 225rpx;
     border-right: 1rpx solid transparent;
@@ -205,4 +215,9 @@
 .keyboard-btn.submit, .keyboard-btn.equal {
     background-color: #F2A905;
     color: #fff;
+    border: none;
+    padding: 0;
+}
+.keyboard-btn.submit::after {
+    border-radius: 0;
 }

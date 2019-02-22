@@ -14,11 +14,11 @@
                 <view class="category-name">{{item.name}}</view>
             </view>
         </scroll-view>
-        <view class="input-view {{inputShow ? 'shown' : ''}}">
+        <form class="input-view {{inputShow ? 'shown' : ''}}" bindsubmit="keyBoardFinish">
             <view class="input-result">
                 <view class="remark-wrapper">
                     <view class="remark-icon ufi-edit"></view>
-                    <input placeholder="点击输入备注" value="{{input.remark}}"></input>
+                    <input name="remark" placeholder="点击输入备注" value="{{inputRemark}}"></input>
                 </view>
                 <view class="summary">{{input.summary}}</view>
             </view>
@@ -26,7 +26,9 @@
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="7">7</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="8">8</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="9">9</view>
-                <view class="keyboard-btn right" bindtap="keyBoardDate">{{input.date}}</view>
+                <picker mode="date" bindchange="keyBoardDate" value="{{input.date}}">
+                    <view class="keyboard-btn right date"><view class="ufi-calendar"></view>{{input.dateShow}}</view>
+                </picker>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="4">4</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="5">5</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="6">6</view>
@@ -38,9 +40,9 @@
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value=".">.</view>
                 <view class="keyboard-btn" bindtap="keyBoardPress" data-value="0">0</view>
                 <view class="keyboard-btn ufi-backdelete" bindtap="keyBoardPress" data-value="del"></view>
-                <view class="keyboard-btn right submit" wx:if="{{!input.showEqual}}" bindtap="keyBoardFinish">完成</view>
+                <button class="keyboard-btn right submit" wx:if="{{!input.showEqual}}" form-type="submit">提交</button>
                 <view class="keyboard-btn right equal" bindtap="keyBoardPress" data-value="=" wx:if="{{input.showEqual}}">=</view>
             </view>
-        </view>
+        </form>
     </view>
 </view>

@@ -20,7 +20,9 @@ Component({
                     });
                     let timer = setTimeout(() => {
                         this.setData({
-                            shown: newValue
+                            shown: newValue,
+                            name: '',
+                            tag: ''
                         });
                         clearTimeout(timer);
                     }, 300);
@@ -34,7 +36,9 @@ Component({
     },
     data: {
         shown: false,
-        anime: false
+        anime: false,
+        name: '',
+        tag: ''
     },
     methods: {
         submitForm(e) {
