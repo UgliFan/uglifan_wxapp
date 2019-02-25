@@ -251,16 +251,27 @@ Component({
             } else {
                 let form = e.detail.value;
                 let ym = this.data.input.date.substr(0, 7).replace('-', '_');
-                let collectionName = `tally_${ym}`;
+                let coltName = `tally_${ym}`;
                 let params = {
                     type: this.data.current,
                     select: this.data.select,
-                    date: new Date(`${this.data.input.date} 00:00:00`),
+                    date: new Date(`${this.data.input.date} 00:00:00`).getTime(),
                     summary: Number(this.data.input.summary) * 100,
                     remark: form.remark
                 };
                 if (this.data.location) params.location = this.data.location;
-                console.log(collectionName, params);
+                wx.cloud.callFunction({
+                    name: 'addTally',
+                    data: { coltName, params }
+                }).then(res => {
+                    let result = res.result || {};
+                    if (result.code === 0) {
+                        this.close();
+                    }
+                    wx.showToast({
+                        title: result.message
+                    })
+                }).catch(console.error)
             }
         }
     }
