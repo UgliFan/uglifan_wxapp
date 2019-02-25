@@ -25,21 +25,24 @@ const create = async (db, collectionName) => {
 exports.main = async (event, context) => {
     const db = cloud.database()
     const coltName = event.coltName
-    const info = event.params
-    if (info.date) info.date = new Date(info.date)
     try {
         let isExist = await checkExist(db, coltName)
-        if (!isExist) await create(db, coltName)
-        let res = await db.collection(coltName).add({ data: info })
-        return {
-            code: 0,
-            message: '添加账单成功',
-            info: res
+        if (!isExist) {
+            await create(db, coltName)
+            return {
+                code: 0,
+                message: '添加集合成功'
+            }
+        } else {
+            return {
+                code: 0,
+                message: '集合存在'
+            }
         }
     } catch (e) {
         return {
             code: -500,
-            message: e.message
+            message: e.errMsg
         }
     }
 }

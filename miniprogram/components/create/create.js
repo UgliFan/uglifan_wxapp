@@ -255,30 +255,49 @@ Component({
                 let form = e.detail.value;
                 let ym = this.data.input.date.substr(0, 7).replace('-', '_');
                 let coltName = `tally_${ym}`;
+                let select = this.data.select || {}
+                select.id = select._id
+                delete select._id
+                let date = new Date(`${this.data.input.dateShow} 00:00:00`)
                 let params = {
                     type: this.data.current,
-                    select: this.data.select,
-                    date: new Date(`${this.data.input.date} 00:00:00`).getTime(),
+                    select: select,
+                    date: date,
                     summary: Number(this.data.input.summary) * 100,
                     remark: form.remark
                 };
                 if (this.data.location) params.location = this.data.location;
+                console.log(params)
                 wx.cloud.callFunction({
-                    name: 'addTally',
-                    data: { coltName, params }
+                    name: 'checkTally',
+                    data: { coltName }
                 }).then(res => {
                     let result = res.result || {};
                     if (result.code === 0) {
-                        this.close();
+                        const db = wx.cloud.database()
+                        db.collection(coltName).add({ data: params }).then(info => {
+                            console.log(info)
+                            wx.hideLoading()
+                            wx.showToast({
+                                title: '添加账单成功'
+                            })
+                            this.close();
+                        }).catch(err => {
+                            wx.hideLoading()
+                            wx.showToast({
+                                title: err.errMsg
+                            })
+                        })
+                    } else {
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: result.message
+                        })
                     }
-                    wx.showToast({
-                        title: result.message
-                    })
-                    wx.hideLoading()
-                }).catch(error => {
+                }).catch(err => {
                     wx.hideLoading()
                     wx.showToast({
-                        title: error.message
+                        title: err.errMsg
                     })
                 })
             }
