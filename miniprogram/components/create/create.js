@@ -249,6 +249,9 @@ Component({
                     confirmText: '知道了'
                 });
             } else {
+                wx.showLoading({
+                    title: '账单保存中'
+                })
                 let form = e.detail.value;
                 let ym = this.data.input.date.substr(0, 7).replace('-', '_');
                 let coltName = `tally_${ym}`;
@@ -271,7 +274,13 @@ Component({
                     wx.showToast({
                         title: result.message
                     })
-                }).catch(console.error)
+                    wx.hideLoading()
+                }).catch(error => {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: error.message
+                    })
+                })
             }
         }
     }
