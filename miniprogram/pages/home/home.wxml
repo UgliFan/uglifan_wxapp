@@ -22,7 +22,8 @@
                 <view class="category-name">{{item.select.name}}</view>
                 <view class="remark {{item.remark ? '' : 'empty'}}">{{item.remark || '啥也没说'}}</view>
             </view>
-            <view class="item-col"></view>
+            <view wx:if="{{item.location}}" class="item-col ufi-locationfill" catchtap="showLocation" data-loc="{{item.location}}"></view>
+            <view class="item-col summary">{{item.summary}}</view>
         </view>
     </scroll-view>
     <view class="btn-create ufi-add" bindtap="create"></view>

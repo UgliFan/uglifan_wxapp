@@ -77,7 +77,14 @@ Page({
             let list = res.data || [];
             console.log(list)
             this.setData({
-                list: list
+                list: list.map(item => {
+                    return {
+                        select: item.select,
+                        summary: (item.summary / 100).toFixed(2),
+                        remark: item.remark,
+                        location: item.location
+                    }
+                })
             });
             wx.hideLoading()
         }).catch(err => {
@@ -85,6 +92,13 @@ Page({
             wx.showToast({
                 title: err.message
             })
+        })
+    },
+    showLocation(e) {
+        let location = e.currentTarget.dataset.loc;
+        wx.openLocation({
+            latitude: location.latitude,
+            longitude: location.longitude
         })
     }
 })

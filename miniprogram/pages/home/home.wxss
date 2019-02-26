@@ -91,12 +91,21 @@
     height: 100rpx;
     line-height: 100rpx;
     text-align: center;
-    color: #222;
+    color: #909399;
     font-size: 36rpx;
 }
 .item-col.info {
     flex: 4;
     padding-left: 20rpx;
+    color: #222;
+}
+.item-col.summary {
+    flex: 2;
+    text-align: right;
+    font-weight: 700;
+    padding-right: 40rpx;
+    font-size: 40rpx;
+    color: #f56c6c;
 }
 .category-icon {
     width: 70rpx;
