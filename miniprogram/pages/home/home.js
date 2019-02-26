@@ -82,16 +82,29 @@ Page({
                 const db = wx.cloud.database()
                 db.collection(coltName).orderBy('date', 'desc').get().then(res => {
                     let list = res.data || [];
+                    let count = {
+                        inCount: 0,
+                        outCount: 0
+                    };
+                    let result = list.map(item => {
+                        if (item.select.type === 0) {
+                            count.outCount += item.summary
+                        } else {
+                            count.inCount += item.summary
+                        }
+                        return {
+                            select: item.select,
+                            summary: (item.summary / 100).toFixed(2),
+                            remark: item.remark,
+                            location: item.location
+                        }
+                    })
                     this.setData({
-                        list: list.map(item => {
-                            let isOut = item.select.type === 0;
-                            return {
-                                select: item.select,
-                                summary: (item.summary / 100).toFixed(2),
-                                remark: item.remark,
-                                location: item.location
-                            }
-                        })
+                        list: result,
+                        count: {
+                            inCount: (count.inCount / 100).toFixed(2),
+                            outCount: (count.outCount / 100).toFixed(2)
+                        }
                     });
                     wx.hideLoading()
                 }).catch(err => {
