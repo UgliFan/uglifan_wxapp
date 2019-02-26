@@ -11,10 +11,10 @@ Component({
         inputShow: false,
         tabs: [{
             value: 0,
-            label: '收入'
+            label: '支出'
         }, {
             value: 1,
-            label: '支出'
+            label: '收入'
         }],
         current: 0,
         categories: [],
