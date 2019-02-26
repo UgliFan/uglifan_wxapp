@@ -1,3 +1,4 @@
+const app = getApp()
 Page({
     data: {
         year: '',
@@ -8,7 +9,9 @@ Page({
             inCount: '0.00',
             outCount: '0.00'
         },
-        shown: false
+        shown: false,
+        scrollH: 'auto',
+        list: []
     },
     onLoad(option) {
         let date = new Date();
@@ -19,22 +22,35 @@ Page({
         let select = [this.data.pickerArray[0].indexOf(year), this.data.pickerArray[1].indexOf(month)];
         this.setData({
             pickerSelect: select,
-            year: `${this.data.pickerArray[0][select[0]]}年`,
+            year: this.data.pickerArray[0][select[0]],
             month: this.data.pickerArray[1][select[1]],
             count: {
                 inCount: '2.00',
                 outCount: '3.02'
             }
         })
+        let query = this.createSelectorQuery();
+        query.select('.header').boundingClientRect().exec(res => {
+            let rect = res[0];
+            if (rect) {
+                let sysInfo = app.globalData.sysInfo
+                this.setData({
+                    scrollH: `${sysInfo.windowHeight - rect.height}px`
+                });
+            }
+        })
+        this.getTallyList()
+        console.log(app.globalData.userInfo)
     },
     onPullDownRefresh() {
         wx.stopPullDownRefresh()
+        this.getTallyList()
     },
     pickerChange(e) {
         let value = e.detail.value;
         this.setData({
             pickerSelect: value,
-            year: `${this.data.pickerArray[0][value[0]]}年`,
+            year: this.data.pickerArray[0][value[0]],
             month: this.data.pickerArray[1][value[1]]
         })
     },
@@ -43,9 +59,32 @@ Page({
             shown: true
         });
     },
-    closeCreate() {
+    closeCreate(e) {
         this.setData({
             shown: false
         });
+        if (e.detail) {
+            this.getTallyList();
+        }
+    },
+    getTallyList() {
+        wx.showLoading({
+            title: '刷新中'
+        })
+        const db = wx.cloud.database()
+        const coltName = `tally_${this.data.year}_${this.data.month}`
+        db.collection(coltName).get().then(res => {
+            let list = res.data || [];
+            console.log(list)
+            this.setData({
+                list: list
+            });
+            wx.hideLoading()
+        }).catch(err => {
+            wx.hideLoading()
+            wx.showToast({
+                title: err.message
+            })
+        })
     }
 })

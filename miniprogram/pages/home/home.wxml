@@ -2,7 +2,7 @@
     <view class="header">
         <picker class="date" mode="multiSelector" value="{{pickerSelect}}" range="{{pickerArray}}" bindchange="pickerChange">
             <view>
-                <view class="date-year">{{year}}</view>
+                <view class="date-year">{{year}}年</view>
                 <view class="date-month">{{month}}<view class="month-text">月</view><view class="icon-down ufi-usefullfill"></view></view>
             </view>
         </picker>
@@ -15,6 +15,16 @@
             <text class="count-value">{{count.outCount}}</text>
         </view>
     </view>
+    <scroll-view class="scroll-wrapper" style="height:{{scrollH}}" scroll-y>
+        <view class="tally-item" wx:for="{{list}}" wx:key="{{item._id}}">
+            <view class="item-col"><view class="category-icon {{item.select.icon}}"></view></view>
+            <view class="item-col info">
+                <view class="category-name">{{item.select.name}}</view>
+                <view class="remark {{item.remark ? '' : 'empty'}}">{{item.remark || '啥也没说'}}</view>
+            </view>
+            <view class="item-col"></view>
+        </view>
+    </scroll-view>
     <view class="btn-create ufi-add" bindtap="create"></view>
     <create-record show="{{shown}}" bindclose="closeCreate"></create-record>
 </view>

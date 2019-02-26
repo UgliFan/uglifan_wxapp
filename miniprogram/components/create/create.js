@@ -128,8 +128,9 @@ Component({
                 }
             })
         },
-        close() {
-            this.triggerEvent('close');
+        close(e) {
+            const noReload = e && e.type === 'tap';
+            this.triggerEvent('close', !noReload);
         },
         selectTab(e) {
             let item = e.currentTarget.dataset.item;
@@ -258,6 +259,10 @@ Component({
                 let select = this.data.select || {}
                 select.id = select._id
                 delete select._id
+                if (select._openid) {
+                    select.openId = select._openid
+                    delete select._openid
+                }
                 let date = new Date(`${this.data.input.dateShow} 00:00:00`)
                 let params = {
                     type: this.data.current,
@@ -282,10 +287,12 @@ Component({
                                 title: '添加账单成功'
                             })
                             this.close();
+
                         }).catch(err => {
                             wx.hideLoading()
+                            console.log(err)
                             wx.showToast({
-                                title: err.errMsg
+                                title: err.message
                             })
                         })
                     } else {
@@ -297,7 +304,7 @@ Component({
                 }).catch(err => {
                     wx.hideLoading()
                     wx.showToast({
-                        title: err.errMsg
+                        title: err.message
                     })
                 })
             }
