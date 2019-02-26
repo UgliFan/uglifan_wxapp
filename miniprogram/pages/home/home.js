@@ -23,11 +23,7 @@ Page({
         this.setData({
             pickerSelect: select,
             year: this.data.pickerArray[0][select[0]],
-            month: this.data.pickerArray[1][select[1]],
-            count: {
-                inCount: '2.00',
-                outCount: '3.02'
-            }
+            month: this.data.pickerArray[1][select[1]]
         })
         let query = this.createSelectorQuery();
         query.select('.header').boundingClientRect().exec(res => {
