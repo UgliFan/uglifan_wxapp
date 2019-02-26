@@ -18,6 +18,7 @@ page {
     justify-content: center;
     padding-top: 20rpx;
     box-sizing: border-box;
+    z-index: 2;
 }
 .type-tab .type-item {
     width: 260rpx;

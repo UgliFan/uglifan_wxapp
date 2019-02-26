@@ -53,6 +53,7 @@ Page({
             year: this.data.pickerArray[0][value[0]],
             month: this.data.pickerArray[1][value[1]]
         })
+        this.getTallyList()
     },
     create() {
         this.setData({
@@ -71,22 +72,40 @@ Page({
         wx.showLoading({
             title: '刷新中'
         })
-        const db = wx.cloud.database()
         const coltName = `tally_${this.data.year}_${this.data.month}`
-        db.collection(coltName).get().then(res => {
-            let list = res.data || [];
-            console.log(list)
-            this.setData({
-                list: list.map(item => {
-                    return {
-                        select: item.select,
-                        summary: (item.summary / 100).toFixed(2),
-                        remark: item.remark,
-                        location: item.location
-                    }
+        wx.cloud.callFunction({
+            name: 'checkTally',
+            data: { coltName }
+        }).then(res => {
+            let result = res.result || {};
+            if (result.code === 0) {
+                const db = wx.cloud.database()
+                db.collection(coltName).orderBy('date', 'desc').get().then(res => {
+                    let list = res.data || [];
+                    this.setData({
+                        list: list.map(item => {
+                            let isOut = item.select.type === 0;
+                            return {
+                                select: item.select,
+                                summary: (item.summary / 100).toFixed(2),
+                                remark: item.remark,
+                                location: item.location
+                            }
+                        })
+                    });
+                    wx.hideLoading()
+                }).catch(err => {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: err.message
+                    })
                 })
-            });
-            wx.hideLoading()
+            } else {
+                wx.hideLoading()
+                wx.showToast({
+                    title: result.message
+                })
+            }
         }).catch(err => {
             wx.hideLoading()
             wx.showToast({
