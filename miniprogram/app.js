@@ -1,6 +1,12 @@
 //app.js
 App({
-    globalData: {},
+    globalData: {
+        hasLocPerm: false,
+        openId: '',
+        isLogin: false,
+        sysInfo: {},
+        userInfo: {}
+    },
     onLaunch() {
         if (!wx.cloud) {
             console.error('请使用 2.2.3 或以上的基础库以使用云能力')
@@ -21,24 +27,9 @@ App({
                 this.globalData.sysInfo = res;
             }
         })
-        wx.checkSession({
-            success: () => {
-                try {
-                    const value = wx.getStorageSync('openId')
-                    if (openId) {
-                        this.globalData.openId = openId;
-                    }
-                } catch(e) {
-                    try {
-                        wx.setStorageSync('openId', '')
-                    } catch (e) {}
-                    this.login()
-                }
-            },
-            fail: () => {
-                this.login()
-            }
-        })
+        this.checkLogin();
+    },
+    checkLogin() {
         wx.getSetting({
             success: res => {
                 if (res.authSetting['scope.userInfo']) {
@@ -49,11 +40,32 @@ App({
                             this.globalData.userInfo = res.userInfo;
                         }
                     })
+                    try {
+                        const openId = wx.getStorageSync('openId')
+                        if (openId) {
+                            this.globalData.openId = openId;
+                        } else {
+                            this.getOpenId()
+                        }
+                    } catch (e) {
+                        try {
+                            wx.setStorageSync('openId', '')
+                        } catch (e) { }
+                        this.getOpenId()
+                    }
+                } else {
+                    try {
+                        wx.setStorageSync('openId', '')
+                    } catch (e) { }
+                    wx.showModal({
+                        title: '登录已过期',
+                        content: '前往【我的】点击头像授权登录，否则将无法体验全部功能'
+                    })
                 }
             }
         })
     },
-    login() {
+    getOpenId() {
         wx.login({
             success: loginInfo => {
                 wx.request({

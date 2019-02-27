@@ -35,8 +35,9 @@ Page({
                 });
             }
         })
+    },
+    onShow() {
         this.getTallyList()
-        console.log(app.globalData.userInfo)
     },
     onPullDownRefresh() {
         wx.stopPullDownRefresh()

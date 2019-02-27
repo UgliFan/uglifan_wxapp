@@ -36,7 +36,7 @@ Page({
     },
     onShow() {
         // 获取用户信息
-        let userInfo = app.globalData.userInfo || {};
+        let userInfo = app.globalData.userInfo;
         this.setData({
             isLogin: app.globalData.isLogin,
             avatarUrl: userInfo.avatarUrl || './user-unlogin.png',
@@ -46,16 +46,17 @@ Page({
     onPullDownRefresh() {
         wx.stopPullDownRefresh()
     },
-    onGetUserInfo: function (e) {
+    onGetUserInfo(e) {
         if (!this.isLogin && e.detail.userInfo) {
             this.setData({
                 isLogin: true,
                 avatarUrl: e.detail.userInfo.avatarUrl,
                 userInfo: e.detail.userInfo
             })
+            app.checkLogin();
         }
     },
-    tapHandler: function(e) {
+    tapHandler(e) {
         var data = e.currentTarget.dataset.item;
         if (data.key === 'category') {
             wx.navigateTo({
