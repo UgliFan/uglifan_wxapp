@@ -15,7 +15,7 @@ Page({
         }, {
             list: [{
                 key: 'help',
-                label: '帮助'
+                label: '新世界的大门（个人小程序不支持，哎）'
             }]
         }],
         sumArray: [{
@@ -57,10 +57,13 @@ Page({
     },
     tapHandler: function(e) {
         var data = e.currentTarget.dataset.item;
-        console.log(data);
         if (data.key === 'category') {
             wx.navigateTo({
                 url: '/pages/categories/categories'
+            })
+        } else if (data.key === 'help') {
+            wx.navigateTo({
+                url: '/pages/webview/webview'
             })
         }
     }

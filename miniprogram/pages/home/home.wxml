@@ -17,6 +17,7 @@
     </view>
     <scroll-view class="scroll-wrapper" style="height:{{scrollH}}" scroll-y>
         <view class="tally-item" wx:for="{{list}}" wx:key="{{item._id}}">
+            <view class="mine-bg" wx:if="{{item.isMine}}">我的</view>
             <view class="item-col"><view class="category-icon {{item.select.icon}}"></view></view>
             <view class="item-col info">
                 <view class="category-name">{{item.select.name}}</view>

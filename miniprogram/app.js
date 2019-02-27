@@ -21,6 +21,24 @@ App({
                 this.globalData.sysInfo = res;
             }
         })
+        wx.checkSession({
+            success: () => {
+                try {
+                    const value = wx.getStorageSync('openId')
+                    if (openId) {
+                        this.globalData.openId = openId;
+                    }
+                } catch(e) {
+                    try {
+                        wx.setStorageSync('openId', '')
+                    } catch (e) {}
+                    this.login()
+                }
+            },
+            fail: () => {
+                this.login()
+            }
+        })
         wx.getSetting({
             success: res => {
                 if (res.authSetting['scope.userInfo']) {
@@ -32,6 +50,30 @@ App({
                         }
                     })
                 }
+            }
+        })
+    },
+    login() {
+        wx.login({
+            success: loginInfo => {
+                wx.request({
+                    url: 'https://www.uglifan.cn/api/wx/openid',
+                    data: {
+                        js_code: loginInfo.code
+                    },
+                    method: 'GET',
+                    success: res => {
+                        if (res.data && res.data.code === 0) {
+                            let result = res.data.result || {};
+                            if (result.openid) {
+                                this.globalData.openId = result.openid;
+                                try {
+                                    wx.setStorageSync('openId', result.openid)
+                                } catch(e) {}
+                            }
+                        }
+                    }
+                })
             }
         })
     }

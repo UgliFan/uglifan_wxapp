@@ -5,7 +5,8 @@
         "pages/photo/photo",
         "pages/my/my",
         "pages/categories/categories",
-        "pages/categories/add-category"
+        "pages/categories/add-category",
+        "pages/webview/webview"
     ],
     "permission": {
         "scope.userLocation": {

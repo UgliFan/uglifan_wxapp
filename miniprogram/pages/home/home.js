@@ -92,7 +92,8 @@ Page({
                             select: item.select,
                             summary: (item.summary / 100).toFixed(2),
                             remark: item.remark,
-                            location: item.location
+                            location: item.location,
+                            isMine: item._openid === app.globalData.openId
                         }
                     })
                     this.setData({
