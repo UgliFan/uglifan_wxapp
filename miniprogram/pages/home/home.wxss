@@ -98,7 +98,7 @@
     z-index: 1;
     font-size: 40rpx;
     padding-right: 35%;
-    color: #eee;
+    color: #fff;
     background: linear-gradient(to left, rgba(245,218,177,.2), transparent);
 }
 .item-col {
