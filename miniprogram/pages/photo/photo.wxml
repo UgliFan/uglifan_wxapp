@@ -31,6 +31,5 @@
             </view>
         </view>
     </view>
-    <view class="btn-add ufi-add" bindtap="selectImage" catchlongpress="selectImage"></view>
     <info show="{{infoShown}}" need-scale="{{chooseInfo.needScale}}" bindclose="closeInfo" bindsubmit="doUpload"></info>
 </view>

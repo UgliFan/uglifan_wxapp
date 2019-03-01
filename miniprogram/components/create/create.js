@@ -290,7 +290,6 @@ Component({
 
                         }).catch(err => {
                             wx.hideLoading()
-                            console.log(err)
                             wx.showToast({
                                 title: err.message
                             })

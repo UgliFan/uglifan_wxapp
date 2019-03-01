@@ -10,8 +10,10 @@ Page({
             outCount: '0.00'
         },
         shown: false,
-        scrollH: 'auto',
-        list: []
+        list: [],
+        page: 0,
+        pageSize: 20,
+        hasNext: true
     },
     onLoad(option) {
         let date = new Date();
@@ -25,22 +27,19 @@ Page({
             year: this.data.pickerArray[0][select[0]],
             month: this.data.pickerArray[1][select[1]]
         })
-        let query = this.createSelectorQuery();
-        query.select('.header').boundingClientRect().exec(res => {
-            let rect = res[0];
-            if (rect) {
-                let sysInfo = app.globalData.sysInfo
-                this.setData({
-                    scrollH: `${sysInfo.windowHeight - rect.height}px`
-                });
-            }
-        })
+        this.getTallyList(true)
     },
     onShow() {
-        this.getTallyList()
+        if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+            this.getTabBar().setData({
+                current: 0
+            })
+        }
     },
     onPullDownRefresh() {
-        wx.stopPullDownRefresh()
+        this.getTallyList(true, true)
+    },
+    onReachBottom() {
         this.getTallyList()
     },
     pickerChange(e) {
@@ -50,9 +49,9 @@ Page({
             year: this.data.pickerArray[0][value[0]],
             month: this.data.pickerArray[1][value[1]]
         })
-        this.getTallyList()
+        this.getTallyList(true)
     },
-    create() {
+    centerClick() {
         this.setData({
             shown: true
         });
@@ -62,67 +61,84 @@ Page({
             shown: false
         });
         if (e.detail) {
-            this.getTallyList();
+            this.getTallyList(true);
         }
     },
-    getTallyList() {
-        wx.showLoading({
-            title: '刷新中'
-        })
-        const coltName = `tally_${this.data.year}_${this.data.month}`
-        wx.cloud.callFunction({
-            name: 'checkTally',
-            data: { coltName }
-        }).then(res => {
-            let result = res.result || {};
-            if (result.code === 0) {
-                const db = wx.cloud.database()
-                db.collection(coltName).orderBy('date', 'desc').get().then(res => {
-                    let list = res.data || [];
-                    let count = {
-                        inCount: 0,
-                        outCount: 0
-                    };
-                    let result = list.map(item => {
-                        if (item.select.type === 0) {
-                            count.outCount += item.summary
-                        } else {
-                            count.inCount += item.summary
-                        }
-                        return {
-                            select: item.select,
-                            summary: (item.summary / 100).toFixed(2),
-                            remark: item.remark,
-                            location: item.location,
-                            isMine: item._openid === app.globalData.openId
-                        }
-                    })
-                    this.setData({
-                        list: result,
-                        count: {
-                            inCount: (count.inCount / 100).toFixed(2),
-                            outCount: (count.outCount / 100).toFixed(2)
-                        }
-                    });
-                    wx.hideLoading()
-                }).catch(err => {
-                    wx.hideLoading()
-                    wx.showToast({
-                        title: err.message
-                    })
-                })
-            } else {
-                wx.hideLoading()
-                wx.showToast({
-                    title: result.message
+    getTallyList(reload = false, isPullDown = false) {
+        if (this.data.hasNext || reload) {
+            if (reload && !isPullDown) {
+                wx.pageScrollTo({
+                    scrollTop: 0
                 })
             }
-        }).catch(err => {
-            wx.hideLoading()
-            wx.showToast({
-                title: err.message
+            wx.showLoading({
+                title: '加载中'
             })
-        })
+            const coltName = `tally_${this.data.year}_${this.data.month}`
+            wx.cloud.callFunction({
+                name: 'checkTally',
+                data: { coltName }
+            }).then(res => {
+                let result = res.result || {};
+                if (result.code === 0) {
+                    const db = wx.cloud.database()
+                    let skip = reload ? 0 : this.data.page * this.data.pageSize;
+                    db.collection(coltName).orderBy('date', 'desc').skip(skip).limit(this.data.pageSize).get({
+                        success: res => {
+                            let list = res.data || [];
+                            let count = {
+                                inCount: reload ? 0 : Number(this.data.count.inCount) * 100,
+                                outCount: reload ? 0 : Number(this.data.count.outCount) * 100
+                            };
+                            let result = list.map(item => {
+                                if (item.select.type === 0) {
+                                    count.outCount += item.summary
+                                } else {
+                                    count.inCount += item.summary
+                                }
+                                return {
+                                    select: item.select,
+                                    summary: (item.summary / 100).toFixed(2),
+                                    remark: item.remark,
+                                    location: item.location,
+                                    isMine: item._openid === app.globalData.openId
+                                }
+                            })
+                            this.setData({
+                                list: reload ? result : this.data.list.concat(result),
+                                page: reload ? 1 : (res.data.length < this.data.pageSize ? this.data.page : this.data.page + 1),
+                                hasNext: res.data.length === this.data.pageSize,
+                                count: {
+                                    inCount: (count.inCount / 100).toFixed(2),
+                                    outCount: (count.outCount / 100).toFixed(2)
+                                }
+                            });
+                        },
+                        fail: err => {
+                            wx.showToast({
+                                title: err.message
+                            })
+                        },
+                        complete: () => {
+                            if (isPullDown) wx.stopPullDownRefresh()
+                            wx.hideLoading()
+                        }
+                    })
+                } else {
+                    if (isPullDown) wx.stopPullDownRefresh()
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: result.message
+                    })
+                }
+            }).catch(err => {
+                if (isPullDown) wx.stopPullDownRefresh()
+                wx.hideLoading()
+                wx.showToast({
+                    title: err.message
+                })
+            })
+        }
     },
     showLocation(e) {
         let location = e.currentTarget.dataset.loc;

@@ -35,6 +35,11 @@ Page({
         }
     },
     onShow() {
+        if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+            this.getTabBar().setData({
+                current: 3
+            })
+        }
         // 获取用户信息
         let userInfo = app.globalData.userInfo;
         this.setData({

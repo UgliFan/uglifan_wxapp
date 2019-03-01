@@ -72,18 +72,16 @@ Page({
         }
     },
     doDelete(e) {
-        let that = this;
         let item = e.currentTarget.dataset.item;
         wx.showModal({
             title: '系统提示',
             content: `确认删除【${item.name}】吗？`,
-            success(sm) {
+            success: sm => {
                 if (sm.confirm) {
                     const db = wx.cloud.database();
                     db.collection('categories').doc(item._id).remove({
-                        success(res) {
-                            console.log(res);
-                            that.onQuery();
+                        success: res => {
+                            this.onQuery();
                         }
                     })
                 }

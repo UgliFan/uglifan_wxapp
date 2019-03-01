@@ -1,0 +1,9 @@
+<view class="tab-bar {{isX ? 'x' : ''}}">
+    <view wx:for="{{tabBar}}" wx:key="{{index}}" class="tab-bar-item {{current === index ? 'cursor' :''}}" bindtap="selectTab" data-item="{{item}}">
+        <view class="icon {{item.icon}}"></view>
+        <view class="title">{{item.text}}</view>
+    </view>
+    <view class="center-btn" bindtap="centerClick" catchlongpress="centerLongPress">
+        <view class="icon ufi-add"></view>
+    </view>
+</view>

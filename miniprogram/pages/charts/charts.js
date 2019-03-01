@@ -5,25 +5,11 @@ Page({
     onLoad(options) {
 
     },
-    onReady() {
-
-    },
     onShow() {
-
+        if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+            this.getTabBar().setData({
+                current: 1
+            })
+        }
     },
-    onHide() {
-
-    },
-    onUnload() {
-
-    },
-    onPullDownRefresh() {
-        wx.stopPullDownRefresh()
-    },
-    onReachBottom() {
-
-    },
-    onShareAppMessage() {
-
-    }
 })

@@ -21,6 +21,13 @@ Page({
     onLoad() {
         this.onQuery(true);
     },
+    onShow() {
+        if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+            this.getTabBar().setData({
+                current: 2
+            })
+        }
+    },
     onPullDownRefresh() {
         this.setData({
             loading: true
@@ -81,7 +88,10 @@ Page({
             })
         }
     },
-    selectImage(e) {
+    centerLongPress(e) {
+        this.centerClick(e)
+    },
+    centerClick(e) {
         if (app.globalData.hasLocPerm) {
             wx.getLocation({
                 type: 'gcj02',
@@ -304,7 +314,6 @@ Page({
     },
     showLocation(e) {
         let location = e.currentTarget.dataset.loc;
-        console.log(location);
         wx.openLocation({
             latitude: location.latitude,
             longitude: location.longitude
