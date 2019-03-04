@@ -65,7 +65,7 @@ Component({
                     console.log(res)
                     wx.showModal({
                         title: '扫码结果',
-                        content: res.charSet
+                        content: res.result
                     })
                 }
             })
