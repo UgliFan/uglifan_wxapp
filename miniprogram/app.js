@@ -24,7 +24,8 @@ App({
         wx.getSystemInfo({
             success: res => {
                 res.isX = res.model.toLowerCase().indexOf('iphone x') > -1
-                this.globalData.sysInfo = res;
+                console.log(res)
+                this.globalData.sysInfo = res
             }
         })
         this.checkLogin();

@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-      "create-record": "/components/create/create"
+      "create-record": "/components/create/create",
+      "nav-header": "/components/nav/nav"
   }
 }

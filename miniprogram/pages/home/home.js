@@ -13,7 +13,8 @@ Page({
         list: [],
         page: 0,
         pageSize: 20,
-        hasNext: true
+        hasNext: true,
+        isX: false
     },
     onLoad(option) {
         let date = new Date();
@@ -25,7 +26,8 @@ Page({
         this.setData({
             pickerSelect: select,
             year: this.data.pickerArray[0][select[0]],
-            month: this.data.pickerArray[1][select[1]]
+            month: this.data.pickerArray[1][select[1]],
+            isX: app.globalData.sysInfo.isX
         })
         this.getTallyList(true)
     },

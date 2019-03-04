@@ -1,4 +1,5 @@
-<view class="header">
+<nav-header></nav-header>
+<view class="header {{isX ? 'x' : ''}}">
     <picker class="date" mode="multiSelector" value="{{pickerSelect}}" range="{{pickerArray}}" bindchange="pickerChange">
         <view class="date-year">{{year}}年</view>
         <view class="date-month">{{month}}<view class="month-text">月</view><view class="icon-down ufi-usefullfill"></view></view>
@@ -12,7 +13,7 @@
         <text class="count-value">{{count.outCount}}</text>
     </view>
 </view>
-<view class="scroll-wrapper">
+<view class="scroll-wrapper {{isX ? 'x' : ''}}">
     <view class="tally-item" wx:for="{{list}}" wx:key="{{item._id}}">
         <view class="mine-bg" wx:if="{{item.isMine}}">我的</view>
         <view class="item-col"><view class="category-icon {{item.select.icon}}"></view></view>

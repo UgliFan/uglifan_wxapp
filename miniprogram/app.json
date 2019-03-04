@@ -16,7 +16,7 @@
     "window": {
         "backgroundColor": "#fff",
         "backgroundTextStyle": "light",
-        "navigationStyle": "default",
+        "navigationStyle": "custom",
         "navigationBarBackgroundColor": "#F2A905",
         "navigationBarTitleText": "UF记账本",
         "navigationBarTextStyle": "black",

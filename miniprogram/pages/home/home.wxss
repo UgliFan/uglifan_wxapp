@@ -1,12 +1,12 @@
 page {
-    padding: 120rpx 0;
+    padding: 260rpx 0 111rpx;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
 .header {
     position: fixed;
-    top: 0;
+    top: 140rpx;
     left: 0;
     right: 0;
     height: 120rpx;
@@ -16,6 +16,9 @@ page {
     display: flex;
     flex-direction: row;
     z-index: 2;
+}
+.header.x {
+    top: 180rpx;
 }
 .header .date {
     height: 80rpx;
@@ -72,6 +75,11 @@ page {
     position: relative;
     z-index: 1;
     width: 100%;
+    padding-bottom: 30rpx;
+}
+.scroll-wrapper.x {
+    padding-top: 40rpx;
+    padding-bottom: 80rpx;
 }
 .tally-item {
     position: relative;
