@@ -6,7 +6,6 @@ Component({
     },
     data: {
         listViewH: 'auto',
-        shown: false,
         anime: false,
         inputShow: false,
         tabs: [{
@@ -29,7 +28,11 @@ Component({
             summary: '0',
             dotted: false,
             fu: false
-        }
+        },
+        isX: false,
+        statHeight: 20,
+        headerHeight: 44,
+        navHeight: 64
     },
     /**
      * 组件的属性列表
@@ -51,45 +54,41 @@ Component({
                         })
                     }
                     this.setData({
-                        shown: newValue
-                    });
-                    let timer = setTimeout(() => {
-                        this.setData({
-                            anime: newValue
-                        });
-                        this.setViewHeight();
-                        clearTimeout(timer);
-                    }, 50);
-                } else {
-                    this.setData({
                         anime: newValue
                     });
-                    let timer = setTimeout(() => {
-                        this.setData({
-                            shown: newValue,
-                            select: {},
-                            inputShow: false,
-                            listViewH: 'auto',
-                            inputRemark: '',
-                            input: {
-                                date: '',
-                                dateShow: '',
-                                action: '',
-                                showEqual: false,
-                                summary: '0',
-                                dotted: false,
-                                fu: false
-                            }
-                        });
-                        clearTimeout(timer);
-                    }, 300);
+                    this.setViewHeight();
+                } else {
+                    this.setData({
+                        anime: newValue,
+                        select: {},
+                        inputShow: false,
+                        listViewH: 'auto',
+                        inputRemark: '',
+                        input: {
+                            date: '',
+                            dateShow: '',
+                            action: '',
+                            showEqual: false,
+                            summary: '0',
+                            dotted: false,
+                            fu: false
+                        }
+                    });
                 }
             }
         }
     },
     lifetimes: {
         attached() {
-            this.getCategories();
+            const sysInfo = app.globalData.sysInfo
+            const nav = app.globalData.nav
+            this.setData({
+                isX: sysInfo.isX,
+                statHeight: nav.paddingTop,
+                headerHeight: nav.height,
+                navHeight: nav.paddingTop + nav.height
+            })
+            this.getCategories()
         },
         detached() {}
     },

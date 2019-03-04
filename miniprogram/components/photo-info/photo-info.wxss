@@ -6,6 +6,7 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0,0,0,.6);
+    z-index: 400;
 }
 .photo-info-dialog.show {
     display: block;
@@ -14,17 +15,20 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 530rpx;
+    bottom: 640rpx;
     text-align: center;
     font-size: 30rpx;
     color: #fff;
     font-weight: 700;
 }
+.photo-info-dialog.x .scale-tip {
+    bottom: 690rpx;
+}
 .photo-info-dialog form {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 110rpx;
     height: 500rpx;
     background-color: #fff;
     border-radius: 20rpx 20rpx 0 0;
@@ -33,6 +37,9 @@
     box-shadow: 0 0 40rpx 0 rgba(0,0,0,.4);
     transition: all .3s ease;
     transform: translateY(100%);
+}
+.photo-info-dialog.x form {
+    bottom: 160rpx;
 }
 .photo-info-dialog form.anime {
     transform: translateY(0);

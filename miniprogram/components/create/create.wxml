@@ -1,48 +1,46 @@
-<view class="create-wrapper {{shown ? 'show' : ''}}">
-    <view class="create-body {{anime ? 'anime' : ''}}">
-        <view class="create-header">
-            <view class="btn-close ufi-close" bindtap="close"></view>
-            <view class="create-tab">
-                <view class="tab-item {{item.value === current ? 'cursor' : ''}}" wx:for="{{tabs}}" wx:key="{{index}}" bindtap="selectTab" data-item="{{item}}">{{item.label}}</view>
-            </view>
+<view class="create-wrapper {{anime && 'anime'}} {{isX && 'x'}}" style="padding-top:{{statHeight}}px">
+    <view class="create-header" style="height:{{headerHeight}}px">
+        <view class="btn-close ufi-close" bindtap="close"></view>
+        <view class="create-tab" style="height:{{headerHeight}}px">
+            <view class="tab-item {{item.value === current && 'cursor'}}" wx:for="{{tabs}}" wx:key="{{index}}" bindtap="selectTab" data-item="{{item}}" style="height:{{headerHeight}}px;line-height:{{headerHeight}}px">{{item.label}}</view>
         </view>
-        <view class="category-list-large"></view>
-        <view class="category-list-small"></view>
-        <scroll-view class="category-list" style="height:{{listViewH}}" scroll-y>
-            <view class="category-item {{select._id === item._id ? 'cursor' : ''}}" wx:for="{{categories}}" wx:key="{{item._id}}" bindtap="selectCategory" data-item="{{item}}">
-                <view class="category-icon {{item.icon}}"></view>
-                <view class="category-name">{{item.name}}</view>
-            </view>
-        </scroll-view>
-        <form class="input-view {{inputShow ? 'shown' : ''}}" bindsubmit="keyBoardFinish">
-            <view class="input-result">
-                <view class="remark-wrapper">
-                    <view class="remark-icon ufi-edit"></view>
-                    <input name="remark" placeholder="点击输入备注" value="{{inputRemark}}"></input>
-                </view>
-                <view class="summary">{{input.summary}}</view>
-            </view>
-            <view class="keyboard-area">
-                <view class="keyboard-btn" bindtap="keyBoardPress" data-value="7">7</view>
-                <view class="keyboard-btn" bindtap="keyBoardPress" data-value="8">8</view>
-                <view class="keyboard-btn" bindtap="keyBoardPress" data-value="9">9</view>
-                <picker mode="date" bindchange="keyBoardDate" value="{{input.date}}">
-                    <view class="keyboard-btn right date"><view class="ufi-calendar"></view>{{input.dateShow}}</view>
-                </picker>
-                <view class="keyboard-btn" bindtap="keyBoardPress" data-value="4">4</view>
-                <view class="keyboard-btn" bindtap="keyBoardPress" data-value="5">5</view>
-                <view class="keyboard-btn" bindtap="keyBoardPress" data-value="6">6</view>
-                <view class="keyboard-btn right" bindtap="keyBoardPress" data-value="+">+</view>
-                <view class="keyboard-btn" bindtap="keyBoardPress" data-value="1">1</view>
-                <view class="keyboard-btn" bindtap="keyBoardPress" data-value="2">2</view>
-                <view class="keyboard-btn" bindtap="keyBoardPress" data-value="3">3</view>
-                <view class="keyboard-btn right" bindtap="keyBoardPress" data-value="-">-</view>
-                <view class="keyboard-btn" bindtap="keyBoardPress" data-value=".">.</view>
-                <view class="keyboard-btn" bindtap="keyBoardPress" data-value="0">0</view>
-                <view class="keyboard-btn ufi-backdelete" bindtap="keyBoardPress" data-value="del"></view>
-                <button class="keyboard-btn right submit" wx:if="{{!input.showEqual}}" form-type="submit">提交</button>
-                <view class="keyboard-btn right equal" bindtap="keyBoardPress" data-value="=" wx:if="{{input.showEqual}}">=</view>
-            </view>
-        </form>
     </view>
+    <view class="category-list-large" style="top:{{navHeight}}px"></view>
+    <view class="category-list-small" style="top:{{navHeight}}px"></view>
+    <scroll-view class="category-list" style="height:{{listViewH}}" scroll-y>
+        <view class="category-item {{select._id === item._id ? 'cursor' : ''}}" wx:for="{{categories}}" wx:key="{{item._id}}" bindtap="selectCategory" data-item="{{item}}">
+            <view class="category-icon {{item.icon}}"></view>
+            <view class="category-name">{{item.name}}</view>
+        </view>
+    </scroll-view>
+    <form class="input-view {{inputShow && 'shown'}}" bindsubmit="keyBoardFinish">
+        <view class="input-result">
+            <view class="remark-wrapper">
+                <view class="remark-icon ufi-edit"></view>
+                <input name="remark" placeholder="点击输入备注" value="{{inputRemark}}"></input>
+            </view>
+            <view class="summary">{{input.summary}}</view>
+        </view>
+        <view class="keyboard-area">
+            <view class="keyboard-btn" bindtap="keyBoardPress" data-value="7">7</view>
+            <view class="keyboard-btn" bindtap="keyBoardPress" data-value="8">8</view>
+            <view class="keyboard-btn" bindtap="keyBoardPress" data-value="9">9</view>
+            <picker mode="date" bindchange="keyBoardDate" value="{{input.date}}">
+                <view class="keyboard-btn right date"><view class="ufi-calendar"></view>{{input.dateShow}}</view>
+            </picker>
+            <view class="keyboard-btn" bindtap="keyBoardPress" data-value="4">4</view>
+            <view class="keyboard-btn" bindtap="keyBoardPress" data-value="5">5</view>
+            <view class="keyboard-btn" bindtap="keyBoardPress" data-value="6">6</view>
+            <view class="keyboard-btn right" bindtap="keyBoardPress" data-value="+">+</view>
+            <view class="keyboard-btn" bindtap="keyBoardPress" data-value="1">1</view>
+            <view class="keyboard-btn" bindtap="keyBoardPress" data-value="2">2</view>
+            <view class="keyboard-btn" bindtap="keyBoardPress" data-value="3">3</view>
+            <view class="keyboard-btn right" bindtap="keyBoardPress" data-value="-">-</view>
+            <view class="keyboard-btn" bindtap="keyBoardPress" data-value=".">.</view>
+            <view class="keyboard-btn" bindtap="keyBoardPress" data-value="0">0</view>
+            <view class="keyboard-btn ufi-backdelete" bindtap="keyBoardPress" data-value="del"></view>
+            <button class="keyboard-btn right submit" wx:if="{{!input.showEqual}}" form-type="submit" aria-label="提交">提交</button>
+            <view class="keyboard-btn right equal" bindtap="keyBoardPress" data-value="=" wx:if="{{input.showEqual}}">=</view>
+        </view>
+    </form>
 </view>

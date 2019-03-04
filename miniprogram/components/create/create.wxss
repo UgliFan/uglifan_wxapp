@@ -1,43 +1,33 @@
 .create-wrapper {
-    display: none;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 999;
-    background-color: rgba(0,0,0,.6);
-}
-.create-body {
-    position: absolute;
-    height: 900rpx;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    bottom: 110rpx;
     transform: translateY(100%);
-    background-color: #fff;
+    background-color: #F2A905;
     border-radius: 20rpx 20rpx 0 0;
     box-shadow: 0 0 40rpx 0 rgba(0,0,0,.4);
     transition: all .3s ease;
     box-sizing: border-box;
     overflow: hidden;
+    z-index: 400;
 }
-.create-wrapper.show {
-    display: block;
+.create-wrapper.x {
+    bottom: 160rpx;
 }
-.create-body.anime {
+.create-wrapper.anime {
     transform: translateY(0);
 }
 .btn-close {
     position: absolute;
     top: 20rpx;
-    right: 20rpx;
+    left: 20rpx;
     width: 50rpx;
     height: 50rpx;
     line-height: 50rpx;
     text-align: center;
-    color: #fff;
+    color: #222;
     font-weight: 700;
     font-size: 46rpx;
     z-index: 2;
@@ -45,7 +35,6 @@
 .create-header {
     position: relative;
     background-color: #F2A905;
-    height: 90rpx;
     overflow: hidden;
     z-index: 2;
 }
@@ -55,14 +44,11 @@
     left: 50%;
     margin-left: -120rpx;
     width: 240rpx;
-    height: 80rpx;
 }
 .tab-item {
     position: relative;
     bottom: 0;
     width: 50%;
-    height: 80rpx;
-    line-height: 80rpx;
     text-align: center;
     color: #222;
     float: left;
@@ -76,18 +62,16 @@
 .category-list-large {
     opacity: 0;
     position: absolute;
-    top: 90rpx;
     left: 0;
     right: 0;
-    height: 810rpx;
+    bottom: 0;
 }
 .category-list-small {
     opacity: 0;
     position: absolute;
-    top: 90rpx;
     left: 0;
     right: 0;
-    height: 310rpx;
+    bottom: 500rpx;
 }
 .category-list {
     width: 100%;
@@ -127,7 +111,6 @@
     font-size: 30rpx;
     color: #222;
 }
-
 .input-view {
     position: absolute;
     width: 100%;
@@ -217,7 +200,9 @@
     color: #fff;
     border: none;
     padding: 0;
-}
-.keyboard-btn.submit::after {
     border-radius: 0;
+}
+.keyboard-btn.submit:after {
+    border-radius: 0;
+    border: none;
 }

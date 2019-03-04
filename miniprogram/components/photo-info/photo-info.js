@@ -1,3 +1,4 @@
+const app = getApp()
 Component({
     properties: {
         show: {
@@ -38,7 +39,16 @@ Component({
         shown: false,
         anime: false,
         name: '',
-        tag: ''
+        tag: '',
+        isX: false
+    },
+    lifetimes: {
+        attached() {
+            const sysInfo = app.globalData.sysInfo
+            this.setData({
+                isX: sysInfo.isX
+            })
+        }
     },
     methods: {
         submitForm(e) {
