@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-      "info": "/components/photo-info/photo-info"
+      "info": "/components/photo-info/photo-info",
+      "nav-header": "/components/nav/nav"
   }
 }

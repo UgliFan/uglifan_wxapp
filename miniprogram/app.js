@@ -18,17 +18,29 @@ App({
         wx.authorize({
             scope: 'scope.userLocation',
             success: () => {
-                this.globalData.hasLocPerm = true;
+                this.globalData.hasLocPerm = true
             }
         })
-        wx.getSystemInfo({
-            success: res => {
-                res.isX = res.model.toLowerCase().indexOf('iphone x') > -1
-                console.log(res)
-                this.globalData.sysInfo = res
-            }
-        })
-        this.checkLogin();
+        const sysInfo = wx.getSystemInfoSync()
+        sysInfo.isX = sysInfo.model.toLowerCase().indexOf('iphone x') > -1
+        this.globalData.sysInfo = sysInfo
+        //导航栏自适应
+        let reg = /ios/i
+        let pt = 20 //导航状态栏上内边距
+        let h = 44 //导航状态栏高度
+        if (reg.test(sysInfo.system)) {
+            pt = sysInfo.statusBarHeight
+            h = 44
+        } else {
+            pt = sysInfo.statusBarHeight
+            h = 48
+        }
+        this.globalData.nav = {
+            styleStr: `padding-top:${pt}px;height:${h}px;line-height:${h}px;`,
+            paddingTop: pt,
+            height: h
+        }
+        this.checkLogin()
     },
     checkLogin() {
         wx.getSetting({

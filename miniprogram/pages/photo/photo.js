@@ -16,10 +16,18 @@ Page({
         hasNext: true,
         delIndex: -1,
         delPos: '',
-        loading: false
+        loading: false,
+        navHeight: 64,
+        isX: false
     },
     onLoad() {
-        this.onQuery(true);
+        const nav = app.globalData.nav
+        const sysInfo = app.globalData.sysInfo
+        this.setData({
+            navHeight: nav.paddingTop + nav.height,
+            isX: sysInfo.isX
+        })
+        this.onQuery(true)
     },
     onShow() {
         if (typeof this.getTabBar === 'function' && this.getTabBar()) {

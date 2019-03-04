@@ -1,114 +1,76 @@
 const app = getApp()
 Component({
+    options: {
+        addGlobalClass: true
+    },
     properties: {
-        back: {
-            type: Boolean,
-            value: false
-        },
-        background: {
-            type: String,
-            value: '#ffffff',
-            observer: function (newVal, oldVal, changedPath) {
-                if (!newVal) {
-                    let obj = {}
-                    obj[changedPath[0]] = oldVal
-                    this.setData(obj)
-                }
-            }
-        },
-        placeholderBg: {
-            type: String,
-            value: 'transparent',
-            observer: function (newVal, oldVal, changedPath) {
-                if (!newVal) {
-                    let obj = {}
-                    obj[changedPath[0]] = oldVal
-                    this.setData(obj)
-                }
-            }
-        },
-        color: {
-            type: String,
-            value: '#000000',
-            observer: function (newVal, oldVal, changedPath) {
-                if (!newVal) {
-                    let obj = {}
-                    obj[changedPath[0]] = oldVal
-                    this.setData(obj)
-                }
-            }
-        },
-        fontSize: {
-            type: String,
-            value: '40rpx',
-            observer: function (newVal, oldVal, changedPath) {
-                if (!newVal) {
-                    let obj = {}
-                    obj[changedPath[0]] = oldVal
-                    this.setData(obj)
-                }
-            }
-        },
         title: {
             type: String,
-            value: 'none',
-            observer: function (newVal, oldVal, changedPath) {
-                if (!newVal) {
+            value: 'UF记账本',
+            observer(n, o, cp) {
+                if (!n) {
                     let obj = {}
-                    obj[changedPath[0]] = oldVal
+                    obj[cp[0]] = o
                     this.setData(obj)
                 }
             }
         },
-        fixed: {
+        back: {
             type: Boolean,
-            value: true,
-            observer: function (newVal, oldVal, changedPath) {
-                if (newVal !== false && newVal !== true) {
+            value: false,
+            observer(n, o, cp) {
+                if (!n) {
                     let obj = {}
-                    obj[changedPath[0]] = oldVal
+                    obj[cp[0]] = o
+                    this.setData(obj)
+                }
+            }
+        },
+        fnClass: {
+            type: String,
+            value: '',
+            observer(n, o, cp) {
+                if (!n) {
+                    let obj = {}
+                    obj[cp[0]] = o
                     this.setData(obj)
                 }
             }
         }
     },
     data: {
-        isX: false,
-        height: 44, //导航栏高度
-        paddingTop: 20, //导航栏上内边距对应状态栏高度
-        showHomeButton: false, //是否显示返回首页
-        show: true //是否显示导航栏
+        styleStr: 'padding-top:22px;height:44px;line-height:44px;',
+        backStr: 'top:28px;',
+        showHome: false //是否显示返回首页
     },
     lifetimes: {
         attached() {
             let pages = getCurrentPages()
-            let showHomeButton = false
+            let showHome = false
             if (pages.length < 2 && pages[0].route != __wxConfig.pages[0]) {
-                showHomeButton = true
+                showHome = true
             }
-            //导航栏自适应
-            let systemInfo = app.globalData.sysInfo
-            let reg = /ios/i
-            let pt = 20 //导航状态栏上内边距
-            let h = 44 //导航状态栏高度
-            if (reg.test(systemInfo.system)) {
-                pt = systemInfo.statusBarHeight
-                h = 44
-            } else {
-                pt = systemInfo.statusBarHeight
-                h = 48
-            }
+            let nav = app.globalData.nav
             this.setData({
-                height: h,
-                paddingTop: pt,
-                showHomeButton: showHomeButton,
-                isX: systemInfo.isX
+                showHome: showHome,
+                styleStr: nav.styleStr,
+                backStr: `top:${nav.paddingTop + 6}px`
             })
-            console.log(this)
         }
     },
     methods: {
-        navigateBack() {
+        navScan() {
+            wx.scanCode({
+                success: res => {
+                    console.log(res)
+                    wx.showModal({
+                        title: '扫码结果',
+                        content: res.charSet
+                    })
+                }
+            })
+        },
+        navBack() {
             let pages = getCurrentPages();
             if (pages.length < 2 && pages[0].route != __wxConfig.pages[0]) {
                 wx.reLaunch({ url: '/' + __wxConfig.pages[0] })
@@ -116,11 +78,11 @@ Component({
                 wx.navigateBack({ delta: 1 })
             }
         },
-        navigateBackHome() {
+        navHome() {
             wx.reLaunch({ url: '/' + __wxConfig.pages[0] })
         },
-        toggleShow() {
-            this.setData({ show: !this.data.show })
+        navFn() {
+            this.triggerEvent('navAction')
         }
     }
 })

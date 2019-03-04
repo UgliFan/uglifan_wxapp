@@ -4,7 +4,6 @@ page {
 }
 .header {
     position: fixed;
-    top: 0;
     left: 0;
     right: 0;
     height: 121rpx;
@@ -59,24 +58,4 @@ page {
 }
 .icon-item:nth-child(6n) {
     margin-right: 0;
-}
-.btn-submit {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100rpx;
-    line-height: 100rpx;
-    background-color: #F2A905;
-    border-top: 1rpx solid rgba(0,0,0,.1);
-    text-align: center;
-    font-size: 30rpx;
-    color: #fff;
-    z-index: 2;
-}
-.btn-submit.x {
-    height: 130rpx;
-}
-.btn-submit.disabled {
-    background-color: rgb(255, 210, 64);
 }

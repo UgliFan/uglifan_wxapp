@@ -7,7 +7,7 @@
     bottom: 0;
     font-size: 24rpx;
     border-top: 1rpx solid rgba(0,0,0,.2);
-    z-index: 9999;
+    z-index: 300;
     background-color: #fff;
 }
 .tab-bar.x {

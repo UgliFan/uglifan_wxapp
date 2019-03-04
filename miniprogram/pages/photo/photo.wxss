@@ -1,13 +1,15 @@
 .photo-page {
     width: 100%;
-    padding-bottom: 120rpx;
+    padding-bottom: 131rpx;
     display: flex;
     flex-direction: row;
     overflow: hidden;
 }
+.photo-page.x {
+    padding-bottom: 181rpx;
+}
 .list-loading {
     position: fixed;
-    top: 0;
     left: 50%;
     width: 100rpx;
     height: 100rpx;

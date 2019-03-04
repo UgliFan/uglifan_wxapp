@@ -1,6 +1,7 @@
-<view class="photo-page" bindtouchstart="closeOptions">
+<nav-header title="照片墙"></nav-header>
+<view class="photo-page {{isX && 'x'}}" bindtouchstart="closeOptions">
     <canvas style="position:fixed;top:0;left:101%;right:0;width:750px;height:{{canvasSize}}px;" canvas-id="myCanvas"></canvas>
-    <view class="list-loading ufi-loading" wx:if="{{loading}}"></view>
+    <view class="list-loading ufi-loading" style="top:{{navHeight}}px" wx:if="{{loading}}"></view>
     <view class="list-left">
         <view class="photo-item" wx:for="{{listL}}" wx:key="{{item._id}}" bindtap="previewImage" data-item="{{item}}">
             <image class="item-cover" style="height:{{item.viewH * 355 / 1000}}rpx" src="{{item.src}}" catchlongpress="showRemove" data-item="{{item}}" data-index="{{index}}" data-pos="{{0}}"></image>

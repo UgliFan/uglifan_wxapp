@@ -14,7 +14,8 @@ Page({
         page: 0,
         pageSize: 20,
         hasNext: true,
-        isX: false
+        isX: false,
+        navHeight: 64
     },
     onLoad(option) {
         let date = new Date();
@@ -23,11 +24,14 @@ Page({
         if (month < 10) month = `0${month}`;
         else month = month.toString();
         let select = [this.data.pickerArray[0].indexOf(year), this.data.pickerArray[1].indexOf(month)];
+        const sysInfo = app.globalData.sysInfo;
+        const nav = app.globalData.nav;
         this.setData({
             pickerSelect: select,
             year: this.data.pickerArray[0][select[0]],
             month: this.data.pickerArray[1][select[1]],
-            isX: app.globalData.sysInfo.isX
+            isX: sysInfo.isX,
+            navHeight: nav.paddingTop + nav.height
         })
         this.getTallyList(true)
     },

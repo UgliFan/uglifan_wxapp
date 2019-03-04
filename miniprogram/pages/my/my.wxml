@@ -1,5 +1,5 @@
-<nav-header></nav-header>
-<view class="header">
+<nav-header title="我的"></nav-header>
+<view class="header" style="top:{{navHeight}}px">
     <view class="avatar">
         <button 
             open-type="getUserInfo" 

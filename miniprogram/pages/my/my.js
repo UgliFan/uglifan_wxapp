@@ -32,7 +32,14 @@ Page({
             all: 0,
             my: 0,
             other: 0
-        }
+        },
+        navHeight: 64
+    },
+    onLoad() {
+        const nav = app.globalData.nav;
+        this.setData({
+            navHeight: nav.paddingTop + nav.height
+        })
     },
     onShow() {
         if (typeof this.getTabBar === 'function' && this.getTabBar()) {

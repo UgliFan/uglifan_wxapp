@@ -5,19 +5,17 @@ Page({
         iconSelect: '',
         inputValue: '',
         type: null,
-        isX: false,
-        iconList: []
+        iconList: [],
+        navHeight: 64
     },
-    onLoad: function (options) {
+    onLoad (options) {
+        const nav = app.globalData.nav
         this.setData({
             iconSelect: iconList[0].className,
             iconList: iconList,
             type: Number(options.type),
-            isX: app.globalData.sysInfo.isX
+            navHeight: nav.paddingTop + nav.height
         });
-    },
-    onPullDownRefresh() {
-        wx.stopPullDownRefresh()
     },
     selectIcon(e) {
         let item = e.currentTarget.dataset.item;
@@ -48,6 +46,11 @@ Page({
                     delta: 1
                 });
             });
+        } else {
+            wx.showToast({
+                icon: 'none',
+                title: '请输入类别名称'
+            })
         }
     }
 })

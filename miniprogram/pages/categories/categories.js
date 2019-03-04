@@ -1,7 +1,6 @@
 const app = getApp()
 Page({
     data: {
-        isX: false,
         categoryTypes: [{
             value: 0,
             label: '支出'
@@ -10,18 +9,17 @@ Page({
             label: '收入'
         }],
         current: 0,
-        categories: {}
+        categories: {},
+        navHeight: 64
     },
     onLoad() {
+        const nav = app.globalData.nav
         this.setData({
-            isX: app.globalData.sysInfo.isX
+            navHeight: nav.paddingTop + nav.height
         });
     },
     onShow() {
         this.onQuery();
-    },
-    onPullDownRefresh() {
-        wx.stopPullDownRefresh()
     },
     onQuery() {
         const db = wx.cloud.database()

@@ -1,15 +1,13 @@
-<view>
-    <view class="type-tab">
-        <view class="type-item {{index === current ? 'active' : ''}}" wx:for="{{categoryTypes}}" wx:key="{{index}}" bindtap="tabSelect" data-index="{{index}}">{{item.label}}</view>
+<nav-header title="类别管理" back="{{true}}" bindnavAction="addCategory" fnClass="ufi-add"></nav-header>
+<view class="type-tab" style="top:{{navHeight}}px">
+    <view class="type-item {{index === current ? 'active' : ''}}" wx:for="{{categoryTypes}}" wx:key="{{index}}" bindtap="tabSelect" data-index="{{index}}">{{item.label}}</view>
+</view>
+<view class="category-list">
+    <view class="category-item {{item.showDel ? 'del' : ''}}" wx:for="{{categories}}" wx:key="{{item._id}}" bindtap="clickRow" data-item="{{item}}" data-index="{{index}}">
+        <view class="category-item-del ufi-move" bindtap="beforeDel" data-item="{{item}}" data-index="{{index}}"></view>
+        <view class="category-item-icon {{item.icon}}"></view>
+        <text>{{item.name}}</text>
+        <view class="category-item-sort ufi-sort"></view>
+        <view class="category-item-delete" data-item="{{item}}" bindtap="doDelete">删除</view>
     </view>
-    <scroll-view class="category-list">
-        <view class="category-item {{item.showDel ? 'del' : ''}}" wx:for="{{categories}}" wx:key="{{item._id}}" bindtap="clickRow" data-item="{{item}}" data-index="{{index}}">
-            <view class="category-item-del ufi-move" bindtap="beforeDel" data-item="{{item}}" data-index="{{index}}"></view>
-            <view class="category-item-icon {{item.icon}}"></view>
-            <text>{{item.name}}</text>
-            <view class="category-item-sort ufi-sort"></view>
-            <view class="category-item-delete" data-item="{{item}}" bindtap="doDelete">删除</view>
-        </view>
-    </scroll-view>
-    <view class="btn-add ufi-add {{isX ? 'x' : ''}}" bindtap="addCategory">添加类别</view>
 </view>
