@@ -180,6 +180,9 @@ Page({
                                     type: image.type
                                 }
                             })
+                            this.getTabBar().setData({
+                                centerClicked: true
+                            })
                             wx.hideLoading()
                         }
                     },
