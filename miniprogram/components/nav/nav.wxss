@@ -20,7 +20,7 @@
     background-color: rgba(255,255,255,.6);
     border-radius: 16px;
     color: #222;
-    font-size: 46rpx;
+    font-size: 40rpx;
     font-weight: 700;
     box-sizing: border-box;
     padding: 0 6px;
