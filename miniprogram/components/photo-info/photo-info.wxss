@@ -87,6 +87,7 @@ switch {
     font-weight: 700;
     border-radius: 16rpx;
     border: none;
+    letter-spacing: 8rpx;
 }
 .btn-submit:after {
     border-radius: 16rpx;

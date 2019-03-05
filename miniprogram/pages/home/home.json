@@ -1,7 +1,8 @@
 {
   "usingComponents": {
       "create-record": "/components/create/create",
-      "nav-header": "/components/nav/nav"
+      "nav-header": "/components/nav/nav",
+      "tally-item": "/pages/home/tally-item"
   },
   "enablePullDownRefresh": false
 }

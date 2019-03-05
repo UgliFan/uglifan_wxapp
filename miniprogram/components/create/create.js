@@ -35,10 +35,16 @@ Component({
         headerHeight: 44,
         navHeight: 64
     },
-    /**
-     * 组件的属性列表
-     */
     properties: {
+        data: {
+            type: Object,
+            value: null,
+            observer(newValue) {
+                this.setData({
+                    modify: newValue
+                });
+            }
+        },
         show: {
             type: Boolean,
             value: false,

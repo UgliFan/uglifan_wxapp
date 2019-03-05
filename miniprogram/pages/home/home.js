@@ -56,6 +56,9 @@ Page({
     onReachBottom() {
         this.getTallyList()
     },
+    onTabItemTap() {
+        this.cancelOptions()
+    },
     pickerChange(e) {
         let value = e.detail.value;
         this.setData({
@@ -83,6 +86,38 @@ Page({
         if (e.detail) {
             this.getTallyList(true);
         }
+    },
+    listChange(e) {
+        const item = e.detail.item
+        const index = e.detail.index
+        let list = this.data.list
+        list.splice(index, 1, item)
+        this.setData({
+            list: list
+        })
+    },
+    cancelOptions() {
+        this.selectComponent('#tallyItems').stopOptions()
+    },
+    modifyItem(e) {
+        const item = e.detail
+        console.log(item)
+    },
+    deleteItem(e) {
+        const item = e.detail
+        const db = wx.cloud.database()
+        const coltName = `tally_${this.data.year}_${this.data.month}`
+        db.collection(coltName).doc(item.id).remove({
+            success: res => {
+                this.getTallyList(true)
+            },
+            fail: err => {
+                wx.showToast({
+                    icon: 'none',
+                    title: err.message
+                })
+            }
+        })
     },
     getTallyList(reload = false) {
         if (this.data.hasNext || reload) {
@@ -117,6 +152,7 @@ Page({
                                     count.inCount += item.summary
                                 }
                                 return {
+                                    id: item._id,
                                     select: item.select,
                                     summary: (item.summary / 100).toFixed(2),
                                     remark: item.remark,
@@ -156,12 +192,5 @@ Page({
                 })
             })
         }
-    },
-    showLocation(e) {
-        let location = e.currentTarget.dataset.loc;
-        wx.openLocation({
-            latitude: location.latitude,
-            longitude: location.longitude
-        })
     }
 })
