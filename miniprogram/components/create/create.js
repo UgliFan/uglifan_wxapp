@@ -18,6 +18,7 @@ Component({
         }],
         current: 0,
         categories: [],
+        id: null,
         select: {},
         location: null,
         inputRemark: '',
@@ -103,6 +104,7 @@ Component({
                     let timer = setTimeout(() => {
                         this.setData({
                             shown: newValue,
+                            id: null,
                             select: {},
                             inputShow: false,
                             listViewH: 'auto',
