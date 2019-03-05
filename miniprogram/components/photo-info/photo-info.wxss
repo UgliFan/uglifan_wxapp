@@ -46,30 +46,34 @@
 }
 .section {
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    align-items: flex-start;
-    height: 100rpx;
+    height: 80rpx;
     margin-bottom: 20rpx;
+    white-space: nowrap;
 }
 .sec-title {
-    flex: 1;
+    display: inline-block;
+    vertical-align: top;
     text-align: right;
     padding-right: 30rpx;
     font-weight: 500;
-    font-size: 40rpx;
+    font-size: 34rpx;
+    width: 150rpx;
     height: 80rpx;
     line-height: 80rpx;
 }
 input {
-    flex: 2;
+    display: inline-block;
+    vertical-align: top;
     height: 80rpx;
     line-height: 80rpx;
-    font-size: 40rpx;
+    font-size: 34rpx;
+    width: 480rpx;
 }
 switch {
-    flex: 2;
+    display: inline-block;
+    vertical-align: top;
+    width: 480rpx;
+    margin-top: 10rpx;
 }
 .btn-submit {
     display: block;
@@ -84,7 +88,7 @@ switch {
     box-sizing: border-box;
     background-color: #F2A905;
     color: #222;
-    font-weight: 700;
+    font-weight: 500;
     border-radius: 16rpx;
     border: none;
     letter-spacing: 8rpx;
@@ -98,5 +102,6 @@ label {
     line-height: 80rpx;
     display: block;
     margin-bottom: 40rpx;
-    font-weight: 700;
+    font-weight: 500;
+    font-size: 40rpx;
 }
