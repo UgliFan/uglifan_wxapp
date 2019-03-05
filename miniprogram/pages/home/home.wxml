@@ -1,4 +1,4 @@
-<nav-header></nav-header>
+<nav-header bindnavRefresh="navRefresh" refresh="{{true}}"></nav-header>
 <view class="header" style="top:{{navHeight}}px">
     <picker class="date" mode="multiSelector" value="{{pickerSelect}}" range="{{pickerArray}}" bindchange="pickerChange">
         <view class="date-year">{{year}}年</view>
@@ -15,7 +15,7 @@
 </view>
 <view class="scroll-wrapper {{isX ? 'x' : ''}}">
     <view class="tally-item" wx:for="{{list}}" wx:key="{{item._id}}">
-        <view class="mine-bg" wx:if="{{item.isMine}}">我的</view>
+        <view class="mine-bg" wx:if="{{item.isMine}}">我</view>
         <view class="item-col"><view class="category-icon {{item.select.icon}}"></view></view>
         <view class="item-col info">
             <view class="category-name">{{item.select.name}}</view>

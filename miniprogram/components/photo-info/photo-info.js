@@ -67,9 +67,6 @@ Component({
                     showCancel: false
                 })
             }
-        },
-        cancel() {
-            this.triggerEvent('close');
         }
     }
 })

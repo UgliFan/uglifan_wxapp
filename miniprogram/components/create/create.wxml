@@ -1,6 +1,5 @@
-<view class="create-wrapper {{anime && 'anime'}} {{isX && 'x'}}" style="padding-top:{{statHeight}}px">
+<view class="create-wrapper {{shown && 'shown'}} {{anime && 'anime'}} {{isX && 'x'}}" style="padding-top:{{statHeight}}px">
     <view class="create-header" style="height:{{headerHeight}}px">
-        <view class="btn-close ufi-close" bindtap="close"></view>
         <view class="create-tab" style="height:{{headerHeight}}px">
             <view class="tab-item {{item.value === current && 'cursor'}}" wx:for="{{tabs}}" wx:key="{{index}}" bindtap="selectTab" data-item="{{item}}" style="height:{{headerHeight}}px;line-height:{{headerHeight}}px">{{item.label}}</view>
         </view>

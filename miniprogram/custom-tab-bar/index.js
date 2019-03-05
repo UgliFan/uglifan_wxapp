@@ -8,23 +8,25 @@ Component({
 
     },
     data: {
+        centerClicked: false,
+        centerAvaliable: false,
         current: 0,
         tabBar: [{
-            "pagePath": "/pages/home/home",
-            "icon": "ufi-home",
-            "text": "首页"
+            pagePath: '/pages/home/home',
+            icon: 'ufi-home',
+            text: '首页'
         }, {
-            "pagePath": "/pages/charts/charts",
-            "icon": "ufi-rank",
-            "text": "图表"
+            pagePath: '/pages/charts/charts',
+            icon: 'ufi-rank',
+            text: '图表'
         }, {
-            "pagePath": "/pages/photo/photo",
-            "icon": "ufi-pic",
-            "text": "照片墙"
+            pagePath: '/pages/photo/photo',
+            icon: 'ufi-pic',
+            text: '照片墙'
         }, {
-            "pagePath": "/pages/my/my",
-            "icon": "ufi-my",
-            "text": "我的"
+            pagePath: '/pages/my/my',
+            icon: 'ufi-my',
+            text: '我的'
         }],
         isX: false
     },
@@ -41,9 +43,11 @@ Component({
             wx.switchTab({ url })
         },
         centerClick(e) {
-            const pages = getCurrentPages()
-            const currentPage = pages[pages.length - 1]
-            currentPage.centerClick && currentPage.centerClick(e)
+            if (this.data.centerAvaliable) {
+                const pages = getCurrentPages()
+                const currentPage = pages[pages.length - 1]
+                currentPage.centerClick && currentPage.centerClick(e)
+            }
         },
         centerLongPress(e) {
             const pages = getCurrentPages()

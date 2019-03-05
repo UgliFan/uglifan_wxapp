@@ -33,7 +33,7 @@
     background-color: #fff;
     border-radius: 20rpx 20rpx 0 0;
     box-sizing: border-box;
-    padding: 40rpx;
+    padding: 20rpx 40rpx;
     box-shadow: 0 0 40rpx 0 rgba(0,0,0,.4);
     transition: all .3s ease;
     transform: translateY(100%);
@@ -71,16 +71,31 @@ input {
 switch {
     flex: 2;
 }
-.btn-area {
+.btn-submit {
+    display: block;
+    position: absolute;
+    top: 20rpx;
+    right: 20rpx;
     text-align: center;
-}
-button {
-    display: inline-block;
-    vertical-align: top;
     height: 80rpx;
     line-height: 80rpx;
     font-size: 40rpx;
-    width: 260rpx;
+    width: 200rpx;
     box-sizing: border-box;
-    margin: 0 20rpx;
+    background-color: #F2A905;
+    color: #222;
+    font-weight: 700;
+    border-radius: 16rpx;
+    border: none;
+}
+.btn-submit:after {
+    border-radius: 16rpx;
+    border: none;
+}
+label {
+    height: 80rpx;
+    line-height: 80rpx;
+    display: block;
+    margin-bottom: 40rpx;
+    font-weight: 700;
 }

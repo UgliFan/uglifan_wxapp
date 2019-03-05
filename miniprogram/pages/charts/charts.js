@@ -8,7 +8,8 @@ Page({
     onShow() {
         if (typeof this.getTabBar === 'function' && this.getTabBar()) {
             this.getTabBar().setData({
-                current: 1
+                current: 1,
+                centerAvaliable: false
             })
         }
     },

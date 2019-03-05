@@ -26,7 +26,18 @@ Component({
                 }
             }
         },
-        fnClass: {
+        refresh: {
+            type: Boolean,
+            value: false,
+            observer(n, o, cp) {
+                if (!n) {
+                    let obj = {}
+                    obj[cp[0]] = o
+                    this.setData(obj)
+                }
+            }
+        },
+        customClass: {
             type: String,
             value: '',
             observer(n, o, cp) {
@@ -81,7 +92,10 @@ Component({
         navHome() {
             wx.reLaunch({ url: '/' + __wxConfig.pages[0] })
         },
-        navFn() {
+        navRefresh() {
+            this.triggerEvent('navRefresh')
+        },
+        navCustomFn() {
             this.triggerEvent('navAction')
         }
     }

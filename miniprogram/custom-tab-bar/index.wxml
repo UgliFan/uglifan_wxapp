@@ -3,7 +3,7 @@
         <view class="icon {{item.icon}}"></view>
         <view class="title">{{item.text}}</view>
     </view>
-    <view class="center-btn" bindtap="centerClick" catchlongpress="centerLongPress">
+    <view class="center-btn {{centerAvaliable && 'active'}} {{centerClicked && 'close'}}" bindtap="centerClick" catchlongpress="centerLongPress">
         <view class="icon ufi-add"></view>
     </view>
 </view>

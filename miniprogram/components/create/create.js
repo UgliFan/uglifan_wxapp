@@ -6,6 +6,7 @@ Component({
     },
     data: {
         listViewH: 'auto',
+        shown: false,
         anime: false,
         inputShow: false,
         tabs: [{
@@ -54,26 +55,38 @@ Component({
                         })
                     }
                     this.setData({
-                        anime: newValue
-                    });
-                    this.setViewHeight();
+                        shown: newValue
+                    })
+                    let timer = setTimeout(() => {
+                        this.setData({
+                            anime: newValue
+                        })
+                        this.setViewHeight()
+                        clearTimeout(timer)
+                    }, 20)
                 } else {
                     this.setData({
-                        anime: newValue,
-                        select: {},
-                        inputShow: false,
-                        listViewH: 'auto',
-                        inputRemark: '',
-                        input: {
-                            date: '',
-                            dateShow: '',
-                            action: '',
-                            showEqual: false,
-                            summary: '0',
-                            dotted: false,
-                            fu: false
-                        }
-                    });
+                        anime: newValue
+                    })
+                    let timer = setTimeout(() => {
+                        this.setData({
+                            shown: newValue,
+                            select: {},
+                            inputShow: false,
+                            listViewH: 'auto',
+                            inputRemark: '',
+                            input: {
+                                date: '',
+                                dateShow: '',
+                                action: '',
+                                showEqual: false,
+                                summary: '0',
+                                dotted: false,
+                                fu: false
+                            }
+                        })
+                        clearTimeout(timer)
+                    }, 300)
                 }
             }
         }

@@ -1,9 +1,10 @@
 <view class="navigation-bar" style="{{styleStr}}">
 	<view class="back" style="{{backStr}}">
 		<view class="ufi-scan_light" wx:if="{{!back}}" bindtap="navScan"></view>
-		<view class="ufi-home" wx:if="{{!back}}"  bindtap="navHome"></view>
+		<view class="ufi-home" wx:if="{{!back && !refresh}}"  bindtap="navHome"></view>
+		<view class="ufi-refresh" wx:if="{{refresh}}"  bindtap="navRefresh"></view>
 		<view class="ufi-back" wx:if="{{back}}"  bindtap="navBack"></view>
-		<view class="{{fnClass}}" wx:if="{{fnClass}}"  bindtap="navFn"></view>
+		<view class="{{customClass}}" wx:if="{{customClass}}"  bindtap="navCustomFn"></view>
 	</view>
 	<view class="title">{{title}}</view>
 </view>

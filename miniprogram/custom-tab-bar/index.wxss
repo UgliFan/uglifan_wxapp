@@ -9,6 +9,7 @@
     border-top: 1rpx solid rgba(0,0,0,.2);
     z-index: 300;
     background-color: #fff;
+    box-shadow: none;
 }
 .tab-bar.x {
     height: 160rpx;
@@ -51,6 +52,12 @@
     border-top: 1rpx solid rgba(0,0,0,.2);
     text-align: center;
 }
+.center-btn.active .icon {
+    background-color: #F2A905;
+}
+.center-btn.close .icon {
+    transform: rotate(135deg);
+}
 .center-btn .icon {
     display: inline-block;
     vertical-align: top;
@@ -60,6 +67,7 @@
     line-height: 100rpx;
     font-size: 80rpx;
     color: #fff;
-    background-color: #F2A905;
+    background-color: rgba(0,0,0,.2);
     border-radius: 50%;
+    transition: all .3s ease;
 }

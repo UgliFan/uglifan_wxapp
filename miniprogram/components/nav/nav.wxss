@@ -20,15 +20,16 @@
     background-color: rgba(255,255,255,.6);
     border-radius: 16px;
     color: #222;
-    font-size: 32rpx;
+    font-size: 46rpx;
     font-weight: 700;
     box-sizing: border-box;
     padding: 0 6px;
 }
-.ufi-scan_light, .ufi-home, .ufi-back, .ufi-add, .ufi-check {
+.ufi-scan_light, .ufi-home, .ufi-back, .ufi-add, .ufi-check, .ufi-refresh {
     flex: 1 0 auto;
     width: 32px;
-    speak: none;
+    height: 32px;
+    line-height: 32px;
     font-variant: normal;
     text-rendering: auto;
     text-align: center;

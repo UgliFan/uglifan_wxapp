@@ -32,7 +32,8 @@ Page({
     onShow() {
         if (typeof this.getTabBar === 'function' && this.getTabBar()) {
             this.getTabBar().setData({
-                current: 2
+                current: 2,
+                centerAvaliable: true
             })
         }
     },
@@ -100,6 +101,10 @@ Page({
         this.centerClick(e)
     },
     centerClick(e) {
+        if (this.data.infoShown) {
+            this.closeInfo()
+            return
+        }
         if (app.globalData.hasLocPerm) {
             wx.getLocation({
                 type: 'gcj02',
@@ -117,7 +122,7 @@ Page({
                 wx.showLoading({
                     title: '解析中...',
                 })
-                let fileSize = res.tempFiles[0].size;
+                let fileSize = res.tempFiles[0].size
                 wx.getImageInfo({
                     src: res.tempFilePaths[0],
                     success: image => {
@@ -149,10 +154,14 @@ Page({
                                                 type: 'jpg'
                                             }
                                         })
+                                        this.getTabBar().setData({
+                                            centerClicked: true
+                                        })
                                         wx.hideLoading()
                                     },
                                     fail() {
                                         wx.showToast({
+                                            icon: 'none',
                                             title: '压缩失败'
                                         })
                                         wx.hideLoading()
@@ -176,7 +185,8 @@ Page({
                     },
                     fail() {
                         wx.showToast({
-                            title: '解析失败'
+                            title: '解析失败',
+                            icon: 'none'
                         })
                         wx.hideLoading()
                     }
@@ -206,9 +216,9 @@ Page({
                         params.tag = e.detail.tag;
                     }
                     if (e.detail.location) {
-                        params.location = this.data.location;
+                        params.location = this.data.location
                     }
-                    this.savePhoto(params);
+                    this.savePhoto(params)
                 },
                 fail() {
                     wx.hideLoading()
@@ -220,6 +230,7 @@ Page({
             })
         } else {
             wx.showToast({
+                icon: 'none',
                 title: '没有选择图片，无法上传',
             })
         }
@@ -233,15 +244,15 @@ Page({
             data: params
         }).then(res => {
             wx.showToast({
-                icon: 'none',
+                icon: 'success',
                 title: '上传成功'
             })
-            this.closeInfo();
-            this.onQuery(true);
-            wx.hideLoading();
+            this.closeInfo()
+            this.onQuery(true)
+            wx.hideLoading()
         }, () => {
-            wx.hideLoading();
-        });
+            wx.hideLoading()
+        })
     },
     previewImage(e) {
         wx.showLoading({
@@ -258,35 +269,35 @@ Page({
         })
     },
     showRemove(e) {
-        let item = e.currentTarget.dataset.item;
-        let index = e.currentTarget.dataset.index;
-        let pos = e.currentTarget.dataset.pos;
-        item.showDel = true;
-        let list = pos === 0 ? this.data.listL : this.data.listR;
-        list.splice(index, 1, item);
-        let params = pos === 0 ? { listL: list } : { listR: list };
-        params.delIndex = index;
-        params.delPos = pos === 0 ? 'listL' : 'listR';
-        this.setData(params);
+        let item = e.currentTarget.dataset.item
+        let index = e.currentTarget.dataset.index
+        let pos = e.currentTarget.dataset.pos
+        item.showDel = true
+        let list = pos === 0 ? this.data.listL : this.data.listR
+        list.splice(index, 1, item)
+        let params = pos === 0 ? { listL: list } : { listR: list }
+        params.delIndex = index
+        params.delPos = pos === 0 ? 'listL' : 'listR'
+        this.setData(params)
     },
     closeOptions() {
         if (this.data.delIndex > -1 && this.data.delPos) {
-            let index = this.data.delIndex;
-            let delPos = this.data.delPos;
-            let list = this.data[delPos];
-            let item = list[index];
-            delete item.showDel;
-            list.splice(index, 1, item);
-            let params = {};
-            params[delPos] = list;
-            params.delIndex = -1;
-            params.delPos = '';
-            this.setData(params);
+            let index = this.data.delIndex
+            let delPos = this.data.delPos
+            let list = this.data[delPos]
+            let item = list[index]
+            delete item.showDel
+            list.splice(index, 1, item)
+            let params = {}
+            params[delPos] = list
+            params.delIndex = -1
+            params.delPos = ''
+            this.setData(params)
         }
     },
     doDelete(e) {
-        let item = e.currentTarget.dataset.item;
-        let index = e.currentTarget.dataset.index;
+        let item = e.currentTarget.dataset.item
+        let index = e.currentTarget.dataset.index
         wx.showLoading({
             title: '删除文件中',
         })
@@ -301,37 +312,40 @@ Page({
                     })
                     db.collection('photos').doc(item._id).remove({
                         success: () => {
-                            wx.hideLoading();
+                            wx.hideLoading()
                             wx.showToast({
                                 icon: 'none',
                                 title: '删除成功'
                             })
-                            this.onQuery(true);
+                            this.onQuery(true)
                         }
                     });
                 } else {
-                    console.error(fileRes.errMsg);
-                    wx.hideLoading();
+                    console.error(fileRes.errMsg)
+                    wx.hideLoading()
                 }
             },
             fail: console.error,
             complete: () => {
-                this.closeOptions();
+                this.closeOptions()
             }
         });
     },
     showLocation(e) {
-        let location = e.currentTarget.dataset.loc;
+        let location = e.currentTarget.dataset.loc
         wx.openLocation({
             latitude: location.latitude,
             longitude: location.longitude
         })
     },
     closeInfo() {
+        this.getTabBar().setData({
+            centerClicked: false
+        })
         this.setData({
             canvasSize: 0,
             infoShown: false,
             chooseInfo: null
-        });
+        })
     }
 })

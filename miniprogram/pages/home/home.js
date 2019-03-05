@@ -38,12 +38,20 @@ Page({
     onShow() {
         if (typeof this.getTabBar === 'function' && this.getTabBar()) {
             this.getTabBar().setData({
-                current: 0
+                current: 0,
+                centerAvaliable: true
             })
         }
     },
-    onPullDownRefresh() {
-        this.getTallyList(true, true)
+    onHide() {
+        if (this.data.shown) {
+            this.setData({
+                shown: false
+            })
+        }
+    },
+    navRefresh() {
+        this.getTallyList(true)
     },
     onReachBottom() {
         this.getTallyList()
@@ -58,21 +66,27 @@ Page({
         this.getTallyList(true)
     },
     centerClick() {
+        this.getTabBar().setData({
+            centerClicked: !this.data.shown
+        })
         this.setData({
-            shown: true
-        });
+            shown: !this.data.shown
+        })
     },
     closeCreate(e) {
         this.setData({
             shown: false
         });
+        this.getTabBar().setData({
+            centerClicked: false
+        })
         if (e.detail) {
             this.getTallyList(true);
         }
     },
-    getTallyList(reload = false, isPullDown = false) {
+    getTallyList(reload = false) {
         if (this.data.hasNext || reload) {
-            if (reload && !isPullDown) {
+            if (reload) {
                 wx.pageScrollTo({
                     scrollTop: 0
                 })
@@ -126,19 +140,16 @@ Page({
                             })
                         },
                         complete: () => {
-                            if (isPullDown) wx.stopPullDownRefresh()
                             wx.hideLoading()
                         }
                     })
                 } else {
-                    if (isPullDown) wx.stopPullDownRefresh()
                     wx.hideLoading()
                     wx.showToast({
                         title: result.message
                     })
                 }
             }).catch(err => {
-                if (isPullDown) wx.stopPullDownRefresh()
                 wx.hideLoading()
                 wx.showToast({
                     title: err.message
