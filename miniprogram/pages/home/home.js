@@ -73,9 +73,11 @@ Page({
         this.getTabBar().setData({
             centerClicked: !this.data.shown
         })
-        this.setData({
+        let params = {
             shown: !this.data.shown
-        })
+        }
+        if (!params.shown) params.modify = null
+        this.setData(params)
     },
     closeCreate(e) {
         this.setData({
