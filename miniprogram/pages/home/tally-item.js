@@ -20,11 +20,14 @@ Component({
     },
     methods: {
         showLocation(e) {
-            let location = e.currentTarget.dataset.loc;
-            wx.openLocation({
-                latitude: location.latitude,
-                longitude: location.longitude
-            })
+            const item = e.currentTarget.dataset.item
+            if (!item.options) {
+                let loc = item.location
+                wx.openLocation({
+                    latitude: loc.latitude,
+                    longitude: loc.longitude
+                })
+            }
         },
         longPress(e) {
             const item = e.currentTarget.dataset.item
@@ -50,21 +53,25 @@ Component({
         },
         deleteTally(e) {
             const item = e.currentTarget.dataset.item
-            wx.showModal({
-                title: '危险操作',
-                content: `确认删除【${item.select.name}: ${item.summary}】吗？`,
-                confirmColor: '#F2A905',
-                cancelText: '再想想',
-                success: res => {
-                    if (res.confirm) {
-                        this.triggerEvent('del', item)
+            if (item.isMine) {
+                wx.showModal({
+                    title: '危险操作',
+                    content: `确认删除【${item.select.name}: ${item.summary}】吗？`,
+                    confirmColor: '#F2A905',
+                    cancelText: '再想想',
+                    success: res => {
+                        if (res.confirm) {
+                            this.triggerEvent('del', item)
+                        }
                     }
-                }
-            })
+                })
+            }
         },
         modifyTally(e) {
             const item = e.currentTarget.dataset.item
-            this.triggerEvent('modify', item)
+            if (item.isMine) {
+                this.triggerEvent('modify', item)
+            }
         }
     }
 })

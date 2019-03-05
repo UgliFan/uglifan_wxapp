@@ -1,4 +1,4 @@
-<nav-header title="新增类别" back="{{true}}" fnClass="ufi-check" bindnavAction="saveCategory"></nav-header>
+<nav-header title="新增类别" back="{{true}}" customClass="ufi-check" bindnavAction="saveCategory"></nav-header>
 <view class="header" style="top:{{navHeight}}px">
     <view class="icon-select {{iconSelect}}"></view>
     <input placeholder="请输入类别名称（不超过4个汉字）" maxlength="10" type="text" bindinput="bindKeyInput"></input>

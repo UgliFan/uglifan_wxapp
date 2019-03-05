@@ -10,6 +10,7 @@ Page({
             outCount: '0.00'
         },
         shown: false,
+        modify: null,
         list: [],
         page: 0,
         pageSize: 20,
@@ -78,7 +79,8 @@ Page({
     },
     closeCreate(e) {
         this.setData({
-            shown: false
+            shown: false,
+            modify: null
         });
         this.getTabBar().setData({
             centerClicked: false
@@ -101,7 +103,10 @@ Page({
     },
     modifyItem(e) {
         const item = e.detail
-        console.log(item)
+        this.setData({
+            modify: item
+        })
+        this.centerClick()
     },
     deleteItem(e) {
         const item = e.detail
@@ -157,7 +162,8 @@ Page({
                                     summary: (item.summary / 100).toFixed(2),
                                     remark: item.remark,
                                     location: item.location,
-                                    isMine: item._openid === app.globalData.openId
+                                    isMine: item._openid === app.globalData.openId,
+                                    date: item.date.toISOString()
                                 }
                             })
                             this.setData({

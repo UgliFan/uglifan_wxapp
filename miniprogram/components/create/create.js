@@ -60,9 +60,35 @@ Component({
                             }
                         })
                     }
-                    this.setData({
-                        shown: newValue
-                    })
+                    let modify = this.data.modify
+                    if (modify) {
+                        let select = modify.select
+                        select._id = select.id
+                        delete select.id
+                        let date = modify.date.split('T')[0]
+                        this.setData({
+                            shown: newValue,
+                            id: modify.id,
+                            inputShow: true,
+                            inputRemark: modify.remark || '',
+                            select: select,
+                            current: select.type,
+                            input: {
+                                date: date.replace(/\//g, '-'),
+                                dateShow: date.replace(/-/g, '/'),
+                                action: '',
+                                showEqual: false,
+                                summary: modify.summary,
+                                dotted: false,
+                                fu: false
+                            }
+                        })
+                    } else {
+                        this.setData({
+                            shown: newValue
+                        })
+                    }
+                    this.getCategories()
                     let timer = setTimeout(() => {
                         this.setData({
                             anime: newValue
@@ -107,13 +133,8 @@ Component({
                 headerHeight: nav.height,
                 navHeight: nav.paddingTop + nav.height
             })
-            this.getCategories()
-        },
-        detached() {}
+        }
     },
-    /**
-     * 组件的方法列表
-     */
     methods: {
         setViewHeight() {
             let query = this.createSelectorQuery();
@@ -282,49 +303,95 @@ Component({
                     delete select._openid
                 }
                 let date = new Date(`${this.data.input.dateShow} 00:00:00`)
-                let params = {
-                    type: this.data.current,
-                    select: select,
-                    date: date,
-                    summary: Number(this.data.input.summary) * 100,
-                    remark: form.remark
-                };
-                if (this.data.location) params.location = this.data.location;
-                console.log(params)
-                wx.cloud.callFunction({
-                    name: 'checkTally',
-                    data: { coltName }
-                }).then(res => {
-                    let result = res.result || {};
-                    if (result.code === 0) {
-                        const db = wx.cloud.database()
-                        db.collection(coltName).add({ data: params }).then(info => {
-                            console.log(info)
-                            wx.hideLoading()
-                            wx.showToast({
-                                title: '添加账单成功'
-                            })
-                            this.close();
-
-                        }).catch(err => {
-                            wx.hideLoading()
-                            wx.showToast({
-                                title: err.message
-                            })
-                        })
-                    } else {
+                if (this.data.id) {
+                    this.updateTally(form, coltName, select, date)
+                } else {
+                    this.saveTally(form, coltName, select, date)
+                }
+            }
+        },
+        updateTally(form, coltName, select, date) {
+            let params = {
+                type: this.data.current,
+                select: select,
+                date: date,
+                summary: Number(this.data.input.summary) * 100,
+                remark: form.remark
+            };
+            this.checkCollection(coltName, () => {
+                const db = wx.cloud.database()
+                db.collection(coltName).doc(this.data.id).update({
+                    data: params,
+                    success: res => {
                         wx.hideLoading()
                         wx.showToast({
-                            title: result.message
+                            icon: 'success',
+                            title: '添加账单成功'
+                        })
+                        this.close()
+                    },
+                    fail: err => {
+                        wx.hideLoading()
+                        wx.showToast({
+                            icon: 'none',
+                            title: err.message
                         })
                     }
+                })
+            })
+        },
+        saveTally(form, coltName, select, date) {
+            let params = {
+                type: this.data.current,
+                select: select,
+                date: date,
+                createAt: new Date(),
+                summary: Number(this.data.input.summary) * 100,
+                remark: form.remark
+            };
+            if (this.data.location) params.location = this.data.location;
+            this.checkCollection(coltName, () => {
+                const db = wx.cloud.database()
+                db.collection(coltName).add({ data: params }).then(info => {
+                    console.log(info)
+                    wx.hideLoading()
+                    wx.showToast({
+                        icon: 'success',
+                        title: '添加账单成功'
+                    })
+                    this.close();
+
                 }).catch(err => {
                     wx.hideLoading()
                     wx.showToast({
+                        icon: 'none',
                         title: err.message
                     })
                 })
-            }
+            })
+        },
+        checkCollection(coltName, cback) {
+            wx.cloud.callFunction({
+                name: 'checkTally',
+                data: { coltName }
+            }).then(res => {
+                let result = res.result || {};
+                if (result.code === 0) {
+                    cback && cback();
+                } else {
+                    wx.hideLoading()
+                    wx.showToast({
+                        icon: 'none',
+                        title: result.message
+                    })
+                }
+            }).catch(err => {
+                wx.hideLoading()
+                wx.showToast({
+                    icon: 'none',
+                    title: err.message
+                })
+            })
         }
     }
 })

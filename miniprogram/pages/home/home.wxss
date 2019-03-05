@@ -70,9 +70,10 @@ page {
 .scroll-wrapper {
     position: relative;
     z-index: 1;
-    width: 100%;
+    width: 750rpx;
     padding-top: 120rpx;
     padding-bottom: 30rpx;
+    overflow: hidden;
 }
 .scroll-wrapper.x {
     padding-bottom: 80rpx;

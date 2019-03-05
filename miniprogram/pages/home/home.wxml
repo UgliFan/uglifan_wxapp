@@ -16,4 +16,4 @@
 <view class="scroll-wrapper {{isX && 'x'}}" bindtouchstart="cancelOptions">
     <tally-item id="tallyItems" list="{{list}}" bindchange="listChange" bindmodify="modifyItem" binddel="deleteItem"></tally-item>
 </view>
-<create-record show="{{shown}}" bindclose="closeCreate"></create-record>
+<create-record show="{{shown}}" data="{{modify}}" bindclose="closeCreate"></create-record>

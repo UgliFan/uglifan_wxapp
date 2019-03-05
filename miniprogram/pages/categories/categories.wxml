@@ -1,4 +1,4 @@
-<nav-header title="类别管理" back="{{true}}" bindnavAction="addCategory" fnClass="ufi-add"></nav-header>
+<nav-header title="类别管理" back="{{true}}" bindnavAction="addCategory" customClass="ufi-add"></nav-header>
 <view class="type-tab" style="top:{{navHeight}}px">
     <view class="type-item {{index === current ? 'active' : ''}}" wx:for="{{categoryTypes}}" wx:key="{{index}}" bindtap="tabSelect" data-index="{{index}}">{{item.label}}</view>
 </view>
