@@ -64,8 +64,10 @@ Component({
                     let modify = this.data.modify
                     if (modify) {
                         let select = modify.select
-                        select._id = select.id
-                        delete select.id
+                        if (select._id) {
+                            select.id = select._id
+                            delete select._id
+                        }
                         let date = modify.date.split('T')[0]
                         this.setData({
                             shown: newValue,
@@ -151,20 +153,29 @@ Component({
             })
         },
         getCategories() {
-            const db = wx.cloud.database()
-            // 查询所有类别
-            db.collection('categories').where({
-                type: this.data.tabs[this.data.current].value
-            }).get({
-                success: res => {
-                    this.setData({
-                        categories: res.data
-                    })
+            wx.request({
+                url: 'https://www.uglifan.cn/api/category/list',
+                data: {
+                    type: this.data.tabs[this.data.current].value
                 },
-                fail: err => {
+                method: 'GET',
+                success: response => {
+                    let res = response.statusCode === 200 && response.data ? response.data : {};
+                    if (res.code === 0) {
+                        this.setData({
+                            categories: res.result || []
+                        })
+                    } else {
+                        wx.showToast({
+                            icon: 'none',
+                            title: '分类获取失败'
+                        })
+                    }
+                },
+                fail: () => {
                     wx.showToast({
                         icon: 'none',
-                        title: '分类获取失败'
+                        title: '分类获取失败.'
                     })
                 }
             })
@@ -298,8 +309,6 @@ Component({
                 let ym = this.data.input.date.substr(0, 7).replace('-', '_');
                 let coltName = `tally_${ym}`;
                 let select = this.data.select || {}
-                select.id = select._id
-                delete select._id
                 if (select._openid) {
                     select.openId = select._openid
                     delete select._openid

@@ -38,14 +38,30 @@ Page({
                 type: this.data.type,
                 remark: ''
             };
-            const db = wx.cloud.database();
-            db.collection('categories').add({
-                data: params
-            }).then(res => {
-                wx.navigateBack({
-                    delta: 1
-                });
-            });
+            wx.request({
+                url: 'https://uglifan.cn/api/category/create',
+                data: params,
+                method: 'POST',
+                success: response => {
+                    let res = response.statusCode === 200 && response.data ? response.data : {};
+                    if (res.code === 0) {
+                        wx.navigateBack({
+                            delta: 1
+                        });
+                    } else {
+                        wx.showToast({
+                            icon: 'none',
+                            title: res.message || '未知错误'
+                        })
+                    }
+                },
+                fail: err => {
+                    wx.showToast({
+                        icon: 'none',
+                        title: err.message || '未知错误'
+                    })
+                }
+            })
         } else {
             wx.showToast({
                 icon: 'none',

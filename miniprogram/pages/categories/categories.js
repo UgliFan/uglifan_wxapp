@@ -22,20 +22,29 @@ Page({
         this.onQuery();
     },
     onQuery() {
-        const db = wx.cloud.database()
-        // 查询所有类别
-        db.collection('categories').where({
-            type: this.data.categoryTypes[this.data.current].value
-        }).get({
-            success: res => {
-                this.setData({
-                    categories: res.data
-                })
+        wx.request({
+            url: 'https://www.uglifan.cn/api/category/list',
+            data: {
+                type: this.data.categoryTypes[this.data.current].value
+            },
+            method: 'GET',
+            success: response => {
+                let res = response.statusCode === 200 && response.data ? response.data : {};
+                if (res.code === 0) {
+                    this.setData({
+                        categories: res.result || []
+                    })
+                } else {
+                    wx.showToast({
+                        icon: 'none',
+                        title: res.message || '未知错误'
+                    })
+                }
             },
             fail: err => {
                 wx.showToast({
                     icon: 'none',
-                    title: '查询记录失败'
+                    title: err.message || '未知错误'
                 })
             }
         })
@@ -76,10 +85,32 @@ Page({
             content: `确认删除【${item.name}】吗？`,
             success: sm => {
                 if (sm.confirm) {
-                    const db = wx.cloud.database();
-                    db.collection('categories').doc(item._id).remove({
-                        success: res => {
-                            this.onQuery();
+                    wx.request({
+                        url: 'https://www.uglifan.cn/api/category/delete',
+                        data: {
+                            id: item.id
+                        },
+                        method: 'POST',
+                        success: response => {
+                            let res = response.statusCode === 200 && response.data ? response.data : {};
+                            if (res.code === 0) {
+                                this.onQuery();
+                                wx.showToast({
+                                    icon: 'success',
+                                    title: '删除成功'
+                                })
+                            } else {
+                                wx.showToast({
+                                    icon: 'none',
+                                    title: res.message
+                                })
+                            }
+                        },
+                        fail: err => {
+                            wx.showToast({
+                                icon: 'none',
+                                title: err.message
+                            })
                         }
                     })
                 }

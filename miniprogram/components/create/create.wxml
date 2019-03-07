@@ -7,7 +7,7 @@
     <view class="category-list-large" style="top:{{navHeight}}px"></view>
     <view class="category-list-small" style="top:{{navHeight}}px"></view>
     <scroll-view class="category-list" style="height:{{listViewH}}" scroll-y>
-        <view class="category-item {{select._id === item._id ? 'cursor' : ''}}" wx:for="{{categories}}" wx:key="{{item._id}}" bindtap="selectCategory" data-item="{{item}}">
+        <view class="category-item {{select.id === item.id ? 'cursor' : ''}}" wx:for="{{categories}}" wx:key="{{item.id}}" bindtap="selectCategory" data-item="{{item}}">
             <view class="category-icon {{item.icon}}"></view>
             <view class="category-name">{{item.name}}</view>
         </view>

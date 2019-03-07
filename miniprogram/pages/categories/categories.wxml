@@ -3,7 +3,7 @@
     <view class="type-item {{index === current ? 'active' : ''}}" wx:for="{{categoryTypes}}" wx:key="{{index}}" bindtap="tabSelect" data-index="{{index}}">{{item.label}}</view>
 </view>
 <view class="category-list">
-    <view class="category-item {{item.showDel ? 'del' : ''}}" wx:for="{{categories}}" wx:key="{{item._id}}" bindtap="clickRow" data-item="{{item}}" data-index="{{index}}">
+    <view class="category-item {{item.showDel ? 'del' : ''}}" wx:for="{{categories}}" wx:key="{{item.id}}" bindtap="clickRow" data-item="{{item}}" data-index="{{index}}">
         <view class="category-item-del ufi-move" bindtap="beforeDel" data-item="{{item}}" data-index="{{index}}"></view>
         <view class="category-item-icon {{item.icon}}"></view>
         <text>{{item.name}}</text>
