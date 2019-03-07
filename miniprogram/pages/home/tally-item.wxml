@@ -1,13 +1,13 @@
-<view class="tally-item {{item.options && 'options'}}" wx:for="{{list}}" wx:key="{{item._id}}" catchlongpress="longPress" data-item="{{item}}" data-index="{{index}}">
+<view class="tally-item {{item.options && 'options'}}" wx:for="{{list}}" wx:key="{{item.id}}" catchlongpress="longPress" data-item="{{item}}" data-index="{{index}}">
     <view class="mine-bg" wx:if="{{item.isMine}}">我</view>
-    <view class="item-col"><view class="category-icon {{item.select.icon}}"></view></view>
+    <view class="item-col"><view class="category-icon {{item.cIcon}}"></view></view>
     <view class="item-col info">
-        <view class="category-name">{{item.select.name}}</view>
+        <view class="category-name">{{item.cName}}</view>
         <view class="remark {{!item.remark && 'empty'}}">{{item.remark || '啥也没说'}}</view>
     </view>
     <view wx:if="{{item.location}}" class="item-col ufi-locationfill" catchtap="showLocation" data-item="{{item}}"></view>
     <view wx:else class="item-col"></view>
-    <view class="item-col summary {{item.select.type === 0 && 'out'}}">{{item.summary}}</view>
+    <view class="item-col summary {{item.cType === 0 && 'out'}}">{{item.summary}}</view>
     <view class="options-wrapper" wx:if="{{item.isMine}}">
         <view class="option-item" bindtap="modifyTally" data-item="{{item}}">修改</view>
         <view class="option-item del" bindtap="deleteTally" data-item="{{item}}">删除</view>

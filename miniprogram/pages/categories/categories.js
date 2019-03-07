@@ -23,7 +23,7 @@ Page({
     },
     onQuery() {
         wx.request({
-            url: 'https://www.uglifan.cn/api/category/list',
+            url: 'https://uglifan.cn/api/category/list',
             data: {
                 type: this.data.categoryTypes[this.data.current].value
             },
@@ -86,9 +86,12 @@ Page({
             success: sm => {
                 if (sm.confirm) {
                     wx.request({
-                        url: 'https://www.uglifan.cn/api/category/delete',
+                        url: 'https://uglifan.cn/api/category/delete',
                         data: {
                             id: item.id
+                        },
+                        header: {
+                            'content-type': 'application/x-www-form-urlencoded'
                         },
                         method: 'POST',
                         success: response => {

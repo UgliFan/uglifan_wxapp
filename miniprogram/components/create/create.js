@@ -19,7 +19,7 @@ Component({
         current: 0,
         categories: [],
         id: null,
-        select: {},
+        select: null,
         location: null,
         inputRemark: '',
         input: {
@@ -63,19 +63,14 @@ Component({
                     }
                     let modify = this.data.modify
                     if (modify) {
-                        let select = modify.select
-                        if (select._id) {
-                            select.id = select._id
-                            delete select._id
-                        }
-                        let date = modify.date.split('T')[0]
+                        let date = modify.date.split(' ')[0]
                         this.setData({
                             shown: newValue,
                             id: modify.id,
                             inputShow: true,
                             inputRemark: modify.remark || '',
-                            select: select,
-                            current: select.type,
+                            select: modify.cid,
+                            current: modify.type,
                             input: {
                                 date: date.replace(/\//g, '-'),
                                 dateShow: date.replace(/-/g, '/'),
@@ -107,7 +102,8 @@ Component({
                         this.setData({
                             shown: newValue,
                             id: null,
-                            select: {},
+                            current: 0,
+                            select: null,
                             inputShow: false,
                             listViewH: 'auto',
                             inputRemark: '',
@@ -199,7 +195,7 @@ Component({
                     dotted: false,
                     fu: false
                 },
-                select: {}
+                select: null
             });
             this.setViewHeight();
             this.getCategories();
@@ -207,11 +203,16 @@ Component({
         selectCategory(e) {
             let item = e.currentTarget.dataset.item;
             let input = this.data.input;
-            let date = new Date()
-            input.dateShow = date.toISOString().substr(0, 10).replace(/-/g, '/')
-            input.date = input.dateShow.replace(/\//g, '-')
+            let date = new Date();
+            let year = date.getFullYear();
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+            if (month < 10) month = `0${month}`;
+            if (day < 10) day = `0${day}`;
+            input.dateShow = `${year}/${month}/${day}`;
+            input.date = `${year}-${month}-${day}`;
             this.setData({
-                select: item,
+                select: item.id,
                 inputShow: true,
                 input: input
             });
@@ -308,101 +309,99 @@ Component({
                 let form = e.detail.value;
                 let ym = this.data.input.date.substr(0, 7).replace('-', '_');
                 let coltName = `tally_${ym}`;
-                let select = this.data.select || {}
-                if (select._openid) {
-                    select.openId = select._openid
-                    delete select._openid
-                }
-                let date = new Date(`${this.data.input.dateShow} 00:00:00`)
+                let date = `${this.data.input.dateShow} 00:00:00`
                 if (this.data.id) {
-                    this.updateTally(form, coltName, select, date)
+                    this.updateTally(form, date)
                 } else {
-                    this.saveTally(form, coltName, select, date)
+                    this.saveTally(form, date)
                 }
             }
         },
-        updateTally(form, coltName, select, date) {
+        updateTally(form, date) {
             let params = {
-                type: this.data.current,
-                select: select,
+                id: this.data.id,
+                cid: this.data.select,
                 date: date,
-                summary: Number(this.data.input.summary) * 100,
+                summary: this.data.input.summary,
                 remark: form.remark
             };
-            this.checkCollection(coltName, () => {
-                const db = wx.cloud.database()
-                db.collection(coltName).doc(this.data.id).update({
-                    data: params,
-                    success: res => {
-                        wx.hideLoading()
+            wx.request({
+                url: 'https://uglifan.cn/api/tally/modify',
+                data: params,
+                header: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                },
+                method: 'POST',
+                success: response => {
+                    let res = response.statusCode === 200 && response.data ? response.data : {};
+                    if (res.code === 0) {
+                        wx.showToast({
+                            icon: 'success',
+                            title: '修改账单成功'
+                        })
+                        this.close();
+                    } else {
+                        wx.showToast({
+                            icon: 'none',
+                            title: res.message || '未知错误'
+                        })
+                    }
+                },
+                fail: err => {
+                    wx.showToast({
+                        icon: 'none',
+                        title: err.message || '未知错误.'
+                    })
+                },
+                complete: () => {
+                    wx.hideLoading()
+                }
+            });
+        },
+        saveTally(form, date) {
+            let params = {
+                open_id: app.globalData.openId,
+                cid: this.data.select,
+                date: date,
+                summary: this.data.input.summary,
+                remark: form.remark
+            };
+            if (this.data.location) {
+                params.latitude = this.data.location.latitude || '';
+                params.longitude = this.data.location.longitude || '';
+            }
+            wx.request({
+                url: 'https://uglifan.cn/api/tally/create',
+                data: params,
+                header: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                },
+                method: 'POST',
+                success: response => {
+                    let res = response.statusCode === 200 && response.data ? response.data : {};
+                    if (res.code === 0) {
                         wx.showToast({
                             icon: 'success',
                             title: '添加账单成功'
                         })
-                        this.close()
-                    },
-                    fail: err => {
-                        wx.hideLoading()
+                        this.close();
+                    } else {
                         wx.showToast({
                             icon: 'none',
-                            title: err.message
+                            title: res.message || '未知错误'
                         })
                     }
-                })
-            })
-        },
-        saveTally(form, coltName, select, date) {
-            let params = {
-                type: this.data.current,
-                select: select,
-                date: date,
-                createAt: new Date(),
-                summary: Number(this.data.input.summary) * 100,
-                remark: form.remark
-            };
-            if (this.data.location) params.location = this.data.location;
-            this.checkCollection(coltName, () => {
-                const db = wx.cloud.database()
-                db.collection(coltName).add({ data: params }).then(info => {
-                    console.log(info)
-                    wx.hideLoading()
-                    wx.showToast({
-                        icon: 'success',
-                        title: '添加账单成功'
-                    })
-                    this.close();
-
-                }).catch(err => {
-                    wx.hideLoading()
+                },
+                fail: err => {
                     wx.showToast({
                         icon: 'none',
-                        title: err.message
+                        title: err.message || '未知错误.'
                     })
-                })
-            })
-        },
-        checkCollection(coltName, cback) {
-            wx.cloud.callFunction({
-                name: 'checkTally',
-                data: { coltName }
-            }).then(res => {
-                let result = res.result || {};
-                if (result.code === 0) {
-                    cback && cback();
-                } else {
+                },
+                complete: () => {
                     wx.hideLoading()
-                    wx.showToast({
-                        icon: 'none',
-                        title: result.message
-                    })
                 }
-            }).catch(err => {
-                wx.hideLoading()
-                wx.showToast({
-                    icon: 'none',
-                    title: err.message
-                })
-            })
+            });
         }
     }
 })

@@ -24,8 +24,8 @@ Component({
             if (!item.options) {
                 let loc = item.location
                 wx.openLocation({
-                    latitude: loc.latitude,
-                    longitude: loc.longitude
+                    latitude: Number(loc.latitude),
+                    longitude: Number(loc.longitude)
                 })
             }
         },
@@ -56,7 +56,7 @@ Component({
             if (item.isMine) {
                 wx.showModal({
                     title: '危险操作',
-                    content: `确认删除【${item.select.name}: ${item.summary}】吗？`,
+                    content: `确认删除【${item.cName}: ${item.summary}】吗？`,
                     confirmColor: '#F2A905',
                     cancelText: '再想想',
                     success: res => {

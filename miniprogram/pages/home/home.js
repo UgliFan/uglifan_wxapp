@@ -108,21 +108,53 @@ Page({
         this.setData({
             modify: item
         })
+        wx.showToast({
+            icon: 'none',
+            title: '编辑功能维护中，暂时无法正常使用'
+        })
         this.centerClick()
     },
     deleteItem(e) {
         const item = e.detail
-        const db = wx.cloud.database()
-        const coltName = `tally_${this.data.year}_${this.data.month}`
-        db.collection(coltName).doc(item.id).remove({
-            success: res => {
-                this.getTallyList(true)
+        console.log(item)
+        wx.showLoading({
+            title: '删除中'
+        })
+        wx.request({
+            url: 'https://uglifan.cn/api/tally/delete',
+            data: {
+                id: item.id,
+                y: this.data.year,
+                m: this.data.month
+            },
+            header: {
+                'content-type': 'application/x-www-form-urlencoded',
+                cookie: `__source_op=${app.globalData.openId || ''}`
+            },
+            method: 'POST',
+            success: response => {
+                let res = response.statusCode === 200 && response.data ? response.data : {};
+                if (res.code === 0) {
+                    wx.showToast({
+                        icon: 'success',
+                        title: '删除成功'
+                    })
+                    this.getTallyList(true);
+                } else {
+                    wx.showToast({
+                        icon: 'none',
+                        title: res.message || '未知错误'
+                    })
+                }
             },
             fail: err => {
                 wx.showToast({
                     icon: 'none',
-                    title: err.message
+                    title: err.message || '未知错误.'
                 })
+            },
+            complete: () => {
+                wx.hideLoading()
             }
         })
     },
@@ -136,68 +168,70 @@ Page({
             wx.showLoading({
                 title: '加载中'
             })
-            const coltName = `tally_${this.data.year}_${this.data.month}`
-            wx.cloud.callFunction({
-                name: 'checkTally',
-                data: { coltName }
-            }).then(res => {
-                let result = res.result || {};
-                if (result.code === 0) {
-                    const db = wx.cloud.database()
-                    let skip = reload ? 0 : this.data.page * this.data.pageSize;
-                    db.collection(coltName).orderBy('date', 'desc').skip(skip).limit(this.data.pageSize).get({
-                        success: res => {
-                            let list = res.data || [];
-                            let count = {
-                                inCount: reload ? 0 : Number(this.data.count.inCount) * 100,
-                                outCount: reload ? 0 : Number(this.data.count.outCount) * 100
-                            };
-                            let result = list.map(item => {
-                                if (item.select.type === 0) {
-                                    count.outCount += item.summary
-                                } else {
-                                    count.inCount += item.summary
-                                }
-                                return {
-                                    id: item._id,
-                                    select: item.select,
-                                    summary: (item.summary / 100).toFixed(2),
-                                    remark: item.remark,
-                                    location: item.location,
-                                    isMine: item._openid === app.globalData.openId,
-                                    date: item.date.toISOString()
-                                }
-                            })
-                            this.setData({
-                                list: reload ? result : this.data.list.concat(result),
-                                page: reload ? 1 : (res.data.length < this.data.pageSize ? this.data.page : this.data.page + 1),
-                                hasNext: res.data.length === this.data.pageSize,
-                                count: {
-                                    inCount: (count.inCount / 100).toFixed(2),
-                                    outCount: (count.outCount / 100).toFixed(2)
-                                }
-                            });
-                        },
-                        fail: err => {
-                            wx.showToast({
-                                title: err.message
-                            })
-                        },
-                        complete: () => {
-                            wx.hideLoading()
-                        }
-                    })
-                } else {
-                    wx.hideLoading()
+            wx.request({
+                url: 'https://uglifan.cn/api/tally/page',
+                data: {
+                    p: reload ? 0 : this.data.page,
+                    ps: this.data.pageSize,
+                    y: this.data.year,
+                    m: this.data.month
+                },
+                method: 'GET',
+                success: response => {
+                    let res = response.statusCode === 200 && response.data ? response.data : {};
+                    if (res.code === 0) {
+                        let list = res.result || [];
+                        let count = {
+                            inCount: reload ? 0 : Number(this.data.count.inCount) * 100,
+                            outCount: reload ? 0 : Number(this.data.count.outCount) * 100
+                        };
+                        let result = list.map(item => {
+                            if (item.type === 0) {
+                                count.outCount += item.summary
+                            } else {
+                                count.inCount += item.summary
+                            }
+                            return {
+                                id: item.id,
+                                cid: item.cid,
+                                cName: item.name,
+                                cIcon: item.icon,
+                                cType: item.type,
+                                summary: (item.summary / 100).toFixed(2),
+                                remark: item.remark,
+                                location: item.latitude && item.longitude ? {
+                                    latitude: item.latitude,
+                                    longitude: item.longitude
+                                } : null,
+                                isMine: item.open_id === app.globalData.openId,
+                                date: item.date
+                            }
+                        })
+                        this.setData({
+                            list: reload ? result : this.data.list.concat(result),
+                            page: reload ? 1 : (list.length < this.data.pageSize ? this.data.page : this.data.page + 1),
+                            hasNext: list.length === this.data.pageSize,
+                            count: {
+                                inCount: (count.inCount / 100).toFixed(2),
+                                outCount: (count.outCount / 100).toFixed(2)
+                            }
+                        });
+                    } else {
+                        wx.showToast({
+                            icon: 'none',
+                            title: res.message || '未知错误'
+                        })
+                    }
+                },
+                fail: err => {
                     wx.showToast({
-                        title: result.message
+                        icon: 'none',
+                        title: err.message || '未知错误.'
                     })
+                },
+                complete: () => {
+                    wx.hideLoading()
                 }
-            }).catch(err => {
-                wx.hideLoading()
-                wx.showToast({
-                    title: err.message
-                })
             })
         }
     }

@@ -78,6 +78,13 @@ page {
 .scroll-wrapper.x {
     padding-bottom: 80rpx;
 }
+.scroll-wrapper .no-more {
+    height: 100rpx;
+    line-height: 100rpx;
+    text-align: center;
+    color: rgba(0,0,0,.2);
+    font-size: 30rpx;
+}
 .btn-create {
     width: 80rpx;
     height: 80rpx;

@@ -41,6 +41,9 @@ Page({
             wx.request({
                 url: 'https://uglifan.cn/api/category/create',
                 data: params,
+                header: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                },
                 method: 'POST',
                 success: response => {
                     let res = response.statusCode === 200 && response.data ? response.data : {};
@@ -58,7 +61,7 @@ Page({
                 fail: err => {
                     wx.showToast({
                         icon: 'none',
-                        title: err.message || '未知错误'
+                        title: err.message || '未知错误.'
                     })
                 }
             })
