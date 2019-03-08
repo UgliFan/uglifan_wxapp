@@ -108,10 +108,6 @@ Page({
         this.setData({
             modify: item
         })
-        wx.showToast({
-            icon: 'none',
-            title: '编辑功能维护中，暂时无法正常使用'
-        })
         this.centerClick()
     },
     deleteItem(e) {
@@ -181,16 +177,8 @@ Page({
                     let res = response.statusCode === 200 && response.data ? response.data : {};
                     if (res.code === 0) {
                         let list = res.result || [];
-                        let count = {
-                            inCount: reload ? 0 : Number(this.data.count.inCount) * 100,
-                            outCount: reload ? 0 : Number(this.data.count.outCount) * 100
-                        };
+                        let count = res.sum || { inCount: 0, outCount: 0 };
                         let result = list.map(item => {
-                            if (item.type === 0) {
-                                count.outCount += item.summary
-                            } else {
-                                count.inCount += item.summary
-                            }
                             return {
                                 id: item.id,
                                 cid: item.cid,

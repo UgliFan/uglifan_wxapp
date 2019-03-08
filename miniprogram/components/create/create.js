@@ -70,7 +70,7 @@ Component({
                             inputShow: true,
                             inputRemark: modify.remark || '',
                             select: modify.cid,
-                            current: modify.type,
+                            current: modify.cType,
                             input: {
                                 date: date.replace(/\//g, '-'),
                                 dateShow: date.replace(/-/g, '/'),
@@ -329,17 +329,18 @@ Component({
                 url: 'https://uglifan.cn/api/tally/modify',
                 data: params,
                 header: {
-                    'content-type': 'application/x-www-form-urlencoded'
+                    'content-type': 'application/x-www-form-urlencoded',
+                    cookie: `__source_op=${app.globalData.openId || ''}`
                 },
                 method: 'POST',
                 success: response => {
                     let res = response.statusCode === 200 && response.data ? response.data : {};
                     if (res.code === 0) {
+                        this.close()
                         wx.showToast({
                             icon: 'success',
                             title: '修改账单成功'
                         })
-                        this.close();
                     } else {
                         wx.showToast({
                             icon: 'none',
