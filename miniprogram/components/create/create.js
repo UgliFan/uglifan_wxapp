@@ -70,7 +70,7 @@ Component({
                             inputShow: true,
                             inputRemark: modify.remark || '',
                             select: modify.cid,
-                            current: modify.cType,
+                            current: modify.type,
                             input: {
                                 date: date.replace(/\//g, '-'),
                                 dateShow: date.replace(/-/g, '/'),

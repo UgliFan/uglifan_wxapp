@@ -12,6 +12,7 @@ Page({
         shown: false,
         modify: null,
         list: [],
+        groupList: [],
         page: 0,
         pageSize: 20,
         hasNext: true,
@@ -174,34 +175,60 @@ Page({
                 success: response => {
                     let res = response.statusCode === 200 && response.data ? response.data : {};
                     if (res.code === 0) {
-                        let list = res.result || [];
-                        let count = res.sum || { inCount: 0, outCount: 0 };
+                        let list = res.result || []
+                        let count = res.sum || { inCount: 0, outCount: 0 }
+                        let group = res.group || {}
+                        let groupList = []
+                        for (let key in group) {
+                            if (key && group.hasOwnProperty(key)) {
+                                let value = group[key].list || []
+                                let gList = value.map(item => {
+                                    if (item.latitude && item.longitude) {
+                                        item.location = {
+                                            latitude: item.latitude,
+                                            longitude: item.longitude
+                                        }
+                                        delete item.latitude
+                                        delete item.longitude
+                                    }
+                                    item.summary = (item.summary / 100).toFixed(2)
+                                    item.isMine = item.open_id === app.globalData.openId
+                                    delete item.open_id
+                                    delete item.date_format
+                                    return item
+                                });
+                                groupList.push({
+                                    title: key,
+                                    list: gList,
+                                    order: group[key].order
+                                })
+                            }
+                        }
                         let result = list.map(item => {
-                            return {
-                                id: item.id,
-                                cid: item.cid,
-                                cName: item.name,
-                                cIcon: item.icon,
-                                cType: item.type,
-                                summary: (item.summary / 100).toFixed(2),
-                                remark: item.remark,
-                                location: item.latitude && item.longitude ? {
+                            if (item.latitude && item.longitude) {
+                                item.location = {
                                     latitude: item.latitude,
                                     longitude: item.longitude
-                                } : null,
-                                isMine: item.open_id === app.globalData.openId,
-                                date: item.date
+                                }
+                                delete item.latitude
+                                delete item.longitude
                             }
-                        })
+                            item.summary = (item.summary / 100).toFixed(2)
+                            item.isMine = item.open_id === app.globalData.openId
+                            delete item.open_id
+                            delete item.date_format
+                            return item
+                        });
                         this.setData({
                             list: reload ? result : this.data.list.concat(result),
+                            groupList: groupList,
                             page: reload ? 1 : (list.length < this.data.pageSize ? this.data.page : this.data.page + 1),
                             hasNext: list.length === this.data.pageSize,
                             count: {
                                 inCount: (count.inCount / 100).toFixed(2),
                                 outCount: (count.outCount / 100).toFixed(2)
                             }
-                        });
+                        })
                     } else {
                         wx.showToast({
                             icon: 'none',
