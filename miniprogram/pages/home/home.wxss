@@ -68,17 +68,21 @@ page {
     font-size: 44rpx;
 }
 .scroll-wrapper {
-    position: relative;
+    position: absolute;
+    left: 0;
+    right: 0;
     z-index: 1;
     width: 750rpx;
     padding-top: 120rpx;
-    padding-bottom: 30rpx;
+    padding-bottom: 111rpx;
     overflow: hidden;
+    box-sizing: border-box;
 }
 .scroll-wrapper.x {
-    padding-bottom: 80rpx;
+    padding-bottom: 161rpx;
 }
 .scroll-wrapper .no-more {
+    position: relative;
     height: 100rpx;
     line-height: 100rpx;
     text-align: center;

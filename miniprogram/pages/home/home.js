@@ -16,23 +16,28 @@ Page({
         pageSize: 20,
         hasNext: true,
         isX: false,
-        navHeight: 64
+        navHeight: 64,
+        styleStr: '',
+        scrollTop: 0
     },
     onLoad(option) {
-        let date = new Date();
-        let year = date.getFullYear().toString();
-        let month = date.getMonth() + 1;
-        if (month < 10) month = `0${month}`;
-        else month = month.toString();
-        let select = [this.data.pickerArray[0].indexOf(year), this.data.pickerArray[1].indexOf(month)];
-        const sysInfo = app.globalData.sysInfo;
-        const nav = app.globalData.nav;
+        let date = new Date()
+        let year = date.getFullYear().toString()
+        let month = date.getMonth() + 1
+        if (month < 10) month = `0${month}`
+        else month = month.toString()
+        let select = [this.data.pickerArray[0].indexOf(year), this.data.pickerArray[1].indexOf(month)]
+        const sysInfo = app.globalData.sysInfo
+        console.log(sysInfo)
+        const nav = app.globalData.nav
+        const navHeight = nav.paddingTop + nav.height
         this.setData({
             pickerSelect: select,
             year: this.data.pickerArray[0][select[0]],
             month: this.data.pickerArray[1][select[1]],
             isX: sysInfo.isX,
-            navHeight: nav.paddingTop + nav.height
+            navHeight: navHeight,
+            styleStr: `height:${sysInfo.screenHeight - navHeight}px;top:${navHeight}px`
         })
         this.getTallyList(true)
     },
@@ -44,17 +49,10 @@ Page({
             })
         }
     },
-    onHide() {
-        if (this.data.shown) {
-            this.setData({
-                shown: false
-            })
-        }
-    },
     navRefresh() {
         this.getTallyList(true)
     },
-    onReachBottom() {
+    scrollReachBottom() {
         this.getTallyList()
     },
     onTabItemTap() {
@@ -157,7 +155,7 @@ Page({
     getTallyList(reload = false) {
         if (this.data.hasNext || reload) {
             if (reload) {
-                wx.pageScrollTo({
+                this.setData({
                     scrollTop: 0
                 })
             }
