@@ -1,15 +1,18 @@
-<view class="tally-item {{item.options && 'options'}}" wx:for="{{list}}" wx:key="{{item.id}}" catchlongpress="longPress" data-item="{{item}}" data-index="{{index}}">
-    <view class="mine-bg" wx:if="{{item.isMine}}">我</view>
-    <view class="item-col"><view class="category-icon {{item.icon}}"></view></view>
-    <view class="item-col info">
-        <view class="category-name">{{item.name}}</view>
-        <view class="remark {{!item.remark && 'empty'}}">{{item.remark || '啥也没说'}}</view>
-    </view>
-    <view wx:if="{{item.location}}" class="item-col ufi-locationfill" catchtap="showLocation" data-item="{{item}}"></view>
-    <view wx:else class="item-col"></view>
-    <view class="item-col summary {{item.type === 0 && 'out'}}">{{item.summary}}</view>
-    <view class="options-wrapper" wx:if="{{item.isMine}}">
-        <view class="option-item" bindtap="modifyTally" data-item="{{item}}">修改</view>
-        <view class="option-item del" bindtap="deleteTally" data-item="{{item}}">删除</view>
+<view class="tally-group" wx:for="{{list}}" wx:for-item="group" wx:key="{{gIndex}}" wx:for-index="gIndex">
+    <view class="group-title">{{group.title}}</view>
+    <view class="group-list">
+        <view class="tally-item {{item.options && 'options'}}" wx:for="{{group.list}}" wx:key="{{item.id}}" catchlongpress="longPress" data-item="{{item}}" data-index="{{gIndex + '-' + index}}">
+            <view class="item-col icon"><view class="category-icon {{item.icon}}"></view></view>
+            <view class="item-col info">
+                <view class="category-name">{{item.name}}</view>
+                <view class="remark {{!item.remark && 'empty'}}">{{item.remark || '啥也没说'}}</view>
+            </view>
+            <view class="item-col {{item.isMine && 'ufi-my'}}"></view>
+            <view class="item-col summary {{item.type === 0 && 'out'}}">{{item.summary}}</view>
+            <view class="options-wrapper" wx:if="{{item.isMine}}">
+                <view class="option-item" bindtap="modifyTally" data-item="{{item}}">修改</view>
+                <view class="option-item del" bindtap="deleteTally" data-item="{{item}}">删除</view>
+            </view>
+        </view>
     </view>
 </view>

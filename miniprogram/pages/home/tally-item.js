@@ -16,39 +16,34 @@ Component({
         }
     },
     data: {
-        current: -1
+        gIndex: -1,
+        index: -1
     },
     methods: {
-        showLocation(e) {
-            const item = e.currentTarget.dataset.item
-            if (!item.options) {
-                let loc = item.location
-                wx.openLocation({
-                    latitude: Number(loc.latitude),
-                    longitude: Number(loc.longitude)
-                })
-            }
-        },
         longPress(e) {
             const item = e.currentTarget.dataset.item
             const index = e.currentTarget.dataset.index
+            let splitIndex = index.split('-')
             if (item.isMine) {
                 item.options = true
                 this.setData({
-                    current: index
+                    gIndex: Number(splitIndex[0]),
+                    index: Number(splitIndex[1])
                 })
-                this.triggerEvent('change', { item, index })
+                this.triggerEvent('change', { item, gIndex: this.data.gIndex, index: this.data.index })
             }
         },
         stopOptions() {
-            if (this.data.current > -1) {
-                const index = this.data.current
-                const item = this.data.list[index]
+            if (this.data.gIndex > -1 && this.data.index > -1) {
+                const gIndex = this.data.gIndex;
+                const index = this.data.index;
+                const item = this.data.list[this.data.gIndex].list[this.data.index]
                 delete item.options
                 this.setData({
-                    current: -1
+                    gIndex: -1,
+                    index: -1
                 })
-                this.triggerEvent('change', { item, index })
+                this.triggerEvent('change', { item, gIndex, index })
             }
         },
         deleteTally(e) {

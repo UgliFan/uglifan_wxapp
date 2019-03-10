@@ -3,7 +3,7 @@ Page({
     data: {
         year: '',
         month: '',
-        pickerArray: [['2019'], ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']],
+        pickerArray: [[], ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']],
         pickerSelect: [0, 0],
         count: {
             inCount: '0.00',
@@ -11,7 +11,6 @@ Page({
         },
         shown: false,
         modify: null,
-        list: [],
         groupList: [],
         page: 0,
         pageSize: 20,
@@ -27,20 +26,23 @@ Page({
         let month = date.getMonth() + 1
         if (month < 10) month = `0${month}`
         else month = month.toString()
-        let select = [this.data.pickerArray[0].indexOf(year), this.data.pickerArray[1].indexOf(month)]
-        const sysInfo = app.globalData.sysInfo
-        console.log(sysInfo)
-        const nav = app.globalData.nav
-        const navHeight = nav.paddingTop + nav.height
-        this.setData({
-            pickerSelect: select,
-            year: this.data.pickerArray[0][select[0]],
-            month: this.data.pickerArray[1][select[1]],
-            isX: sysInfo.isX,
-            navHeight: navHeight,
-            styleStr: `height:${sysInfo.screenHeight - navHeight}px;top:${navHeight}px`
+        this.getPickerItems().then(picker => {
+            const yearArr = picker.length > 0 ? picker : [year]
+            const sysInfo = app.globalData.sysInfo
+            const nav = app.globalData.nav
+            const navHeight = nav.paddingTop + nav.height
+            let select = [yearArr.indexOf(year), this.data.pickerArray[1].indexOf(month)]
+            this.setData({
+                pickerArray: [yearArr, this.data.pickerArray[1]],
+                pickerSelect: select,
+                year: year,
+                month: month,
+                isX: sysInfo.isX,
+                navHeight: navHeight,
+                styleStr: `height:${sysInfo.screenHeight - navHeight}px;top:${navHeight}px`
+            })
+            this.getTallyList(true)
         })
-        this.getTallyList(true)
     },
     onShow() {
         if (typeof this.getTabBar === 'function' && this.getTabBar()) {
@@ -91,12 +93,13 @@ Page({
         }
     },
     listChange(e) {
-        const item = e.detail.item
-        const index = e.detail.index
-        let list = this.data.list
+        const { item, gIndex, index } = e.detail
+        let groupList = this.data.groupList
+        let list = groupList[gIndex].list
         list.splice(index, 1, item)
+        groupList[gIndex].list = list
         this.setData({
-            list: list
+            groupList: groupList
         })
     },
     cancelOptions() {
@@ -108,6 +111,24 @@ Page({
             modify: item
         })
         this.centerClick()
+    },
+    getPickerItems() {
+        return new Promise(reslove => {
+            wx.request({
+                url: 'https://uglifan.cn/api/tally/picker',
+                success: response => {
+                    let res = response.statusCode === 200 && response.data ? response.data : {};
+                    if (res.code === 0) {
+                        reslove(res.result)
+                    } else {
+                        reslove({})
+                    }
+                },
+                fail: () => {
+                    reslove({})
+                }
+            })
+        })
     },
     deleteItem(e) {
         const item = e.detail
@@ -175,55 +196,43 @@ Page({
                 success: response => {
                     let res = response.statusCode === 200 && response.data ? response.data : {};
                     if (res.code === 0) {
-                        let list = res.result || []
                         let count = res.sum || { inCount: 0, outCount: 0 }
-                        let group = res.group || {}
-                        let groupList = []
+                        let group = res.result || {}
+                        let groupList = reload ? [] : this.data.groupList
+                        let length = 0;
                         for (let key in group) {
-                            if (key && group.hasOwnProperty(key)) {
+                            if (key !== '未知日期' && group.hasOwnProperty(key)) {
                                 let value = group[key].list || []
+                                length += value.length;
                                 let gList = value.map(item => {
-                                    if (item.latitude && item.longitude) {
-                                        item.location = {
-                                            latitude: item.latitude,
-                                            longitude: item.longitude
-                                        }
-                                        delete item.latitude
-                                        delete item.longitude
-                                    }
+                                    delete item.latitude
+                                    delete item.longitude
                                     item.summary = (item.summary / 100).toFixed(2)
                                     item.isMine = item.open_id === app.globalData.openId
                                     delete item.open_id
                                     delete item.date_format
                                     return item
                                 });
-                                groupList.push({
-                                    title: key,
-                                    list: gList,
-                                    order: group[key].order
-                                })
+                                if (!reload && groupList[groupList.length - 1].title === key) {
+                                    let tempList = groupList[groupList.length - 1].list
+                                    groupList[groupList.length - 1].list = tempList.concat(gList)
+                                } else {
+                                    groupList.push({
+                                        title: key,
+                                        list: gList,
+                                        order: group[key].order
+                                    })
+                                }
+                            } else if (key === '未知日期') {
+                                let value = group[key].list || []
+                                length += value.length;
+                                // TODO 隐藏，并提示隐藏数
                             }
                         }
-                        let result = list.map(item => {
-                            if (item.latitude && item.longitude) {
-                                item.location = {
-                                    latitude: item.latitude,
-                                    longitude: item.longitude
-                                }
-                                delete item.latitude
-                                delete item.longitude
-                            }
-                            item.summary = (item.summary / 100).toFixed(2)
-                            item.isMine = item.open_id === app.globalData.openId
-                            delete item.open_id
-                            delete item.date_format
-                            return item
-                        });
                         this.setData({
-                            list: reload ? result : this.data.list.concat(result),
                             groupList: groupList,
-                            page: reload ? 1 : (list.length < this.data.pageSize ? this.data.page : this.data.page + 1),
-                            hasNext: list.length === this.data.pageSize,
+                            page: reload ? 1 : (length < this.data.pageSize ? this.data.page : this.data.page + 1),
+                            hasNext: length === this.data.pageSize,
                             count: {
                                 inCount: (count.inCount / 100).toFixed(2),
                                 outCount: (count.outCount / 100).toFixed(2)

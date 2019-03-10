@@ -14,7 +14,7 @@
     </view>
 </view>
 <scroll-view class="scroll-wrapper {{isX && 'x'}}" style="{{styleStr}}" bindtouchstart="cancelOptions" scroll-y="{{!shown}}" enable-back-to-top bindscrolltolower="scrollReachBottom" scroll-top="{{scrollTop}}">
-    <tally-item id="tallyItems" list="{{list}}" bindchange="listChange" bindmodify="modifyItem" binddel="deleteItem"></tally-item>
+    <tally-item id="tallyItems" list="{{groupList}}" bindchange="listChange" bindmodify="modifyItem" binddel="deleteItem"></tally-item>
     <view class="no-more" wx:if="{{!hasNext}}">没有更多了</view>
 </scroll-view>
 <create-record show="{{shown}}" data="{{modify}}" bindclose="closeCreate"></create-record>
