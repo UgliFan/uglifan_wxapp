@@ -88,6 +88,18 @@
 .item-col.summary.out {
     color: #67c23a;
 }
+.item-col .user-info {
+    width: 100rpx;
+    height: 100rpx;
+    margin: 0 auto;
+}
+.user-info image {
+    margin-top: 20rpx;
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 50%;
+    overflow: hidden;
+}
 .category-icon {
     width: 70rpx;
     height: 70rpx;
@@ -102,11 +114,29 @@
     font-size: 40rpx;
 }
 .category-name {
+    position: relative;
     height: 60rpx;
     line-height: 66rpx;
     font-size: 34rpx;
     text-align: left;
     font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.category-name text {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: inline-block;
+    vertical-align: top;
+    height: 60rpx;
+    line-height: 66rpx;
+    font-size: 24rpx;
+    font-weight: 400;
+    color: #d3d4d6;
+}
+.category-name text:before {
+    margin-right: 10rpx;
 }
 .item-col.info .remark {
     height: 40rpx;

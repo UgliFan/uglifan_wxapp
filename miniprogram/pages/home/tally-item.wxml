@@ -4,10 +4,14 @@
         <view class="tally-item {{item.options && 'options'}}" wx:for="{{group.list}}" wx:key="{{item.id}}" catchlongpress="longPress" data-item="{{item}}" data-index="{{gIndex + '-' + index}}">
             <view class="item-col icon"><view class="category-icon {{item.icon}}"></view></view>
             <view class="item-col info">
-                <view class="category-name">{{item.name}}</view>
+                <view class="category-name">{{item.name}}<text>{{item.user ? item.user.name : ''}} 记于 {{item.create_at}}</text></view>
                 <view class="remark {{!item.remark && 'empty'}}">{{item.remark || '啥也没说'}}</view>
             </view>
-            <view class="item-col {{item.isMine && 'ufi-my'}}"></view>
+            <view class="item-col {{!item.user && 'ufi-my'}}">
+                <view class="user-info" wx:if="{{item.user}}">
+                    <image src="{{item.user.avatar}}" lazy-load></image>
+                </view>
+            </view>
             <view class="item-col summary {{item.type === 0 && 'out'}}">{{item.summary}}</view>
             <view class="options-wrapper" wx:if="{{item.isMine}}">
                 <view class="option-item" bindtap="modifyTally" data-item="{{item}}">修改</view>

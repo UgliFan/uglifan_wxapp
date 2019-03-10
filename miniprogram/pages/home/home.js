@@ -209,8 +209,19 @@ Page({
                                     delete item.longitude
                                     item.summary = (item.summary / 100).toFixed(2)
                                     item.isMine = item.open_id === app.globalData.openId
+                                    item.create_at = item.create_at.split(' ')[1]
                                     delete item.open_id
                                     delete item.date_format
+                                    if (item.nickName && item.avatar) {
+                                        item.user = {
+                                            name: item.nickName,
+                                            avatar: item.avatar,
+                                            gender: item.gender
+                                        }
+                                    }
+                                    delete item.nickName
+                                    delete item.avatar
+                                    delete item.gender
                                     return item
                                 });
                                 if (!reload && groupList[groupList.length - 1].title === key) {

@@ -49,8 +49,24 @@ App({
                     // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
                     wx.getUserInfo({
                         success: res => {
-                            this.globalData.isLogin = true;
-                            this.globalData.userInfo = res.userInfo;
+                            const user = res.userInfo
+                            this.globalData.isLogin = true
+                            this.globalData.userInfo = user
+                            if (this.globalData.openId) {
+                                wx.request({
+                                    url: 'https://uglifan.cn/api/users/upgrade',
+                                    data: {
+                                        id: this.globalData.openId,
+                                        name: user.nickName,
+                                        avatar: user.avatarUrl,
+                                        gender: user.gender,
+                                        city: user.city,
+                                        country: user.country,
+                                        province: user.province
+                                    },
+                                    method: 'POST'
+                                })
+                            }
                         }
                     })
                     try {
