@@ -14,3 +14,65 @@
 .chart-filter.actived {
     transform: translateY(-200rpx);
 }
+.date {
+    float: left;
+    width: 250rpx;
+    height: 100rpx;
+    box-sizing: border-box;
+    padding: 10rpx 0 0 40rpx;
+    white-space: nowrap;
+    text-align: left;
+}
+.date .date-year {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    color: #444;
+}
+.date .date-month {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    white-space: nowrap;
+    color: #222;
+}
+.date-month .month-text {
+    display: inline-block;
+    vertical-align: top;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 30rpx;
+}
+.date-month .icon-down {
+    display: inline-block;
+    vertical-align: top;
+    height: 80rpx;
+    line-height: 80rpx;
+    margin-left: 6rpx;
+    font-size: 20rpx;
+    transform: rotate(180deg);
+}
+.type {
+    float: right;
+    width: 250rpx;
+    height: 100rpx;
+    line-height: 80rpx;
+    box-sizing: border-box;
+    padding: 10rpx 40rpx 0 0;
+    white-space: nowrap;
+    text-align: right;
+    font-size: 30rpx;
+}
+.type .icon-down {
+    display: inline-block;
+    vertical-align: top;
+    height: 80rpx;
+    line-height: 80rpx;
+    margin-left: 6rpx;
+    font-size: 20rpx;
+    transform: rotate(180deg);
+}

@@ -1,5 +1,5 @@
 <nav-header title="图表"></nav-header>
 <view class="chart-wrapper">
-    <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
+    <ec-canvas id="pieChart" canvas-id="pieChart" ec="{{ ec }}"></ec-canvas>
 </view>
-<chart-filter active="{{active}}"></chart-filter>
+<chart-filter active="{{active}}" bindready="pickerChange" bindchange="pickerChange"></chart-filter>

@@ -1,1 +1,7 @@
-<view class="chart-filter {{isX && 'x'}} {{active && 'actived'}}"></view>
+<view class="chart-filter {{isX && 'x'}} {{active && 'actived'}}">
+    <picker class="date" mode="multiSelector" value="{{dateSelect}}" range="{{dateArr}}" bindchange="dateChange">
+        <view class="date-year">{{year}}年</view><view
+            class="date-month">{{month}}<view class="month-text">月</view><view class="icon-down ufi-usefullfill"></view></view>
+    </picker>
+    <picker class="type" mode="selector" value="{{type}}" range="{{typeArr}}" bindchange="typeChange">{{typeArr[type]}}<view class="icon-down ufi-usefullfill"></view></picker>
+</view>
