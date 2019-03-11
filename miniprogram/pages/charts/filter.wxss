@@ -1,0 +1,16 @@
+.chart-filter {
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 300rpx;
+    bottom: -90rpx;
+    background-color: #F2A905;
+    transform: translateY(0);
+    transition: transform .3s ease;
+}
+.chart-filter.x {
+    bottom: -40rpx;
+}
+.chart-filter.actived {
+    transform: translateY(-200rpx);
+}

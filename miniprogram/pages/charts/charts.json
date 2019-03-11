@@ -1,6 +1,8 @@
 {
   "usingComponents": {
-      "nav-header": "/components/nav/nav"
+      "nav-header": "/components/nav/nav",
+      "chart-filter": "/pages/charts/filter",
+      "ec-canvas": "/ec-canvas/ec-canvas"
   },
   "enablePullDownRefresh": false
 }

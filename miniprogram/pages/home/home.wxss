@@ -1,5 +1,5 @@
 page {
-    padding: 0 0 111rpx;
+    padding-bottom: 110rpx;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -74,12 +74,12 @@ page {
     z-index: 1;
     width: 750rpx;
     padding-top: 120rpx;
-    padding-bottom: 111rpx;
+    padding-bottom: 110rpx;
     overflow: hidden;
     box-sizing: border-box;
 }
 .scroll-wrapper.x {
-    padding-bottom: 161rpx;
+    padding-bottom: 160rpx;
 }
 .scroll-wrapper .no-more {
     position: relative;

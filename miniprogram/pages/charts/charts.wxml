@@ -1,2 +1,5 @@
 <nav-header title="图表"></nav-header>
-<view style="height:100rpx;line-height:100rpx;text-align:center;">comming soon!</view>
+<view class="chart-wrapper">
+    <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
+</view>
+<chart-filter active="{{active}}"></chart-filter>

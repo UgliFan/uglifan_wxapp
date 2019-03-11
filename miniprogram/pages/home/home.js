@@ -115,7 +115,7 @@ Page({
     getPickerItems() {
         return new Promise(reslove => {
             wx.request({
-                url: 'https://uglifan.cn/api/tally/picker',
+                url: 'https://uglifan.cn/api/common/years',
                 success: response => {
                     let res = response.statusCode === 200 && response.data ? response.data : {};
                     if (res.code === 0) {
