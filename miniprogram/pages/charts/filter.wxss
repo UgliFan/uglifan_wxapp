@@ -2,17 +2,17 @@
     position: fixed;
     left: 0;
     right: 0;
-    height: 300rpx;
-    bottom: -90rpx;
+    height: 200rpx;
+    bottom: 10rpx;
     background-color: #F2A905;
     transform: translateY(0);
     transition: transform .3s ease;
 }
 .chart-filter.x {
-    bottom: -40rpx;
+    bottom: 60rpx;
 }
 .chart-filter.actived {
-    transform: translateY(-200rpx);
+    transform: translateY(-100rpx);
 }
 .date {
     float: left;
@@ -75,4 +75,30 @@
     margin-left: 6rpx;
     font-size: 20rpx;
     transform: rotate(180deg);
+}
+.chart-types {
+    margin: 0 auto;
+    width: 660rpx;
+    height: 60rpx;
+    display: flex;
+    flex-direction: row;
+    border-radius: 10rpx;
+    overflow: hidden;
+    border: 1rpx solid #fdf6ec;
+}
+.chart-item {
+    flex: 1 0 auto;
+    text-align: center;
+    width: 220rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    font-size: 30rpx;
+    box-sizing: border-box;
+    border-right: 1rpx solid #fdf6ec;
+}
+.chart-item:last-child {
+    border-right: none;
+}
+.chart-item.actived {
+    background-color: #fdf6ec;
 }

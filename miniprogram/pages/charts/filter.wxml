@@ -4,4 +4,14 @@
             class="date-month">{{month}}<view class="month-text">月</view><view class="icon-down ufi-usefullfill"></view></view>
     </picker>
     <picker class="type" mode="selector" value="{{type}}" range="{{typeArr}}" bindchange="typeChange">{{typeArr[type]}}<view class="icon-down ufi-usefullfill"></view></picker>
+    <view class="chart-types">
+        <view
+            wx:for="{{chartTypes}}"
+            wx:key="{{item.type}}"
+            class="chart-item {{current === item.type && 'actived'}}"
+            data-item="{{item}}"
+            bindtap="chartChange">
+            {{item.label}}
+        </view>
+    </view>
 </view>

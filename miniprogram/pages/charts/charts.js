@@ -1,15 +1,21 @@
 import * as echarts from '../../ec-canvas/echarts';
-
-let pieChart = null
+const app = getApp()
+let chart = null
 Page({
     data: {
         active: false,
+        styleStr: '',
         ec: {
             lazyLoad: true
         }
     },
     onLoad() {
-        this.echartsComponnet = this.selectComponent('#pieChart');
+        this.echartsComponnet = this.selectComponent('#chart')
+        const nav = app.globalData.nav
+        const sysInfo = app.globalData.sysInfo
+        this.setData({
+            styleStr: `height:${sysInfo.screenHeight - nav.paddingTop - nav.height}px`
+        })
     },
     onShow() {
         if (typeof this.getTabBar === 'function' && this.getTabBar()) {
@@ -32,27 +38,30 @@ Page({
                 }
             },
             backgroundColor: "#fff",
-            color: ["#F56C6C", "#E6A23C", "#67C23A", "#909399", "#409EFF", "#FFFF00", "#FFCC99", "#996699"],
+            color: ['#F56C6C', '#E6A23C', '#67C23A', '#909399', '#409EFF', '#FFFF00', '#FFCC99', '#996699', '#333'],
             legend: {
                 x: 'center',
                 y: 'bottom',
                 data: legend
             },
             series: [{
+                avoidLabelOverlap: true,
                 label: {
-                    normal: {
-                        show: false,
-                        position: 'center',
-                        formatter: '{b}\n￥{c}\n{d}%',
-                        fontSize: 14
-                    },
-                    emphasis: {
-                        show: true
+                    position: 'outside',
+                    formatter: '{b}\n{d}%',
+                    fontSize: 14
+                },
+                emphasis: {
+                    label: {
+                        formatter: '{b}\n￥{c}'
                     }
                 },
-                avoidLabelOverlap: false,
+                labelLine: {
+                    smooth: true
+                },
                 type: 'pie',
-                radius: ['40%', '60%'],
+                radius: '45%',
+                center: ['50%', '50%'],
                 data: list,
                 itemStyle: {
                     emphasis: {
@@ -63,22 +72,22 @@ Page({
                 }
             }]
         }
-        if (pieChart) {
-            pieChart.clear()
-            pieChart.setOption(options)
-        } else {
-            this.initPieChart(options)
-        }
+        this.initChart(options)
     },
-    initPieChart(options) {
-        this.echartsComponnet.init((canvas, width, height) => {
-            pieChart = echarts.init(canvas, null, {
-                width, height
+    initChart(options) {
+        if (chart) {
+            chart.clear()
+            chart.setOption(options)
+        } else {
+            this.echartsComponnet.init((canvas, width, height) => {
+                chart = echarts.init(canvas, null, {
+                    width, height
+                })
+                canvas.setChart(chart)
+                chart.setOption(options)
+                return chart
             })
-            canvas.setChart(pieChart)
-            pieChart.setOption(options)
-            return pieChart
-        })
+        }
     },
     getPie(year, month, type = 0) {
         wx.request({
@@ -107,6 +116,10 @@ Page({
     },
     pickerChange(e) {
         const params = e.detail
-        this.getPie(params.y, params.m, params.type)
+        if (params.chart === 'pie') {
+            this.getPie(params.y, params.m, params.type, params.chart)
+        } else {
+            chart.clear()
+        }
     }
 })
