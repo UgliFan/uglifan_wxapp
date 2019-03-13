@@ -5,6 +5,7 @@ Page({
     data: {
         active: false,
         styleStr: '',
+        isX: false,
         ec: {
             lazyLoad: true
         }
@@ -14,6 +15,7 @@ Page({
         const nav = app.globalData.nav
         const sysInfo = app.globalData.sysInfo
         this.setData({
+            isX: sysInfo.isX,
             styleStr: `height:${sysInfo.screenHeight - nav.paddingTop - nav.height}px`
         })
     },
@@ -38,7 +40,7 @@ Page({
                 }
             },
             backgroundColor: "#fff",
-            color: ['#F56C6C', '#E6A23C', '#67C23A', '#909399', '#409EFF', '#FFFF00', '#FFCC99', '#996699', '#333'],
+            color: ['#F56C6C', '#E6A23C', '#67C23A', '#909399', '#409EFF', '#4f9d9d', '#FFCC99', '#996699', '#333333', '#949449', '#984b4b', '#ae00ae', '#ae8f00'],
             legend: {
                 x: 'center',
                 y: 'bottom',

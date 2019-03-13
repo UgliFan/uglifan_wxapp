@@ -203,14 +203,16 @@ Component({
         selectCategory(e) {
             let item = e.currentTarget.dataset.item;
             let input = this.data.input;
-            let date = new Date();
-            let year = date.getFullYear();
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
-            if (month < 10) month = `0${month}`;
-            if (day < 10) day = `0${day}`;
-            input.dateShow = `${year}/${month}/${day}`;
-            input.date = `${year}-${month}-${day}`;
+            if (!input.date) {
+                let date = new Date();
+                let year = date.getFullYear();
+                let month = date.getMonth() + 1;
+                let day = date.getDate();
+                if (month < 10) month = `0${month}`;
+                if (day < 10) day = `0${day}`;
+                input.dateShow = `${year}/${month}/${day}`;
+                input.date = `${year}-${month}-${day}`;
+            }
             this.setData({
                 select: item.id,
                 inputShow: true,
