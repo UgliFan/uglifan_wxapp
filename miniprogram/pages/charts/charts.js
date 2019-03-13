@@ -1,5 +1,6 @@
 import * as echarts from '../../ec-canvas/echarts';
 const app = getApp()
+const colors = ['#F56C6C', '#E6A23C', '#67C23A', '#909399', '#409EFF', '#4f9d9d', '#FFCC99', '#996699', '#333333', '#949449', '#984b4b', '#ae00ae', '#ae8f00'];
 let chart = null
 Page({
     data: {
@@ -32,15 +33,15 @@ Page({
         let options = {
             title: {
                 text: '分类比例统计',
-                left: 'center',
+                left: 20,
                 top: 10,
                 textStyle: {
-                    fontSize: 16,
+                    fontSize: 18,
                     color: '#222'
                 }
             },
             backgroundColor: "#fff",
-            color: ['#F56C6C', '#E6A23C', '#67C23A', '#909399', '#409EFF', '#4f9d9d', '#FFCC99', '#996699', '#333333', '#949449', '#984b4b', '#ae00ae', '#ae8f00'],
+            color: colors,
             legend: {
                 x: 'center',
                 y: 'bottom',
@@ -50,33 +51,70 @@ Page({
                 avoidLabelOverlap: true,
                 label: {
                     position: 'outside',
-                    formatter: '{b}\n{d}%',
+                    formatter: '{b}:{d}%',
                     fontSize: 14
                 },
                 emphasis: {
-                    label: {
-                        formatter: '{b}\n￥{c}'
-                    }
-                },
-                labelLine: {
-                    smooth: true
+                    label: { formatter: '{b}:￥{c}' }
                 },
                 type: 'pie',
                 radius: '45%',
                 center: ['50%', '50%'],
-                data: list,
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 2, 2, 0.3)'
-                    }
-                }
+                data: list
             }]
         }
-        this.initChart(options)
+        this.renderChart(options)
     },
-    initChart(options) {
+    setBarOption(list) {
+        const xAxis = list.map(item => {
+            return item.name.split('/')[2];
+        })
+        let options = {
+            title: {
+                text: '按天统计',
+                left: 20,
+                top: 10,
+                textStyle: {
+                    fontSize: 18,
+                    color: '#222'
+                }
+            },
+            backgroundColor: "#fff",
+            color: colors,
+            legend: {
+                data: xAxis
+            },
+            yAxis: [{
+                type: 'category',
+                data: xAxis,
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }],
+            xAxis: [{ type: 'value' }],
+            grid: {
+                top: 40,
+                left: 20,
+                right: 20,
+                bottom: 10,
+                containLabel: true
+            },
+            series: [{
+                label: {
+                    normal: {
+                        show: true,
+                        color: '#222',
+                        position: 'right'
+                    }
+                },
+                type: 'bar',
+                barWidth: '60%',
+                data: list.map(item => { return item.value; })
+            }]
+        }
+        this.renderChart(options)
+    },
+    renderChart(options) {
         if (chart) {
             chart.clear()
             chart.setOption(options)
@@ -91,9 +129,9 @@ Page({
             })
         }
     },
-    getPie(year, month, type = 0) {
+    getChartData(year, month, type = 0, chartType) {
         wx.request({
-            url: 'https://uglifan.cn/api/chart/pie',
+            url: `https://uglifan.cn/api/chart/${chartType}`,
             data: {
                 y: year,
                 m: month,
@@ -103,7 +141,11 @@ Page({
                 let res = response.statusCode === 200 && response.data ? response.data : {}
                 if (res.code === 0) {
                     let list = res.result || []
-                    this.setPieOption(list)
+                    if (chartType === 'pie') {
+                        this.setPieOption(list)
+                    } else if (chartType === 'bar') {
+                        this.setBarOption(list)
+                    }
                 }
             }
         })
@@ -118,10 +160,7 @@ Page({
     },
     pickerChange(e) {
         const params = e.detail
-        if (params.chart === 'pie') {
-            this.getPie(params.y, params.m, params.type, params.chart)
-        } else {
-            chart.clear()
-        }
+        if (chart) chart.clear()
+        this.getChartData(params.y, params.m, params.type, params.chart)
     }
 })
