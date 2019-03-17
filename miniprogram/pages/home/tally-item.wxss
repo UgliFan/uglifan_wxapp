@@ -117,7 +117,7 @@
     position: relative;
     height: 60rpx;
     line-height: 66rpx;
-    font-size: 34rpx;
+    font-size: 30rpx;
     text-align: left;
     font-weight: 700;
     white-space: nowrap;
@@ -142,7 +142,7 @@
     height: 40rpx;
     line-height: 34rpx;
     text-align: left;
-    font-size: 30rpx;
+    font-size: 28rpx;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

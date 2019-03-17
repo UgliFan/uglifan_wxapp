@@ -209,7 +209,7 @@ Page({
                                     delete item.longitude
                                     item.summary = (item.summary / 100).toFixed(2)
                                     item.isMine = item.open_id === app.globalData.openId
-                                    item.create_at = item.create_at.split(' ')[1]
+                                    item.create_at = item.create_at.split(' ')[1].substr(0, 5)
                                     delete item.open_id
                                     delete item.date_format
                                     if (item.nickName && item.avatar) {

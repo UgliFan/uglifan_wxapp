@@ -84,9 +84,9 @@
 .category-item {
     display: inline-block;
     vertical-align: top;
-    width: 100rpx;
-    height: 160rpx;
-    margin: 25rpx;
+    width: 120rpx;
+    height: 180rpx;
+    margin: 15rpx;
 }
 .category-item.cursor .category-icon {
     background-color: #e6a23c;
@@ -94,6 +94,7 @@
     color: #fff;
 }
 .category-icon {
+    margin: 10rpx;
     width: 100rpx;
     height: 100rpx;
     line-height: 100rpx;
@@ -107,11 +108,11 @@
     font-size: 60rpx;
 }
 .category-name {
-    width: 100rpx;
+    width: 120rpx;
     height: 60rpx;
     line-height: 60rpx;
     text-align: center;
-    font-size: 30rpx;
+    font-size: 28rpx;
     color: #222;
     overflow: hidden;
     white-space: nowrap;

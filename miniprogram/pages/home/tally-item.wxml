@@ -4,7 +4,7 @@
         <view class="tally-item {{item.options && 'options'}}" wx:for="{{group.list}}" wx:key="{{item.id}}" catchlongpress="longPress" data-item="{{item}}" data-index="{{gIndex + '-' + index}}">
             <view class="item-col icon"><view class="category-icon {{item.icon}}"></view></view>
             <view class="item-col info">
-                <view class="category-name">{{item.name}}<text>{{item.user ? item.user.name : ''}} 记于 {{item.create_at}}</text></view>
+                <view class="category-name">{{item.name}}<text>{{(item.user && item.user.name) || ''}} 记于{{item.create_at}}</text></view>
                 <view class="remark {{!item.remark && 'empty'}}">{{item.remark || '啥也没说'}}</view>
             </view>
             <view class="item-col {{!item.user && 'ufi-my'}}">
