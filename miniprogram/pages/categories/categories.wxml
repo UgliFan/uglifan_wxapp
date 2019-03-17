@@ -1,13 +1,22 @@
 <nav-header title="类别管理" back="{{true}}" bindnavAction="addCategory" customClass="ufi-add"></nav-header>
-<view class="type-tab" style="top:{{navHeight}}px">
+<view id="typeTab" class="type-tab" style="top:{{navHeight}}px">
     <view class="type-item {{index === current ? 'active' : ''}}" wx:for="{{categoryTypes}}" wx:key="{{index}}" bindtap="tabSelect" data-index="{{index}}">{{item.label}}</view>
 </view>
-<view class="category-list">
-    <view class="category-item {{item.showDel ? 'del' : ''}}" wx:for="{{categories}}" wx:key="{{item.id}}" bindtap="clickRow" data-item="{{item}}" data-index="{{index}}">
+<scroll-view class="category-list" style="{{styleStr}}" scroll-y="{{scrollable}}" bindscroll="handlerScroll">
+    <view class="category-item {{item.showDel && 'del'}} {{item.cls}}" wx:for="{{categories}}" wx:key="{{item.id}}" bindtap="clickRow" data-item="{{item}}" data-index="{{index}}">
         <view class="category-item-del ufi-move" bindtap="beforeDel" data-item="{{item}}" data-index="{{index}}"></view>
         <view class="category-item-icon {{item.icon}}"></view>
         <text>{{item.name}}</text>
         <view class="category-item-sort ufi-sort"></view>
         <view class="category-item-delete" data-item="{{item}}" bindtap="doDelete">删除</view>
     </view>
-</view>
+</scroll-view>
+<movable-area class="moving-area {{moving.shown && 'shown'}}" style="{{styleStr}}">
+    <movable-view class="moving-item" direction="vertical" x="{{moving.x}}" y="{{moving.y}}" inertia="false" damping="9999" friction="9999">
+        <view class="category-item-del ufi-move"></view>
+        <view class="category-item-icon {{moving.selectItem.icon || ''}}"></view>
+        <text>{{moving.selectItem.name || ''}}</text>
+        <view class="category-item-sort ufi-sort"></view>
+    </movable-view>
+</movable-area>
+<view class="touch-view {{!deleting && 'shown'}}" style="{{styleStr}}" catchlongpress="start" catchtouchmove="move" catchtouchend="end"></view>

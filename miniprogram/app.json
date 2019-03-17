@@ -25,14 +25,19 @@
     },
     "tabBar": {
         "custom": true,
-        "list": [{
-            "pagePath": "pages/home/home"
-        }, {
-            "pagePath": "pages/charts/charts"
-        }, {
-            "pagePath": "pages/photo/photo"
-        }, {
-            "pagePath": "pages/my/my"
-        }]
+        "list": [
+            {
+                "pagePath": "pages/home/home"
+            },
+            {
+                "pagePath": "pages/charts/charts"
+            },
+            {
+                "pagePath": "pages/photo/photo"
+            },
+            {
+                "pagePath": "pages/my/my"
+            }
+        ]
     }
 }
