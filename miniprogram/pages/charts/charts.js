@@ -51,11 +51,11 @@ Page({
                 avoidLabelOverlap: true,
                 label: {
                     position: 'outside',
-                    formatter: '{b}:{d}%',
+                    formatter: '{b}:￥{c}',
                     fontSize: 14
                 },
                 emphasis: {
-                    label: { formatter: '{b}:￥{c}' }
+                    label: { formatter: '{b}:{d}%' }
                 },
                 type: 'pie',
                 radius: '45%',

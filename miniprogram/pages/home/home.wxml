@@ -12,6 +12,10 @@
         <text class="count-title">支出</text>
         <text class="count-value">{{count.outCount}}</text>
     </view>
+    <view class="count-block">
+        <text class="count-title">剩余</text>
+        <text class="count-value minus">{{count.minus}}</text>
+    </view>
 </view>
 <scroll-view class="scroll-wrapper {{isX && 'x'}}" style="{{styleStr}}" bindtouchstart="cancelOptions" scroll-y="{{!shown}}" enable-back-to-top bindscrolltolower="scrollReachBottom" scroll-top="{{scrollTop}}">
     <tally-item id="tallyItems" list="{{groupList}}" bindchange="listChange" bindmodify="modifyItem" binddel="deleteItem"></tally-item>

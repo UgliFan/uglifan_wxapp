@@ -7,7 +7,8 @@ Page({
         pickerSelect: [0, 0],
         count: {
             inCount: '0.00',
-            outCount: '0.00'
+            outCount: '0.00',
+            minus: '0.00'
         },
         shown: false,
         modify: null,
@@ -246,7 +247,8 @@ Page({
                             hasNext: length === this.data.pageSize,
                             count: {
                                 inCount: (count.inCount / 100).toFixed(2),
-                                outCount: (count.outCount / 100).toFixed(2)
+                                outCount: (count.outCount / 100).toFixed(2),
+                                minus: ((count.inCount - count.outCount) / 100).toFixed(2)
                             }
                         })
                     } else {

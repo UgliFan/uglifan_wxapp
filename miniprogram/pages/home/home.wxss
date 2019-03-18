@@ -64,8 +64,12 @@ page {
     margin-top: 6rpx;
     color: #222;
     height: 44rpx;
-    line-height: 44rpx;
-    font-size: 44rpx;
+    line-height: 54rpx;
+    font-size: 32rpx;
+    font-weight: 700;
+}
+.count-value.minus {
+    color: #f56c6c;
 }
 .scroll-wrapper {
     position: absolute;
