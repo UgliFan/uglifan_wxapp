@@ -83,7 +83,7 @@
     font-weight: 700;
     padding-right: 30rpx;
     font-size: 30rpx;
-    color: #f56c6c;
+    color: #bf242a;
 }
 .item-col.summary.out {
     color: #178A3D;
