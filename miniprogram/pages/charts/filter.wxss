@@ -77,9 +77,9 @@
     transform: rotate(180deg);
 }
 .chart-types {
-    margin: 0 auto;
+    margin: 20rpx auto 0;
     width: 660rpx;
-    height: 60rpx;
+    height: 50rpx;
     display: flex;
     flex-direction: row;
     border-radius: 10rpx;
@@ -90,8 +90,8 @@
     flex: 1 0 auto;
     text-align: center;
     width: 220rpx;
-    height: 60rpx;
-    line-height: 60rpx;
+    height: 50rpx;
+    line-height: 50rpx;
     font-size: 30rpx;
     box-sizing: border-box;
     border-right: 1rpx solid #fdf6ec;
