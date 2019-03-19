@@ -61,7 +61,7 @@ page {
 .summary .sum-item {
     flex: 1;
     text-align: center;
-    color: #fff;
+    color: #222;
 }
 .sum-item .sum-num {
     font-size: 32rpx;
@@ -70,10 +70,10 @@ page {
     font-weight: 700;
 }
 .sum-num.in {
-    color: #f56c6c;
+    color: #bf242a;
 }
 .sum-num.out {
-    color: #67c23a;
+    color: #178A3D;
 }
 .sum-num.minus {
     color: #222;

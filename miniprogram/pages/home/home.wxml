@@ -6,11 +6,11 @@
     </picker>
     <view class="count-block">
         <text class="count-title">收入</text>
-        <text class="count-value">{{count.inCount}}</text>
+        <text class="count-value in">{{count.inCount}}</text>
     </view>
     <view class="count-block">
         <text class="count-title">支出</text>
-        <text class="count-value">{{count.outCount}}</text>
+        <text class="count-value out">{{count.outCount}}</text>
     </view>
     <view class="count-block">
         <text class="count-title">剩余</text>

@@ -86,7 +86,7 @@
     color: #f56c6c;
 }
 .item-col.summary.out {
-    color: #67c23a;
+    color: #178A3D;
 }
 .item-col .user-info {
     width: 100rpx;

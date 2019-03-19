@@ -68,8 +68,11 @@ page {
     font-size: 32rpx;
     font-weight: 700;
 }
-.count-value.minus {
-    color: #f56c6c;
+.count-value.in {
+    color: #bf242a;
+}
+.count-value.out {
+    color: #178A3D;
 }
 .scroll-wrapper {
     position: absolute;
