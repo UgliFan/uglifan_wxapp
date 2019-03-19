@@ -28,11 +28,11 @@ Page({
             })
         }
     },
-    setPieOption(list) {
+    setPieOption(title, list) {
         const legend = list.map(item => { return item.name; })
         let options = {
             title: {
-                text: '分类比例统计',
+                text: title,
                 left: 20,
                 top: 10,
                 textStyle: {
@@ -140,11 +140,29 @@ Page({
             success: response => {
                 let res = response.statusCode === 200 && response.data ? response.data : {}
                 if (res.code === 0) {
-                    let list = res.result || []
+                    let result = res.result || []
                     if (chartType === 'pie') {
-                        this.setPieOption(list)
+                        this.setPieOption('分类比例统计', result)
                     } else if (chartType === 'bar') {
-                        this.setBarOption(list)
+                        this.setBarOption(result)
+                    } else if (chartType === 'all') {
+                        let list = [];
+                        for (let key in result) {
+                            if (key && result.hasOwnProperty(key) && result[key]) {
+                                if (key === 'inCount') {
+                                    list.push({
+                                        name: '总收入',
+                                        value: (result[key] / 100)
+                                    });
+                                } else {
+                                    list.push({
+                                        name: '总支出',
+                                        value: (result[key] / 100)
+                                    });
+                                }
+                            }
+                        }
+                        this.setPieOption('总收入支出比', list);
                     }
                 }
             }

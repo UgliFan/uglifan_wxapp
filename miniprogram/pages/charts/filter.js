@@ -28,7 +28,7 @@ Component({
         }, {
             type: 'bar', label: '按天统计'
         }, {
-            type: 'line', label: '总览'
+            type: 'all', label: '总览'
         }]
     },
     lifetimes: {
