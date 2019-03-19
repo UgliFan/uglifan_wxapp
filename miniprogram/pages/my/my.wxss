@@ -67,6 +67,16 @@ page {
     font-size: 32rpx;
     height: 44rpx;
     line-height: 44rpx;
+    font-weight: 700;
+}
+.sum-num.in {
+    color: #f56c6c;
+}
+.sum-num.out {
+    color: #67c23a;
+}
+.sum-num.minus {
+    color: #222;
 }
 .sum-item .sum-title {
     font-size: 24rpx;

@@ -19,27 +19,28 @@ Page({
             }]
         }],
         sumArray: [{
-            key: 'all',
-            title: '总记账笔数'
+            key: 'in',
+            title: '我的总收入'
         }, {
-            key: 'my',
-            title: '我的记账笔数'
+            key: 'out',
+            title: '我的总支出'
         }, {
-            key: 'other',
-            title: 'TA的记账笔数'
+            key: 'minus',
+            title: '我的收支平衡'
         }],
         sum: {
-            all: 0,
-            my: 0,
-            other: 0
+            'in': '0.00',
+            out: '0.00',
+            minus: '0.00'
         },
         navHeight: 64
     },
     onLoad() {
-        const nav = app.globalData.nav;
+        const nav = app.globalData.nav
         this.setData({
             navHeight: nav.paddingTop + nav.height
         })
+        this.getMyCount()
     },
     onShow() {
         if (typeof this.getTabBar === 'function' && this.getTabBar()) {
@@ -66,7 +67,32 @@ Page({
                 avatarUrl: e.detail.userInfo.avatarUrl,
                 userInfo: e.detail.userInfo
             })
-            app.checkLogin();
+            app.checkLogin()
+        }
+    },
+    getMyCount() {
+        if (app.globalData.openId) {
+            wx.request({
+                url: 'https://uglifan.cn/api/common/allcount',
+                data: {
+                    id: app.globalData.openId
+                },
+                success: response => {
+                    let res = response.statusCode === 200 && response.data ? response.data : {};
+                    if (res.code === 0 && res.result) {
+                        let inCount = res.result.inCount || 0;
+                        let outCount = res.result.outCount || 0;
+                        let minus = inCount - outCount;
+                        this.setData({
+                            sum: {
+                                'in': (inCount / 100).toFixed(2),
+                                out: (outCount / 100).toFixed(2),
+                                minus: (minus / 100).toFixed(2)
+                            }
+                        });
+                    }
+                }
+            })
         }
     },
     tapHandler(e) {

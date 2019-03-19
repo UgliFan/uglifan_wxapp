@@ -10,7 +10,7 @@
     <view class="nick-name">{{userInfo.nickName || '点击登录'}}</view>
     <view class="summary">
         <view class="sum-item" wx:for="{{sumArray}}" wx:key="{{item.key}}">
-            <view class="sum-num">{{sum[item.key]}}</view>
+            <view class="sum-num {{item.key}}">{{sum[item.key]}}</view>
             <view class="sum-title">{{item.title}}</view>
         </view>
     </view>
